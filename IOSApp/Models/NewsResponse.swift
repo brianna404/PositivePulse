@@ -8,10 +8,20 @@
 import Foundation
 
 // MARK: - NewsResponse
-struct NewsResponse: Codable {
+// class to represent the structure of the response from the news API
+class NewsResponse: Codable {
+    // attributes
     let status: String
     let totalResults: Int
     let articles: [Article]
+    
+    // methods
+    // initializer
+    init(status: String, totalResults: Int, articles: [Article]) {
+        self.status = status
+        self.totalResults = totalResults
+        self.articles = articles
+    }
 }
 
 // MARK: - Article
