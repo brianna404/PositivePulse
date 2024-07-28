@@ -1,13 +1,13 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  IOSApp
 //
-//  Created by Michelle Köhler on 28.06.24.
+//  Created by Michelle Köhler on 27.07.24.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -15,10 +15,10 @@ struct ContentView: View {
                 .foregroundStyle(.tint)
             Text("Hello, world!")
         }
-        .padding()
+        .padding(10)
     }
 }
 
 #Preview {
-    ContentView()
+    HomeView()
 }
