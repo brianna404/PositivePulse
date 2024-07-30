@@ -14,6 +14,8 @@
 		2512B1FF2C5592D10037ADD1 /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1FE2C5592D10037ADD1 /* NewsService.swift */; };
 		2512B2022C559A200037ADD1 /* ResultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2012C559A200037ADD1 /* ResultState.swift */; };
 		2512B2052C567CC00037ADD1 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2042C567CC00037ADD1 /* NewsViewModel.swift */; };
+		2512B2072C569BC60037ADD1 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2062C569BC60037ADD1 /* ArticleView.swift */; };
+		2512B20A2C57F1FE0037ADD1 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2092C57F1FE0037ADD1 /* ErrorView.swift */; };
 		257810BE2C2EEA13001C7487 /* IOSAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810BD2C2EEA13001C7487 /* IOSAppApp.swift */; };
 		257810C22C2EEA15001C7487 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C12C2EEA15001C7487 /* Assets.xcassets */; };
 		257810C52C2EEA15001C7487 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C42C2EEA15001C7487 /* Preview Assets.xcassets */; };
@@ -47,6 +49,8 @@
 		2512B1FE2C5592D10037ADD1 /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
 		2512B2012C559A200037ADD1 /* ResultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultState.swift; sourceTree = "<group>"; };
 		2512B2042C567CC00037ADD1 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
+		2512B2062C569BC60037ADD1 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
+		2512B2092C57F1FE0037ADD1 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		257810BA2C2EEA13001C7487 /* IOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		257810BD2C2EEA13001C7487 /* IOSAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppApp.swift; sourceTree = "<group>"; };
 		257810C12C2EEA15001C7487 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 			isa = PBXGroup;
 			children = (
 				2512B1F22C55811B0037ADD1 /* HomeView.swift */,
+				2512B2062C569BC60037ADD1 /* ArticleView.swift */,
+				2512B2092C57F1FE0037ADD1 /* ErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -289,6 +295,9 @@
 				Base,
 			);
 			mainGroup = 257810B12C2EEA13001C7487;
+			packageReferences = (
+				2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */,
+			);
 			productRefGroup = 257810BB2C2EEA13001C7487 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -336,8 +345,10 @@
 				2512B1FC2C5591060037ADD1 /* APIError.swift in Sources */,
 				257810BE2C2EEA13001C7487 /* IOSAppApp.swift in Sources */,
 				2512B1F32C55811B0037ADD1 /* HomeView.swift in Sources */,
+				2512B20A2C57F1FE0037ADD1 /* ErrorView.swift in Sources */,
 				2512B1F62C558C500037ADD1 /* NewsResponse.swift in Sources */,
 				2512B1F92C558E1D0037ADD1 /* NewEndpoint.swift in Sources */,
+				2512B2072C569BC60037ADD1 /* ArticleView.swift in Sources */,
 				2512B2052C567CC00037ADD1 /* NewsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -668,6 +679,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 257810B22C2EEA13001C7487 /* Project object */;
 }

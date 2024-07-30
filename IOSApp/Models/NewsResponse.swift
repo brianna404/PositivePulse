@@ -17,19 +17,33 @@ struct NewsResponse: Codable {
 // MARK: - Article
 struct Article: Codable, Identifiable {
     let id = UUID()
-    let source: Source
-    let author, title: String
+    let source: Source?
+    let author, title: String?
     let description: JSONNull?
-    let url: String
-    let urlToImage: JSONNull?
-    let publishedAt: Date
+    let url: String?
+    let urlToImage: String?
+    let publishedAt: Date?
     let content: JSONNull?
+}
+
+extension Article {
+    static var dummyData: Article {
+        .init(source: Source
+            .init(id: "google-news", name: "Google News"),
+              author: "tagesschau.de",
+              title: "Was über die Brandanschläge auf Frankreichs Bahn bekannt ist - tagesschau.de",
+              description: nil,
+              url: "https://news.google.com/rss/articles/CBMiTmh0dHBzOi8vd3d3LnRhZ2Vzc2NoYXUuZGUvd2lzc2VuL2dlc3VuZGhlaXQvYmlsYW56LXdlbHQtYWlkcy1rb25ncmVzcy0xMDAuaHRtbNIBAA?oc=5",
+              urlToImage: "https://i0.wp.com/electrek.co/wp-content/uploads/sites/3/2024/07/Tesla-model-S-plaid-record.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+              publishedAt: Date(),
+              content: nil)
+    }
 }
 
 // MARK: - Source
 struct Source: Codable {
-    let id: ID
-    let name: Name
+    let id: String
+    let name: String
 }
 
 enum ID: String, Codable {

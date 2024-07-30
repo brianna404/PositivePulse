@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @StateObject
+    var viewModel = NewsViewModelImpl(service:  NewsServiceImpl())
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            switch viewModel.state {
+            case .loading:
+                Text("Hallo Welt")
+            case.failed(error: let error):
+                ErrorView(error: error, handler: viewModel.getArticles)
+            case .success(let articles):
+                NavigationView {
+                    List(articles) { item in
+                        ArticleView(article: item)
+                    }
+                }
+            }
         }
-        .padding(10)
+        .onAppear(perform: viewModel.getArticles)
     }
 }
 
