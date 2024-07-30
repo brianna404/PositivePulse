@@ -10,7 +10,7 @@ import Foundation
 // MARK: - APIBuilder Protocol
 // protocol to define the requirements for building a URLRequest
 protocol APIBuilder {
-    var URLRequest: URLRequest { get }
+    var request: URLRequest { get }
     var baseURL: URL { get }
     var path: String { get }
 }
@@ -26,9 +26,16 @@ enum NewsAPI {
 // extending NewsAPI to conform to the APIBuilder protocol
 extension NewsAPI: APIBuilder {
     // URLRequest builds the complete URLRequest for the given API endpoint
-    var URLRequest: URLRequest {
+    var request: URLRequest {
         // construct a URLRequest using the baseURL and path for the endpoint.
-        return Foundation.URLRequest(url: self.baseURL.appendingPathComponent(self.path))
+        var urlComponents = URLComponents(url: self.baseURL.appendingPathComponent(self.path), resolvingAgainstBaseURL: false)!
+                urlComponents.queryItems = self.queryItems
+
+                guard let url = urlComponents.url else {
+                    fatalError("Invalid URL components")
+                }
+        
+                return URLRequest(url: url)
     }
     // baseURL returns the base URL for the API
     var baseURL: URL {
@@ -38,9 +45,23 @@ extension NewsAPI: APIBuilder {
             return URL(string: "https://newsapi.org")!
         }
     }
-    // path returns the specific path and query parameters for the API endpoint
-    var path: String {
-        // Return the path for the news headlines endpoint with query parameters
-        return "/v2/top-headlines?country=de&apiKey=69bdfb0d36a24c1da1ec9fe4623de566"
-    }
+    // path returns the specific path for the API endpoint
+        var path: String {
+            switch self {
+            case .getNews:
+                // Return the specific path
+                return "/v2/top-headlines"
+            }
+        }
+    // queryItems returns the query parameters for the API endpoint
+        var queryItems: [URLQueryItem] {
+            switch self {
+            case .getNews:
+                // Return the query parameters
+                return [
+                    URLQueryItem(name: "country", value: "de"),
+                    URLQueryItem(name: "apiKey", value: "69bdfb0d36a24c1da1ec9fe4623de566")
+                ]
+            }
+        }
 }

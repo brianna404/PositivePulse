@@ -133,7 +133,6 @@
 			isa = PBXGroup;
 			children = (
 				2512B2032C567CA60037ADD1 /* ViewModels */,
-				2512B2012C559A200037ADD1 /* ResultState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -142,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				2512B2042C567CC00037ADD1 /* NewsViewModel.swift */,
+				2512B2012C559A200037ADD1 /* ResultState.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";

@@ -22,7 +22,7 @@ class NewsServiceImpl: NewsService {
         // perform a data task using URLSession's dataTaskPublisher
         return URLSession
             .shared
-            .dataTaskPublisher(for: endpoint.URLRequest) // publish data and response from the URL request
+            .dataTaskPublisher(for: endpoint.request) // publish data and response from the URL request
             .receive(on: DispatchQueue.main) // ensure that updates are received on the main thread
             .mapError { _ in APIError.unkown } // map any error to a generic unknown APIError
             .flatMap { data, response -> AnyPublisher<NewsResponse,APIError> in

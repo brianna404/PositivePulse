@@ -29,17 +29,17 @@ class NewsResponse: Codable {
 class Article: Codable, Identifiable {
     // attributes
     let id: UUID // id of type universally unique identifier
-    let source: String?
+    let source: Source?
     let author, title: String?
-    let description: JSONNull?
+    let description: String?
     let url: String?
     let urlToImage: String?
-    let publishedAt: Date?
-    let content: JSONNull?
+    let publishedAt: String?
+    let content: String?
     
     // methods
     // initializer
-    init(id: UUID = UUID(), source: Source, author: String, title: String, description: JSONNull?, url: String, urlToImage: JSONNull?, publishedAt: Date, content: JSONNull?) {
+    init(id: UUID = UUID(), source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?) {
         self.id = id // create uuid when an instance is created
         self.source = source
         self.author = author
@@ -61,7 +61,7 @@ extension Article {
               description: nil,
               url: "https://news.google.com/rss/articles/CBMiTmh0dHBzOi8vd3d3LnRhZ2Vzc2NoYXUuZGUvd2lzc2VuL2dlc3VuZGhlaXQvYmlsYW56LXdlbHQtYWlkcy1rb25ncmVzcy0xMDAuaHRtbNIBAA?oc=5",
               urlToImage: "https://i0.wp.com/electrek.co/wp-content/uploads/sites/3/2024/07/Tesla-model-S-plaid-record.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
-              publishedAt: Date(),
+              publishedAt: nil,
               content: nil)
     }
 }
