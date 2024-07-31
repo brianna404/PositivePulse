@@ -52,20 +52,6 @@ class Article: Codable, Identifiable {
     }
 }
 
-extension Article {
-    static var dummyData: Article {
-        .init(source: Source
-            .init(id: "google-news", name: "Google News"),
-              author: "tagesschau.de",
-              title: "Was über die Brandanschläge auf Frankreichs Bahn bekannt ist - tagesschau.de",
-              description: nil,
-              url: "https://news.google.com/rss/articles/CBMiTmh0dHBzOi8vd3d3LnRhZ2Vzc2NoYXUuZGUvd2lzc2VuL2dlc3VuZGhlaXQvYmlsYW56LXdlbHQtYWlkcy1rb25ncmVzcy0xMDAuaHRtbNIBAA?oc=5",
-              urlToImage: "https://i0.wp.com/electrek.co/wp-content/uploads/sites/3/2024/07/Tesla-model-S-plaid-record.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
-              publishedAt: nil,
-              content: nil)
-    }
-}
-
 // MARK: - Source
 // class to represent the source of a news article
 class Source: Codable {
