@@ -28,9 +28,10 @@ class NewsResponse: Codable {
 // class to represent a single news article
 class Article: Codable, Identifiable {
     // attributes
-    let id: UUID // id of type universally unique identifier
+    let id: UUID = UUID() // id of type universally unique identifier
     let source: Source?
-    let author, title: String?
+    let author: String?
+    let title: String?
     let description: String?
     let url: String?
     let urlToImage: String?
@@ -39,8 +40,7 @@ class Article: Codable, Identifiable {
     
     // methods
     // initializer
-    init(id: UUID = UUID(), source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?) {
-        self.id = id // create uuid when an instance is created
+    init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?) {
         self.source = source
         self.author = author
         self.title = title

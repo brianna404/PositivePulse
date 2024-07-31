@@ -59,9 +59,22 @@ extension NewsAPI: APIBuilder {
             case .getNews:
                 // Return the query parameters
                 return [
-                    URLQueryItem(name: "country", value: "de"),
+                    URLQueryItem(name: "from", value: "\(getDateFromOneWeekAgo())"),
+                    URLQueryItem(name: "language", value: "de"),
+                    URLQueryItem(name: "sortBy", value: "popularity"),
+                    URLQueryItem(name: "domains", value: "tagesschau.de,n-tv.de"),
+                    URLQueryItem(name: "pageSize", value: "100"),
                     URLQueryItem(name: "apiKey", value: "69bdfb0d36a24c1da1ec9fe4623de566")
                 ]
             }
         }
+    //get date from one week ago and format to JSON date format
+    func getDateFromOneWeekAgo() -> String {
+        let today = Date()
+        
+        let oneWeekAgo = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: today)!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd"
+        return dateFormatter.string(from: oneWeekAgo)
+    }
 }
