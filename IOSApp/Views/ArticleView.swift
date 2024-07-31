@@ -61,11 +61,11 @@ struct PlaceholderImageView: View {
     }
 }
 
-struct ArticleView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArticleView(article: Article.dummyData)
-    }
-}
+//struct ArticleView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ArticleView(article: Article.dummyData)
+//    }
+//}
 
 func formatDate(dateString: String) -> String {
     let inputFormatter = DateFormatter()
