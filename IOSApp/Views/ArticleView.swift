@@ -10,11 +10,13 @@ import SwiftUI
 
 struct ArticleView: View {
     
-    let article: Article
-    //maybe insert picture with URLImage?
+    let article: Article // The article data to be displayed
+    // maybe insert picture with URLImage?
     
+    // view's layout and appearance
     var body: some View {
         HStack {
+        // Uncomment and configure the following block if URLImage is used for image loading
 //            if let imgUrl = article.urlToImage,
 //               let url = URL(string: imgUrl) {
 //                
@@ -30,20 +32,28 @@ struct ArticleView: View {
 //                    .resizable()
 //                    .aspectRatio(contentMode: .fill)
 //            }
-                
+                // vertical stack to display article details
                 VStack(alignment: .leading, spacing: 4) {
+        
+                    // Display the author of the article, if available
                     Text(article.author ?? "")
                         .foregroundStyle(Color.black)
                         .font(.footnote)
+                    
+                    // horizontal stack to display title and a bookmark icon
                     HStack {
+                        // Display the title of the article
                         Text(article.title ?? "")
                             .foregroundStyle(Color.black)
                             .font(.system(size: 18, weight: .semibold))
-                        Spacer()
-                        Image(systemName: "bookmark")
+                        Spacer() // Pushes the bookmark icon to the end
+                        Image(systemName: "bookmark") // Bookmark icon
                     }
+                    
+                    // Display the description of the article, if available
                     Text(article.description ?? "")
                         .foregroundStyle(Color.black)
+                    // Display the formatted publication date
                     Text(formatDate(dateString: article.publishedAt ?? ""))
                         .foregroundStyle(Color.gray)
                         .font(.system(size: 11))
@@ -52,12 +62,13 @@ struct ArticleView: View {
         }
     }
 
+// placeholder view for the article image if image loading fails
 struct PlaceholderImageView: View {
     var body: some View {
-        Image(systemName: "photo.fill")
+        Image(systemName: "photo.fill") // Placeholder image
             .foregroundStyle(Color.white)
-            .background(Color.gray)
-            .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+            .background(Color.gray) // Background color for placeholder
+            .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/) // size
     }
 }
 
@@ -67,6 +78,7 @@ struct PlaceholderImageView: View {
 //    }
 //}
 
+// Function to format date strings
 func formatDate(dateString: String) -> String {
     let inputFormatter = DateFormatter()
     inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" // Original Format
@@ -77,8 +89,8 @@ func formatDate(dateString: String) -> String {
     outputFormatter.locale = Locale(identifier: "en_US_POSIX")
     
     if let date = inputFormatter.date(from: dateString) {
-        return outputFormatter.string(from: date)
+        return outputFormatter.string(from: date) // Return formatted date string
     } else {
-                return dateString // Fallback if parsing fails
-            }
+        return dateString // Fallback if parsing fails
+    }
 }
