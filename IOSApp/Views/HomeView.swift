@@ -16,13 +16,26 @@ struct HomeView: View {
         Group {
             switch viewModel.state {
             case .loading:
-                Text("Hallo Welt")
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(2)
+                    .padding()
             case.failed(error: let error):
                 ErrorView(error: error, handler: viewModel.getArticles)
             case .success(let articles):
                 NavigationView {
-                    List(articles) { item in
-                        ArticleView(article: item)
+                    List(articles) { article in
+                        if let urlString = article.url, let url = URL(string: urlString) {
+                            Button(action: {
+                                // Open URL in the browser
+                                UIApplication.shared.open(url)
+                            }) {
+                                ArticleView(article: article)
+                                    .contentShape(Rectangle()) // Make the entire cell tappable
+                            }
+                        } else {
+                            ArticleView(article: article)
+                        }
                     }
                 }
             }

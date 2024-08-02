@@ -22,6 +22,8 @@
 		257810CF2C2EEA15001C7487 /* IOSAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810CE2C2EEA15001C7487 /* IOSAppTests.swift */; };
 		257810D92C2EEA15001C7487 /* IOSAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810D82C2EEA15001C7487 /* IOSAppUITests.swift */; };
 		257810DB2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */; };
+		257CE48A2C5BBB820095F179 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 257CE4892C5BBB820095F179 /* URLImage */; };
+		257CE48C2C5BBB820095F179 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 257CE48B2C5BBB820095F179 /* URLImageStore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				257CE48C2C5BBB820095F179 /* URLImageStore in Frameworks */,
+				257CE48A2C5BBB820095F179 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +227,10 @@
 			dependencies = (
 			);
 			name = IOSApp;
+			packageProductDependencies = (
+				257CE4892C5BBB820095F179 /* URLImage */,
+				257CE48B2C5BBB820095F179 /* URLImageStore */,
+			);
 			productName = IOSApp;
 			productReference = 257810BA2C2EEA13001C7487 /* IOSApp.app */;
 			productType = "com.apple.product-type.application";
@@ -690,6 +698,19 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		257CE4892C5BBB820095F179 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+		257CE48B2C5BBB820095F179 /* URLImageStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImageStore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 257810B22C2EEA13001C7487 /* Project object */;
 }
