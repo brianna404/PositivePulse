@@ -16,12 +16,12 @@ struct HomeView: View {
         Group {
             switch viewModel.state {
             case .loading:
-                Text("Hallo Welt")
+                Text("Loading...")
             case.failed(error: let error):
                 ErrorView(error: error, handler: viewModel.getArticles)
             case .success(let articles):
                 NavigationView {
-                    List(articles) { item in
+                    List(viewModel.positiveArticles) { item in // viewModel.positiveArticles ändern zu articles, um ungefilterte anzuschauen?
                         ArticleView(article: item)
                     }
                 }
