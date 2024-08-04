@@ -53,8 +53,8 @@ struct ArticleView: View {
                     // Display the description of the article, if available
                     Text(article.description ?? "")
                         .foregroundStyle(Color.black)
-                    // Display the formatted publication date
-                    Text(formatDate(dateString: article.publishedAt ?? ""))
+                    // Display the formatted publication date using the DateUtils class
+                    Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
                         .foregroundStyle(Color.gray)
                         .font(.system(size: 11))
                 }
@@ -77,20 +77,3 @@ struct PlaceholderImageView: View {
 //        ArticleView(article: Article.dummyData)
 //    }
 //}
-
-// Function to format date strings
-func formatDate(dateString: String) -> String {
-    let inputFormatter = DateFormatter()
-    inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" // Original Format
-    inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-    
-    let outputFormatter = DateFormatter()
-    outputFormatter.dateFormat = "dd.MM.yyy HH:mm" // Desired Format
-    outputFormatter.locale = Locale(identifier: "en_US_POSIX")
-    
-    if let date = inputFormatter.date(from: dateString) {
-        return outputFormatter.string(from: date) // Return formatted date string
-    } else {
-        return dateString // Fallback if parsing fails
-    }
-}
