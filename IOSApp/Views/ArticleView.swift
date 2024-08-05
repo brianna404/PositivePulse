@@ -34,8 +34,6 @@ struct ArticleView: View {
                         .font(.system(size: 11))
                 }
             }
-        }
-    }
 
 // placeholder view for the article image if image loading fails
 struct PlaceholderImageView: View {

@@ -67,19 +67,6 @@ class Source: Codable {
     }
 }
 
-// MARK: - Enums
-// ID Enum defines the possible IDs for news sources
-enum ID: String, Codable {
-    case googleNews = "google-news"
-    // more sources can be added here
-}
-
-// Name Enum defines the possible names for news sources
-enum Name: String, Codable {
-    case googleNews = "Google News"
-    // more names can be added here
-}
-
 // MARK: - Encode/decode helpers
 // class to handle null values in JSON data
 class JSONNull: Codable, Hashable {
