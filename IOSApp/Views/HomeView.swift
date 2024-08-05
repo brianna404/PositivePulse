@@ -24,7 +24,7 @@ struct HomeView: View {
                 ErrorView(error: error, handler: viewModel.getArticles)
             case .success(let articles):
                 NavigationView {
-                    List(articles) { article in
+                    List(viewModel.positiveArticles) { article in
                         if let urlString = article.url, let url = URL(string: urlString) {
                             Button(action: {
                                 // Open URL in the browser

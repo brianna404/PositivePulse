@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import NaturalLanguage
 
 // Protocol defining the interface for NewsViewModel
 protocol NewsViewModel {
@@ -17,6 +18,7 @@ protocol NewsViewModel {
 class NewsViewModelImpl: ObservableObject, NewsViewModel {
     private let service: NewsService // Service responsible for fetching news
     private(set) var articles = [Article] () // Array to hold fetched articles
+    @Published private(set) var positiveArticles = [Article]() // Array to hold positive articles
     private var cancellables = Set<AnyCancellable>() // Set to keep track of Combine cancellables
     @Published private(set) var state: ResultState = .loading // Current state of the view model
     
@@ -34,10 +36,11 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
             .request(from: .getNews) // Call the getNews endpoint of the service
             .sink { res in // Subscribe to the publisher's output
                 switch res {
-                    
                 case .finished:
                     // if successful update state to success with articles
                     self.state = .success(content: self.articles)
+                    // Filter and update positive articles
+                    self.positiveArticles = self.service.filterPositiveNews(from: self.articles)
                 case .failure(let error):
                     // if failed update state to failed with error
                     self.state = .failed(error: error)

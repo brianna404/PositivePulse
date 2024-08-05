@@ -7,10 +7,12 @@
 
 import Foundation
 import Combine
+import NaturalLanguage
 
 // MARK: - NewsService Protocol
 protocol NewsService {
     func request(from endpoint: NewsAPI) -> AnyPublisher<NewsResponse, APIError>
+    func filterPositiveNews(from articles: [Article]) -> [Article]
 }
 
 // MARK: - NewsServiceImpl Class
@@ -46,5 +48,29 @@ class NewsServiceImpl: NewsService {
                 }
             }
             .eraseToAnyPublisher() // erase the type for external consumption
+    }
+    
+    // Function to perform sentiment analysis on a given text
+    func analyzeSentiment(for text: String) -> Double? {
+        let tagger = NLTagger(tagSchemes: [.sentimentScore])
+        tagger.string = text
+
+        // Get the sentiment score for the text
+        let (sentiment, _) = tagger.tag(at: text.startIndex, unit: .paragraph, scheme: .sentimentScore)
+        if let sentimentValue = sentiment?.rawValue, let score = Double(sentimentValue) {
+            return score
+        }
+        return nil
+    }
+
+    // Function to filter positive news from a list of articles
+    func filterPositiveNews(from articles: [Article]) -> [Article] {
+        return articles.filter { article in
+            // Analyze the sentiment of the article title and filter if positive
+            if let title = article.title, let score = analyzeSentiment(for: title) {
+                return score >= 0
+            }
+            return false
+        }
     }
 }
