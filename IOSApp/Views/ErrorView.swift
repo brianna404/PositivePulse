@@ -58,6 +58,6 @@ struct ErrorView: View {
 struct ErrorView_Previews: PreviewProvider {
     static var previews: some View {
         // Create an ErrorView instance with a sample error and an empty retry handler
-        ErrorView(error: APIError.decodingError) {}
+        ErrorView(error: APIError.unkown) {}
     }
 }

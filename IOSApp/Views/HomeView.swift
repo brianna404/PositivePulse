@@ -25,9 +25,9 @@ struct HomeView: View {
             case .success(let articles):
                 NavigationView {
                     List(viewModel.positiveArticles) { article in
-                        if let urlString = article.url, let url = URL(string: urlString) {
+                        if let urlString = article.link, let url = URL(string: urlString) {
                             Button(action: {
-                                // Open URL in the browser
+                                // Open URL in the browser 
                                 UIApplication.shared.open(url)
                             }) {
                                 ArticleView(article: article)
