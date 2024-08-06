@@ -59,11 +59,9 @@ extension NewsAPI: APIBuilder {
             case .getNews:
                 // Return the query parameters
                 return [
-                    //URLQueryItem(name: "from", value: "\(getDateFromOneWeekAgo())"),
                     URLQueryItem(name: "language", value: "de"),
-                    //URLQueryItem(name: "sortBy", value: "popularity"),
-                    //URLQueryItem(name: "domains", value: "tagesschau.de,n-tv.de"),
-                    //URLQueryItem(name: "pageSize", value: "100"),
+                    URLQueryItem(name: "domain", value: "n-tv, focus, zeit, faz, tagesschau"),
+                    URLQueryItem(name: "removeduplicate", value: "1"),
                     URLQueryItem(name: "apikey", value: "pub_499417547ff0609b0d2cf505bdd1ec31d8090")
                 ]
             }

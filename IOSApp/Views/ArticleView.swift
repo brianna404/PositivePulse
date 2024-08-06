@@ -37,14 +37,12 @@ struct ArticleView: View {
                     }
                     VStack(alignment: .leading, spacing: 4) {
                         // Display the author of the article, if available
-                        if let creators = article.creator {
-                            ForEach(creators, id: \.self) { creator in
-                                Text(creator)
+                        if let source = article.source_name {
+                                Text(source)
                                     .foregroundStyle(Color.gray)
                                     .font(.footnote)
-                            }
                         } else {
-                            Text("Unbekannter Autor")
+                            Text("Unbekannte Quelle")
                                 .foregroundStyle(Color.black)
                                 .font(.footnote)
                         }
