@@ -49,7 +49,6 @@ class NewsServiceImpl: NewsService {
             }
             .eraseToAnyPublisher() // erase the type for external consumption
     }
-    
     // Function to perform sentiment analysis on a given text
     func analyzeSentiment(for text: String) -> Double? {
         let tagger = NLTagger(tagSchemes: [.sentimentScore])

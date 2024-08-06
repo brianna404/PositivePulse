@@ -47,7 +47,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
                 }
             // When receiving a value, update the articles with response articles
             } receiveValue: { response in
-                self.articles = response.articles
+                self.articles = response.results
             }
         // Store the cancellable to be able to cancel it if needed
         self.cancellables.insert(cancellable)

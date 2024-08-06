@@ -24,7 +24,6 @@ extension APIError: LocalizedError {
             return "Failed to decode object from service"
         case .errorCode(let code):
             return "\(code) - something went wrong" // description for errors associated with specific HTTP status codes
-
         case .unkown:
             return "This error is unknown"
         }
