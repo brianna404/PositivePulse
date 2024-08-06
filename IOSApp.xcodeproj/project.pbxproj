@@ -16,8 +16,6 @@
 		2512B2052C567CC00037ADD1 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2042C567CC00037ADD1 /* NewsViewModel.swift */; };
 		2512B2072C569BC60037ADD1 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2062C569BC60037ADD1 /* ArticleView.swift */; };
 		2512B20A2C57F1FE0037ADD1 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2092C57F1FE0037ADD1 /* ErrorView.swift */; };
-		252C60CB2C61084A001A59CA /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 252C60CA2C61084A001A59CA /* URLImage */; };
-		252C60CD2C61084A001A59CA /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 252C60CC2C61084A001A59CA /* URLImageStore */; };
 		257810BE2C2EEA13001C7487 /* IOSAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810BD2C2EEA13001C7487 /* IOSAppApp.swift */; };
 		257810C22C2EEA15001C7487 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C12C2EEA15001C7487 /* Assets.xcassets */; };
 		257810C52C2EEA15001C7487 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C42C2EEA15001C7487 /* Preview Assets.xcassets */; };
@@ -25,6 +23,8 @@
 		257810D92C2EEA15001C7487 /* IOSAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810D82C2EEA15001C7487 /* IOSAppUITests.swift */; };
 		257810DB2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */; };
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
+		26F1FBC32C626DA300D4CF54 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBC22C626DA300D4CF54 /* URLImage */; };
+		26F1FBC52C626DA300D4CF54 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBC42C626DA300D4CF54 /* URLImageStore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,8 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				252C60CD2C61084A001A59CA /* URLImageStore in Frameworks */,
-				252C60CB2C61084A001A59CA /* URLImage in Frameworks */,
+				26F1FBC52C626DA300D4CF54 /* URLImageStore in Frameworks */,
+				26F1FBC32C626DA300D4CF54 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,8 +231,8 @@
 			);
 			name = IOSApp;
 			packageProductDependencies = (
-				252C60CA2C61084A001A59CA /* URLImage */,
-				252C60CC2C61084A001A59CA /* URLImageStore */,
+				26F1FBC22C626DA300D4CF54 /* URLImage */,
+				26F1FBC42C626DA300D4CF54 /* URLImageStore */,
 			);
 			productName = IOSApp;
 			productReference = 257810BA2C2EEA13001C7487 /* IOSApp.app */;
@@ -704,12 +704,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		252C60CA2C61084A001A59CA /* URLImage */ = {
+		26F1FBC22C626DA300D4CF54 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
-		252C60CC2C61084A001A59CA /* URLImageStore */ = {
+		26F1FBC42C626DA300D4CF54 /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;
