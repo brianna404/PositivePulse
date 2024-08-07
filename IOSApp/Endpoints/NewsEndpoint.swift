@@ -57,6 +57,13 @@ extension NewsAPI: APIBuilder {
         var queryItems: [URLQueryItem] {
             switch self {
             case .getNews:
+                // Load the API key from the Config.plist file
+                guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+                      let config = NSDictionary(contentsOfFile: path),
+                      let apiKey = config["API_KEY"] as? String 
+                else {
+                    fatalError("API key not found in Config.plist")
+                }
                 // Return the query parameters
                 return [
                     //URLQueryItem(name: "from", value: "\(getDateFromOneWeekAgo())"),
@@ -64,7 +71,7 @@ extension NewsAPI: APIBuilder {
                     //URLQueryItem(name: "sortBy", value: "popularity"),
                     //URLQueryItem(name: "domains", value: "tagesschau.de,n-tv.de"),
                     //URLQueryItem(name: "pageSize", value: "100"),
-                    URLQueryItem(name: "apikey", value: "pub_499417547ff0609b0d2cf505bdd1ec31d8090")
+                    URLQueryItem(name: "apikey", value: apiKey)
                 ]
             }
         }

@@ -23,9 +23,10 @@
 		257810D92C2EEA15001C7487 /* IOSAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810D82C2EEA15001C7487 /* IOSAppUITests.swift */; };
 		257810DB2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */; };
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
-		26F1FBC32C626DA300D4CF54 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBC22C626DA300D4CF54 /* URLImage */; };
-		26F1FBC52C626DA300D4CF54 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBC42C626DA300D4CF54 /* URLImageStore */; };
 		26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */; };
+		26F1FBCB2C63B87000D4CF54 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBCA2C63B87000D4CF54 /* URLImage */; };
+		26F1FBCD2C63B87000D4CF54 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBCC2C63B87000D4CF54 /* URLImageStore */; };
+		26F1FBCF2C63C1E800D4CF54 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26F1FBCE2C63C1E800D4CF54 /* Config.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		268936242C5FC61B00ADAB5F /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleStorage.swift; sourceTree = "<group>"; };
+		26F1FBCE2C63C1E800D4CF54 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,8 +75,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26F1FBC52C626DA300D4CF54 /* URLImageStore in Frameworks */,
-				26F1FBC32C626DA300D4CF54 /* URLImage in Frameworks */,
+				26F1FBCD2C63B87000D4CF54 /* URLImageStore in Frameworks */,
+				26F1FBCB2C63B87000D4CF54 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +161,7 @@
 		257810B12C2EEA13001C7487 = {
 			isa = PBXGroup;
 			children = (
+				26F1FBCE2C63C1E800D4CF54 /* Config.plist */,
 				257810BC2C2EEA13001C7487 /* IOSApp */,
 				257810CD2C2EEA15001C7487 /* IOSAppTests */,
 				257810D72C2EEA15001C7487 /* IOSAppUITests */,
@@ -234,8 +237,8 @@
 			);
 			name = IOSApp;
 			packageProductDependencies = (
-				26F1FBC22C626DA300D4CF54 /* URLImage */,
-				26F1FBC42C626DA300D4CF54 /* URLImageStore */,
+				26F1FBCA2C63B87000D4CF54 /* URLImage */,
+				26F1FBCC2C63B87000D4CF54 /* URLImageStore */,
 			);
 			productName = IOSApp;
 			productReference = 257810BA2C2EEA13001C7487 /* IOSApp.app */;
@@ -329,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				257810C52C2EEA15001C7487 /* Preview Assets.xcassets in Resources */,
+				26F1FBCF2C63C1E800D4CF54 /* Config.plist in Resources */,
 				257810C22C2EEA15001C7487 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,12 +712,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		26F1FBC22C626DA300D4CF54 /* URLImage */ = {
+		26F1FBCA2C63B87000D4CF54 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
-		26F1FBC42C626DA300D4CF54 /* URLImageStore */ = {
+		26F1FBCC2C63B87000D4CF54 /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;
