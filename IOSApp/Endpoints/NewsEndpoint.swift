@@ -1,5 +1,5 @@
 //
-//  NewEndpoint.swift
+//  NewsEndpoint.swift
 //  IOSApp
 //
 //  Created by Michelle Köhler on 27.07.24.
