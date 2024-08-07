@@ -25,6 +25,7 @@
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
 		26F1FBC32C626DA300D4CF54 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBC22C626DA300D4CF54 /* URLImage */; };
 		26F1FBC52C626DA300D4CF54 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBC42C626DA300D4CF54 /* URLImageStore */; };
+		26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		257810D82C2EEA15001C7487 /* IOSAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppUITests.swift; sourceTree = "<group>"; };
 		257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		268936242C5FC61B00ADAB5F /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			children = (
 				2512B1FE2C5592D10037ADD1 /* NewsService.swift */,
 				268936242C5FC61B00ADAB5F /* DateUtils.swift */,
+				26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */,
 				268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */,
 				2512B2022C559A200037ADD1 /* ResultState.swift in Sources */,
 				2512B1FF2C5592D10037ADD1 /* NewsService.swift in Sources */,

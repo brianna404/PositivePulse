@@ -56,8 +56,12 @@ class Article: Codable, Identifiable {
     let ai_org: String?
     let duplicate: Bool
     
+    // Attributes specific to the app
+    var isRead: Bool = false
+    var isBookmarked: Bool = false
+    
     // initializer
-    init(articleID: String?, title: String?, link: String?, keywords: Array<String>?, creator: Array<String>?, videoURL: String?, description: String?, content: String?, pubDate: String?, imageURL: String?, sourceID: String?, sourcePriority: Int?, sourceName: String?, sourceURL: String?, sourceIcon: String?, language: String?, country: Array<String>?, category: Array<String>?, aiTag: String?, sentiment: String?, sentimentStats: String?, aiRegion: String?, aiOrg: String?, duplicate: Bool) {
+    init(articleID: String?, title: String?, link: String?, keywords: Array<String>?, creator: Array<String>?, videoURL: String?, description: String?, content: String?, pubDate: String?, imageURL: String?, sourceID: String?, sourcePriority: Int?, sourceName: String?, sourceURL: String?, sourceIcon: String?, language: String?, country: Array<String>?, category: Array<String>?, aiTag: String?, sentiment: String?, sentimentStats: String?, aiRegion: String?, aiOrg: String?, duplicate: Bool, isRead: Bool, isBookmarked: Bool) {
             self.article_id = articleID
             self.title = title
             self.link = link
@@ -82,6 +86,8 @@ class Article: Codable, Identifiable {
             self.ai_region = aiRegion
             self.ai_org = aiOrg
             self.duplicate = duplicate
+            self.isRead = isRead
+            self.isBookmarked = isBookmarked
         }
 }
 

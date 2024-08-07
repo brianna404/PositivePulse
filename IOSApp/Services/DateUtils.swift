@@ -8,7 +8,14 @@
 import Foundation
 
 class DateUtils {
-    // Function to format a date string from one format to another with default values for 
+    // Function to convert a date string into a Date obejct
+    static func dateFromString(_ dateString: String, fromFormat: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = fromFormat
+        return dateFormatter.date(from: dateString)
+    }
+    
+    // Function to format a date string from one format to another with default values for
     static func formatDate(dateString: String, fromFormat: String = "yyyy-MM-dd HH:mm:ss", toFormat: String = "dd.MM.yyyy HH:mm") -> String {
         // create inputFormatter
         let inputFormatter = DateFormatter()
