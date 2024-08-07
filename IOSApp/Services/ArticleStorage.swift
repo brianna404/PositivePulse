@@ -62,7 +62,7 @@ class ArticleStorage {
         var bookmarkedArticles = fetchBookmarkedArticles()
         
         // Handle read articles
-        if article.isRead {
+        if article.isRead ?? false { // provide false as default if nil
             if let index = readArticles.firstIndex(where: { $0.id == article.id }) {
                 readArticles[index] = article
             } else {
@@ -74,7 +74,7 @@ class ArticleStorage {
         saveReadArticles(readArticles)
         
         // Handle bookmarked articles
-        if article.isBookmarked {
+        if article.isBookmarked ?? false { // provide false as default if nil
             if let index = bookmarkedArticles.firstIndex(where: { $0.id == article.id }) {
                 bookmarkedArticles[index] = article
             } else {
