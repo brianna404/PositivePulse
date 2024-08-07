@@ -21,26 +21,41 @@ struct HomeView: View {
                     .scaleEffect(2)
                     .padding()
             case.failed(error: let error):
-                ErrorView(error: error, handler: viewModel.getArticles)
+                ErrorView(error: error, handler: viewModel.getInitialArticles)
             case .success(let articles):
-                NavigationView {
-                    List(viewModel.positiveArticles) { article in
-                        if let urlString = article.link, let url = URL(string: urlString) {
-                            Button(action: {
-                                // Open URL in the browser 
-                                UIApplication.shared.open(url)
-                            }) {
+                ScrollView {
+                        ForEach (viewModel.positiveArticles) { article in
+                            if let urlString = article.link, let url = URL(string: urlString) {
+                                Button(action: {
+                                    // Open URL in the browser
+                                    UIApplication.shared.open(url)
+                                }) {
+                                    ArticleView(article: article)
+                                        .contentShape(Rectangle()) // Make the entire cell tappable
+                                }
+                            } else {
                                 ArticleView(article: article)
-                                    .contentShape(Rectangle()) // Make the entire cell tappable
                             }
-                        } else {
-                            ArticleView(article: article)
                         }
+                        
+                            Button(action: {
+                                viewModel.loadMoreArticles()
+                            }) {
+                                Text("Mehr laden")
+                                    .padding()
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
                     }
-                }
             }
         }
-        .onAppear(perform: viewModel.getArticles)
+        .onAppear {
+            //load articles wehen view is empty
+            if viewModel.positiveArticles.isEmpty {
+                viewModel.getInitialArticles()
+            }
+        }
     }
 }
 

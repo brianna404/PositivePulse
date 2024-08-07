@@ -19,6 +19,7 @@ protocol APIBuilder {
 // represent different API endpoints
 enum NewsAPI {
     case getNews
+    case getMoreNews(pageNr: String)
     // more can be added here
 }
 
@@ -40,7 +41,7 @@ extension NewsAPI: APIBuilder {
     // baseURL returns the base URL for the API
     var baseURL: URL {
         switch self {
-        case .getNews:
+        case .getNews, .getMoreNews:
             // Return the base URL
             return URL(string: "https://newsdata.io")!
         }
@@ -48,22 +49,28 @@ extension NewsAPI: APIBuilder {
     // path returns the specific path for the API endpoint
         var path: String {
             switch self {
-            case .getNews:
+            case .getNews, .getMoreNews:
                 // Return the specific path
                 return "/api/1/latest"
             }
         }
     // queryItems returns the query parameters for the API endpoint
         var queryItems: [URLQueryItem] {
+            var baseQueryItems = [
+                URLQueryItem(name: "language", value: "de"),
+                URLQueryItem(name: "domain", value: "n-tv, focus, zeit, faz, tagesschau"),
+                URLQueryItem(name: "removeduplicate", value: "1"),
+                URLQueryItem(name: "apikey", value: "pub_499417547ff0609b0d2cf505bdd1ec31d8090")
+            ]
             switch self {
             case .getNews:
                 // Return the query parameters
-                return [
-                    URLQueryItem(name: "language", value: "de"),
-                    URLQueryItem(name: "domain", value: "n-tv, focus, zeit, faz, tagesschau"),
-                    URLQueryItem(name: "removeduplicate", value: "1"),
-                    URLQueryItem(name: "apikey", value: "pub_499417547ff0609b0d2cf505bdd1ec31d8090")
-                ]
+                return baseQueryItems
+            case .getMoreNews(let pageNr):
+                let newPageQueryItem = URLQueryItem(name: "page", value: "\(pageNr)")
+                baseQueryItems.append(newPageQueryItem)
+                // Return the query parameters
+                return baseQueryItems
             }
         }
 }
