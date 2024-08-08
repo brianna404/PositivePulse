@@ -37,16 +37,6 @@ struct HomeView: View {
                                 ArticleView(article: article)
                             }
                         }
-                        
-                            Button(action: {
-                                viewModel.loadMoreArticles()
-                            }) {
-                                Text("Mehr laden")
-                                    .padding()
-                                    .background(Color.blue)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
-                            }
                     }
             }
         }

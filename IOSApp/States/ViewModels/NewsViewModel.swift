@@ -15,7 +15,7 @@ protocol NewsViewModel {
         var positiveArticles: [Article] { get }
         var state: ResultState { get }
         func getInitialArticles()
-        func loadMoreArticles()
+        func loadAndCheckMoreArticles()
 }
 
 // implementation of NewsViewModel
@@ -35,6 +35,9 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     
     // methods
     func getInitialArticles() {
+        self.articles.removeAll()
+        self.positiveArticles.removeAll()
+        self.nextPage = nil
         self.getArticles(pageNr: nil)
     }
     
@@ -51,8 +54,18 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
                 case .finished:
                     // if successful update state to success with articles
                     self.state = .success(content: self.articles)
+                    
                     // Filter and update positive articles
-                    self.positiveArticles = self.service.filterPositiveNews(from: self.articles)
+                    let filteredPositiveArticles = self.service.filterPositiveNews(from: self.articles)
+                    // add new filtered positve articles to existing positive articles
+                    self.positiveArticles.append(contentsOf: filteredPositiveArticles)
+                    
+                    // check if min 10 positive articles are returned if not load more to filter
+                    if self.positiveArticles.count < 10, self.nextPage != nil {
+                        self.loadAndCheckMoreArticles()
+                    } else {
+                        self.state = .success(content: self.positiveArticles)
+                    }
                 case .failure(let error):
                     // if failed update state to failed with error
                     self.state = .failed(error: error)
@@ -65,8 +78,19 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         // Store the cancellable to be able to cancel it if needed
         self.cancellables.insert(cancellable)
     }
+    
     func loadMoreArticles() {
         guard let nextPage = nextPage else { return }
                 getArticles(pageNr: nextPage)
     }
+    
+    func loadAndCheckMoreArticles() {
+            var loadedPositiveArticles = 0
+            self.articles.removeAll() // Clear previous articles to avoid duplicates
+            
+            repeat {
+                loadMoreArticles()
+                loadedPositiveArticles = self.service.filterPositiveNews(from: self.articles).count
+            } while positiveArticles.count < 10 && loadedPositiveArticles > 0
+        }
 }
