@@ -38,10 +38,13 @@ class Article: Codable, Identifiable {
     let publishedAt: String?
     let content: String?
     
-<<<<<<< HEAD
+    // Attributes specific to the app
+    var isRead: Bool?
+    var isBookmarked: Bool?
+    
     // methods
     // initializer
-    init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?) {
+    init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?, isRead: Bool?, isBookmarked: Bool?) {
         self.source = source
         self.author = author
         self.title = title
@@ -50,43 +53,11 @@ class Article: Codable, Identifiable {
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
         self.content = content
+        self.isRead = isRead
+        self.isBookmarked = isBookmarked
     }
-=======
-    // Attributes specific to the app
-    var isRead: Bool?
-    var isBookmarked: Bool?
+    }
     
-    // initializer
-    init(articleID: String?, title: String?, link: String?, keywords: Array<String>?, creator: Array<String>?, videoURL: String?, description: String?, content: String?, pubDate: String?, imageURL: String?, sourceID: String?, sourcePriority: Int?, sourceName: String?, sourceURL: String?, sourceIcon: String?, language: String?, country: Array<String>?, category: Array<String>?, aiTag: String?, sentiment: String?, sentimentStats: String?, aiRegion: String?, aiOrg: String?, duplicate: Bool, isRead: Bool? = false, isBookmarked: Bool? = false) {
-            self.article_id = articleID
-            self.title = title
-            self.link = link
-            self.keywords = keywords
-            self.creator = creator
-            self.video_url = videoURL
-            self.description = description
-            self.content = content
-            self.pubDate = pubDate
-            self.image_url = imageURL
-            self.source_id = sourceID
-            self.source_priority = sourcePriority
-            self.source_name = sourceName
-            self.source_url = sourceURL
-            self.source_icon = sourceIcon
-            self.language = language
-            self.country = country
-            self.category = category
-            self.ai_tag = aiTag
-            self.sentiment = sentiment
-            self.sentiment_stats = sentimentStats
-            self.ai_region = aiRegion
-            self.ai_org = aiOrg
-            self.duplicate = duplicate
-            self.isRead = isRead
-            self.isBookmarked = isBookmarked
-        }
->>>>>>> main
-}
 
 // MARK: - Source
 // class to represent the source of a news article
