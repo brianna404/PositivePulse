@@ -39,7 +39,7 @@ class ArticleStorage {
         let daysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())
                
         return articles.filter { article in
-            if let pubDate = article.pubDate, let date = DateUtils.dateFromString(pubDate, fromFormat: "yyyy-MM-dd  HH:mm:ss"), let daysAgo = daysAgo {
+            if let pubDate = article.publishedAt, let date = DateUtils.dateFromString(pubDate, fromFormat: "yyyy-MM-dd  HH:mm:ss"), let daysAgo = daysAgo {
                 return date >= daysAgo
             }
             return false
