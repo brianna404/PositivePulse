@@ -20,35 +20,29 @@ struct HomeView: View {
                     .progressViewStyle(CircularProgressViewStyle())
                     .scaleEffect(2)
                     .padding()
-            case.failed(error: let error):
-                ErrorView(error: error, handler: viewModel.getInitialArticles)
-            case .success(let articles):
-                ScrollView {
-                        ForEach (viewModel.positiveArticles) { article in
-                            if let urlString = article.link, let url = URL(string: urlString) {
-                                Button(action: {
-                                    // Open URL in the browser
-                                    UIApplication.shared.open(url)
-                                }) {
-                                    ArticleView(article: article)
-                                        .contentShape(Rectangle()) // Make the entire cell tappable
-                                }
-                            } else {
-                                ArticleView(article: article)
-                            }
+            case .failed(error: let error):
+                ErrorView(error: error, handler: viewModel.getArticles)
+            case .success(let positiveArticles):
+                List (viewModel.positiveArticles) { article in
+                    if let urlString = article.url, let url = URL(string: urlString) {
+                        Button(action: {
+                            // Open URL in the browser
+                            UIApplication.shared.open(url)
+                        }) {
+                            ArticleView(article: article)
+                                .contentShape(Rectangle()) // Make the entire cell tappable
                         }
+                    } else {
+                        ArticleView(article: article)
                     }
+                }
             }
         }
         .onAppear {
-            //load articles wehen view is empty
-            if viewModel.positiveArticles.isEmpty {
-                viewModel.getInitialArticles()
-            }
+            viewModel.getArticles()
         }
     }
 }
-
 #Preview {
     HomeView()
 }

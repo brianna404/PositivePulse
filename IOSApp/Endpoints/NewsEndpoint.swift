@@ -19,7 +19,6 @@ protocol APIBuilder {
 // represent different API endpoints
 enum NewsAPI {
     case getNews
-    case getMoreNews(pageNr: String)
     // more can be added here
 }
 
@@ -41,36 +40,41 @@ extension NewsAPI: APIBuilder {
     // baseURL returns the base URL for the API
     var baseURL: URL {
         switch self {
-        case .getNews, .getMoreNews:
+        case .getNews:
             // Return the base URL
-            return URL(string: "https://newsdata.io")!
+            return URL(string: "https://newsapi.org")!
         }
     }
     // path returns the specific path for the API endpoint
         var path: String {
             switch self {
-            case .getNews, .getMoreNews:
+            case .getNews:
                 // Return the specific path
-                return "/api/1/latest"
+                return "/v2/everything"
             }
         }
     // queryItems returns the query parameters for the API endpoint
         var queryItems: [URLQueryItem] {
-            var baseQueryItems = [
-                URLQueryItem(name: "language", value: "de"),
-                URLQueryItem(name: "domain", value: "n-tv, focus, zeit, faz, tagesschau"),
-                URLQueryItem(name: "removeduplicate", value: "1"),
-                URLQueryItem(name: "apikey", value: "pub_499417547ff0609b0d2cf505bdd1ec31d8090")
-            ]
             switch self {
             case .getNews:
                 // Return the query parameters
-                return baseQueryItems
-            case .getMoreNews(let pageNr):
-                let newPageQueryItem = URLQueryItem(name: "page", value: "\(pageNr)")
-                baseQueryItems.append(newPageQueryItem)
-                // Return the query parameters
-                return baseQueryItems
+                return [
+                    URLQueryItem(name: "from", value: "\(getDateFromOneWeekAgo())"),
+                    URLQueryItem(name: "language", value: "de"),
+                    URLQueryItem(name: "sortBy", value: "popularity"),
+                    URLQueryItem(name: "domains", value: "tagesschau.de,n-tv.de"),
+                    URLQueryItem(name: "pageSize", value: "100"),
+                    URLQueryItem(name: "apiKey", value: "69bdfb0d36a24c1da1ec9fe4623de566")
+                ]
             }
         }
+    //get date from one week ago and format to JSON date format
+    func getDateFromOneWeekAgo() -> String {
+        let today = Date()
+        
+        let oneWeekAgo = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: today)!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd"
+        return dateFormatter.string(from: oneWeekAgo)
+    }
 }
