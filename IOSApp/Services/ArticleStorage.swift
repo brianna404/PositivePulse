@@ -84,6 +84,13 @@ class ArticleStorage {
             bookmarkedArticles.removeAll { $0.id == article.id }
         }
         saveBookmarkedArticles(bookmarkedArticles)
-        
+    }
+    
+    // Toggle the bookmark status of an article
+    func toggleBookmark(for article: Article) -> Article {
+        var updatedArticle = article
+        updatedArticle.isBookmarked = !(article.isBookmarked ?? false)
+        addOrUpdateArticle(updatedArticle)
+        return updatedArticle
     }
 }

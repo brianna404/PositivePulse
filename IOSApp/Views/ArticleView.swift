@@ -11,6 +11,15 @@ import URLImage
 struct ArticleView: View {
     
     let article: Article
+    // track bookmarked status
+    @State private var isBookmarked: Bool
+    
+    // place to store bookmarked articles
+    private let articleStorage = ArticleStorage()
+    init(article: Article) {
+           self.article = article
+           self._isBookmarked = State(initialValue: article.isBookmarked ?? false)
+       }
     
     var body: some View {
         // vertical stack to display article details
@@ -44,8 +53,13 @@ struct ArticleView: View {
                             .foregroundStyle(Color.black)
                             .font(.system(size: 18, weight: .semibold))
                         Spacer()
-                        Image(systemName: "bookmark")
-                    }
+                        Button(action: {
+                        // Call the toggleBookmark function from ArticleStorage
+                        let updatedArticle = articleStorage.toggleBookmark(for: article)
+                        isBookmarked = updatedArticle.isBookmarked ?? false
+                        }) {
+                            Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                        }                    }
                     Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
                         .foregroundStyle(Color.gray)
                         .font(.system(size: 11))
