@@ -15,25 +15,38 @@ class DateUtils {
         return dateFormatter.date(from: dateString)
     }
     
-    // Function to format a date string from one format to another with default values for
-    static func formatDate(dateString: String, fromFormat: String = "yyyy-MM-dd HH:mm:ss", toFormat: String = "dd.MM.yyyy HH:mm") -> String {
-        // create inputFormatter
+    // Function to format a date string from one format to another with default values for German format without seconds
+    static func formatDate(dateString: String, fromFormat: String = "yyyy-MM-dd'T'HH:mm:ssZ", toFormat: String = "dd.MM.yyyy HH:mm") -> String {
+        // Create inputFormatter
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = fromFormat
         inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-        // create outputFormatter
+        
+        // Create outputFormatter
         let outputFormatter = DateFormatter()
         outputFormatter.dateFormat = toFormat
         outputFormatter.locale = Locale(identifier: "de_DE")
         
-        // atempt to format original date string
+        // Attempt to format the original date string
         if let date = inputFormatter.date(from: dateString) {
-            // print("Successfully parsed date: \(date)")
-            return outputFormatter.string(from: date) // Return formatted date string
+            // Return formatted date string
+            return outputFormatter.string(from: date)
         } else {
-            // print("Failed to parse date: \(dateString)")
-            return dateString // Fallback if parsing fails
+            // Fallback if parsing fails
+            return dateString
         }
+    }
+    
+    // Function to get the date for yesterday in the specified format
+    static func dateYesterday() -> String? {
+        let currentDate = Date()
+        if let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            return dateFormatter.string(from: yesterday)
+        }
+        return nil
     }
     
     // Function to get the date from one week ago and format it to JSON date format

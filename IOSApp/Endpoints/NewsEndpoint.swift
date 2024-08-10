@@ -60,13 +60,15 @@ extension NewsAPI: APIBuilder {
                 // Load the API key from the Config.plist file
                  guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
                        let config = NSDictionary(contentsOfFile: path),
-                       let apiKey = config["API_KEY"] as? String
+                       let apiKey = config["API_KEY"] as? String,
+                       let date = DateUtils.dateYesterday()
                  else {
-                     fatalError("API key not found in Config.plist")
+                     fatalError("Required parameters missing or invalid")
                  }
+                
                 // Return the query parameters
                 return [
-                    URLQueryItem(name: "from", value: "\(getDateFromOneWeekAgo())"),
+                    URLQueryItem(name: "from", value: date),
                     URLQueryItem(name: "language", value: "de"),
                     URLQueryItem(name: "sortBy", value: "popularity"),
                     URLQueryItem(name: "domains", value: "tagesschau.de,n-tv.de"),
@@ -75,13 +77,4 @@ extension NewsAPI: APIBuilder {
                 ]
             }
         }
-    //get date from one week ago and format to JSON date format
-    func getDateFromOneWeekAgo() -> String {
-        let today = Date()
-        
-        let oneWeekAgo = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: today)!
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-mm-dd"
-        return dateFormatter.string(from: oneWeekAgo)
-    }
 }
