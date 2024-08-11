@@ -39,10 +39,13 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            viewModel.getArticles()
+            if !viewModel.hasFetched {
+                viewModel.getArticles()
+            }
         }
     }
 }
+    
 #Preview {
     HomeView()
 }

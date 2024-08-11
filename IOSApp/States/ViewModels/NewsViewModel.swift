@@ -26,6 +26,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     @Published private(set) var positiveArticles = [Article]() // Array to hold positive articles
     @Published private(set) var state: ResultState = .loading // Current state of the view model
     
+    var hasFetched = false  // flag to prevent fetching several times
     // Initialization
     init (service: NewsService) {
         self.service = service
@@ -33,8 +34,12 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     
     // methods
     func getArticles() {
-        self.state = .loading // Set state to loading
+        // Prevent multiple fetches
+        guard !hasFetched else { return }
         
+        self.state = .loading // Set state to loading
+        hasFetched = true  // Set the flag
+
         // Make a network request using the NewsService
         let cancellable = service
             .request(from: .getNews) // Call the getNews endpoint of the service
@@ -45,7 +50,9 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
                     self.state = .success(content: self.articles)
                     // Filter and update positive articles
                     self.positiveArticles = self.service.filterPositiveNews(from: self.articles)
-                case .failure(let error):                    // if failed update state to failed with error
+                    print("Fetching and filtering articles complete. Filtered positive articles count: \(self.positiveArticles.count)")
+                case .failure(let error):
+                    // if failed update state to failed with error
                     self.state = .failed(error: error)
                 }
             // When receiving a value, update the articles with response articles
