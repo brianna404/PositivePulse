@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		250FE2D72C69FD3C0034EAFD /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 250FE2D62C69FD3C0034EAFD /* URLImage */; };
+		250FE2D92C69FD3C0034EAFD /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 250FE2D82C69FD3C0034EAFD /* URLImageStore */; };
 		2512B1F32C55811B0037ADD1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1F22C55811B0037ADD1 /* HomeView.swift */; };
 		2512B1F62C558C500037ADD1 /* NewsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1F52C558C500037ADD1 /* NewsResponse.swift */; };
 		2512B1FC2C5591060037ADD1 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1FB2C5591060037ADD1 /* APIError.swift */; };
@@ -25,8 +27,6 @@
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
 		26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */; };
 		26F1FBCF2C63C1E800D4CF54 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26F1FBCE2C63C1E800D4CF54 /* Config.plist */; };
-		26F1FBD12C667C0200D4CF54 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBD02C667C0200D4CF54 /* URLImage */; };
-		26F1FBD32C667C0200D4CF54 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26F1FBD22C667C0200D4CF54 /* URLImageStore */; };
 		26F1FBE02C69612700D4CF54 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBDF2C69612700D4CF54 /* ContentView.swift */; };
 		26F1FBE22C69619000D4CF54 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBE12C69619000D4CF54 /* SearchView.swift */; };
 		26F1FBE42C6961AD00D4CF54 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBE32C6961AD00D4CF54 /* MyPageView.swift */; };
@@ -83,8 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26F1FBD32C667C0200D4CF54 /* URLImageStore in Frameworks */,
-				26F1FBD12C667C0200D4CF54 /* URLImage in Frameworks */,
+				250FE2D92C69FD3C0034EAFD /* URLImageStore in Frameworks */,
+				250FE2D72C69FD3C0034EAFD /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,8 +249,8 @@
 			);
 			name = IOSApp;
 			packageProductDependencies = (
-				26F1FBD02C667C0200D4CF54 /* URLImage */,
-				26F1FBD22C667C0200D4CF54 /* URLImageStore */,
+				250FE2D62C69FD3C0034EAFD /* URLImage */,
+				250FE2D82C69FD3C0034EAFD /* URLImageStore */,
 			);
 			productName = IOSApp;
 			productReference = 257810BA2C2EEA13001C7487 /* IOSApp.app */;
@@ -728,12 +728,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		26F1FBD02C667C0200D4CF54 /* URLImage */ = {
+		250FE2D62C69FD3C0034EAFD /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
-		26F1FBD22C667C0200D4CF54 /* URLImageStore */ = {
+		250FE2D82C69FD3C0034EAFD /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;

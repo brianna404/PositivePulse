@@ -50,7 +50,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
                     self.state = .success(content: self.articles)
                     // Filter and update positive articles
                     self.positiveArticles = self.service.filterPositiveNews(from: self.articles)
-                    print("Fetching and filtering articles complete. Filtered positive articles count: \(self.positiveArticles.count)")
+                    //print("Fetching and filtering articles complete. Filtered positive articles count: \(self.positiveArticles.count)")
                 case .failure(let error):
                     // if failed update state to failed with error
                     self.state = .failed(error: error)

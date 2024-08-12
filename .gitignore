@@ -62,6 +62,18 @@ playground.xcworkspace
 # Add this line if you want to avoid checking in source code from the Xcode workspace
 # *.xcworkspace
 
+# Ignore everything in the IOSApp.xcworkspace directory except for shared data directory
+IOSApp.xcworkspace/*
+!IOSApp.xcworkspace/xcshareddata/
+
+# Ignore everything in the xcshareddata directory except for SwiftPM directory for package management
+IOSApp.xcworkspace/xcshareddata/*
+!IOSApp.xcworkspace/xcshareddata/swiftpm/
+
+# Ignore everything in the swiftpm directory except for package.resolved file
+IOSApp.xcworkspace/xcshareddata/swiftpm/*
+!IOSApp.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
