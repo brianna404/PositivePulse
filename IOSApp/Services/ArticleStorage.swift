@@ -88,7 +88,7 @@ class ArticleStorage {
     
     // Toggle the bookmark status of an article
     func toggleBookmark(for article: Article) -> Article {
-        var updatedArticle = article
+        let updatedArticle = article
         updatedArticle.isBookmarked = !(article.isBookmarked ?? false)
         addOrUpdateArticle(updatedArticle)
         return updatedArticle

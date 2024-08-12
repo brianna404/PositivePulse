@@ -38,9 +38,9 @@ struct ArticleView: View {
                         .font(.system(size: 18, weight: .semibold))
                     Spacer()
                     Button(action: {
-                    // Call the toggleBookmark function from ArticleStorage
-                    let updatedArticle = articleStorage.toggleBookmark(for: article)
-                    isBookmarked = updatedArticle.isBookmarked ?? false
+                        // Call the toggleBookmark function from ArticleStorage
+                        let updatedArticle = articleStorage.toggleBookmark(for: article)
+                        isBookmarked = updatedArticle.isBookmarked ?? false
                     }) {
                         Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                     }                    }

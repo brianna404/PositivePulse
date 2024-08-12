@@ -22,7 +22,7 @@ struct HomeView: View {
                     .padding()
             case .failed(error: let error):
                 ErrorView(error: error, handler: viewModel.getArticles)
-            case .success(let positiveArticles):
+            case .success:
                 List (viewModel.positiveArticles) { article in
                     if let urlString = article.url, let url = URL(string: urlString) {
                         Button(action: {
