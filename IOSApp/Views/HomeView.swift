@@ -23,6 +23,9 @@ struct HomeView: View {
             case .failed(error: let error):
                 ErrorView(error: error, handler: viewModel.getArticles)
             case .success(let positiveArticles):
+                CategoryFilterView()
+                    .shadow(color: .gray, radius: 2, y: 4)
+                    .padding(.top, 20)
                 List (viewModel.positiveArticles) { article in
                     if let urlString = article.url, let url = URL(string: urlString) {
                         Button(action: {
@@ -36,6 +39,7 @@ struct HomeView: View {
                         ArticleView(article: article)
                     }
                 }
+                .padding(EdgeInsets(top: 0, leading: -20, bottom: 0, trailing: -20))
             }
         }
         .onAppear {
