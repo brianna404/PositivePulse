@@ -26,7 +26,7 @@ class NewsResponse: Codable {
 
 // MARK: - Article
 // class to represent a single news article
-class Article: Codable, Identifiable {
+class Article: Codable, Identifiable, Hashable {
     // attributes
     let id: UUID = UUID() // id of type universally unique identifier
     let source: Source?
@@ -56,7 +56,17 @@ class Article: Codable, Identifiable {
         self.isRead = isRead
         self.isBookmarked = isBookmarked
     }
+    
+    // MARK: - Hashable
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(url) // Assuming the URL is unique for each article
     }
+    
+    // MARK: - Equatable
+    static func == (lhs: Article, rhs: Article) -> Bool {
+        return lhs.url == rhs.url // Assuming the URL is unique for each article
+    }
+}
     
 
 // MARK: - Source

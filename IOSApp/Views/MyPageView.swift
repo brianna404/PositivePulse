@@ -24,9 +24,9 @@ struct MyPageView: View {
             
             // Tab Views
             if selectedTab == 0 {
-                ArticleListView(articles: articleStorage.fetchBookmarkedArticles())
+                ArticleListView(articles: Array(articleStorage.fetchBookmarkedArticles()))
             } else {
-                ArticleListView(articles: articleStorage.fetchReadArticles())
+                ArticleListView(articles: Array(articleStorage.fetchReadArticles()))
             }
         }
     }

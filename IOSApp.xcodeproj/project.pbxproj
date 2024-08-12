@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		250FE2D72C69FD3C0034EAFD /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 250FE2D62C69FD3C0034EAFD /* URLImage */; };
-		250FE2D92C69FD3C0034EAFD /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 250FE2D82C69FD3C0034EAFD /* URLImageStore */; };
 		2512B1F32C55811B0037ADD1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1F22C55811B0037ADD1 /* HomeView.swift */; };
 		2512B1F62C558C500037ADD1 /* NewsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1F52C558C500037ADD1 /* NewsResponse.swift */; };
 		2512B1FC2C5591060037ADD1 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1FB2C5591060037ADD1 /* APIError.swift */; };
@@ -25,6 +23,8 @@
 		257810DB2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */; };
 		258BC6D72C664E660025C241 /* NewsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258BC6D62C664E660025C241 /* NewsEndpoint.swift */; };
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
+		26E918802C6A4E3F0010AC76 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26E9187F2C6A4E3F0010AC76 /* URLImage */; };
+		26E918822C6A4E3F0010AC76 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26E918812C6A4E3F0010AC76 /* URLImageStore */; };
 		26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */; };
 		26F1FBCF2C63C1E800D4CF54 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26F1FBCE2C63C1E800D4CF54 /* Config.plist */; };
 		26F1FBE02C69612700D4CF54 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBDF2C69612700D4CF54 /* ContentView.swift */; };
@@ -83,8 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				250FE2D92C69FD3C0034EAFD /* URLImageStore in Frameworks */,
-				250FE2D72C69FD3C0034EAFD /* URLImage in Frameworks */,
+				26E918822C6A4E3F0010AC76 /* URLImageStore in Frameworks */,
+				26E918802C6A4E3F0010AC76 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,8 +249,8 @@
 			);
 			name = IOSApp;
 			packageProductDependencies = (
-				250FE2D62C69FD3C0034EAFD /* URLImage */,
-				250FE2D82C69FD3C0034EAFD /* URLImageStore */,
+				26E9187F2C6A4E3F0010AC76 /* URLImage */,
+				26E918812C6A4E3F0010AC76 /* URLImageStore */,
 			);
 			productName = IOSApp;
 			productReference = 257810BA2C2EEA13001C7487 /* IOSApp.app */;
@@ -728,12 +728,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		250FE2D62C69FD3C0034EAFD /* URLImage */ = {
+		26E9187F2C6A4E3F0010AC76 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
-		250FE2D82C69FD3C0034EAFD /* URLImageStore */ = {
+		26E918812C6A4E3F0010AC76 /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;
