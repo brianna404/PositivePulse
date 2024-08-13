@@ -9,6 +9,9 @@ import SwiftUI
 
 struct MyPageView: View {
     @State private var selectedTab = 0
+    @State private var bookmarkedArticles: [Article] = []
+    @State private var readArticles: [Article] = []
+    
     private let articleStorage = ArticleStorage()
     
     var body: some View {
@@ -24,12 +27,20 @@ struct MyPageView: View {
             
             // Tab Views
             if selectedTab == 0 {
-                ArticleListView(articles: Array(articleStorage.fetchBookmarkedArticles()))
+                ArticleListView(articles: bookmarkedArticles)
             } else {
-                ArticleListView(articles: Array(articleStorage.fetchReadArticles()))
+                ArticleListView(articles: readArticles)
             }
         }
+        .onAppear {
+            refreshArticles()
+        }
     }
+    private func refreshArticles() {
+            // Reload the articles every time the view appears
+            self.bookmarkedArticles = Array(articleStorage.fetchBookmarkedArticles())
+            self.readArticles = Array(articleStorage.fetchReadArticles())
+        }
 }
 
 struct ArticleListView: View {
