@@ -32,8 +32,13 @@ struct MyPageView: View {
                 ArticleListView(articles: readArticles)
             }
         }
+        // refresh articles when displaying myPage
         .onAppear {
             refreshArticles()
+        }
+        // refresh articles when switching tabs
+        .onChange(of: selectedTab){
+            refreshArticles()   
         }
     }
     private func refreshArticles() {

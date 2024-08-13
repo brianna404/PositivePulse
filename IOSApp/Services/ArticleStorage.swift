@@ -35,15 +35,7 @@ class ArticleStorage {
     
     // Fetch read articles (not older than 30 days ago)
     func fetchReadArticles() -> Set<Article> {
-        let articles = fetchArticles(forKey: readArticlesKey)
-        let daysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())
-               
-        return articles.filter { article in
-            if let pubDate = article.publishedAt, let date = DateUtils.dateFromString(pubDate, fromFormat: "yyyy-MM-dd  HH:mm:ss"), let daysAgo = daysAgo {
-                return date >= daysAgo
-            }
-            return false
-        }
+        return fetchArticles(forKey: readArticlesKey)
     }
     
     // Save bookmarked articles
