@@ -58,9 +58,7 @@ struct ArticleView: View {
             if let urlString = article.url, let url = URL(string: urlString) {
                 UIApplication.shared.open(url)
                 // Mark article as read
-                let updatedArticle = article
-                updatedArticle.isRead = true
-                articleStorage.addOrUpdateArticle(updatedArticle)
+                articleStorage.markArticleAsRead(article)
             }
         }
     }

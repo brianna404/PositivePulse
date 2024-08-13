@@ -39,12 +39,16 @@ class Article: Codable, Identifiable, Hashable {
     let content: String?
     
     // Attributes specific to the app
+    // History
     var isRead: Bool?
+    var lastRead: Date?
+    // Bookmarking
     var isBookmarked: Bool?
+    var lastBookmarked: Date?
     
     // methods
     // initializer
-    init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?, isRead: Bool?, isBookmarked: Bool?) {
+    init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?, isRead: Bool?, lastRead: Date?, isBookmarked: Bool?, lastBookmarked: Date?) {
         self.source = source
         self.author = author
         self.title = title
@@ -54,7 +58,9 @@ class Article: Codable, Identifiable, Hashable {
         self.publishedAt = publishedAt
         self.content = content
         self.isRead = isRead
+        self.lastRead = lastRead
         self.isBookmarked = isBookmarked
+        self.lastBookmarked = lastBookmarked
     }
     
     // MARK: - Hashable

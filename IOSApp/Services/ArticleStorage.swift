@@ -35,28 +35,26 @@ class ArticleStorage {
     
     // Fetch read articles (not older than 30 days ago)
     func fetchReadArticles() -> Set<Article> {
+        // fetch all read articles
         let readArticles = fetchArticles(forKey: readArticlesKey)
         
         // Get the date 30 days ago
          guard let daysAgoString = DateUtils.dateAgo(daysAgo: 30),
                
                let daysAgoDate = DateUtils.dateFromString(daysAgoString, fromFormat: "yyyy-MM-dd") else {
-             print("Error generating or parsing date 30 days ago")
              return []
          }
         print("Date 30 days ago: \(daysAgoDate)")
         
         // Filter the articles to return only those published within the last 30 days
-            let filteredArticles = readArticles.filter { article in
-                if let pubDate = article.publishedAt,
-                   let articleDate = DateUtils.dateFromString(pubDate, fromFormat: "yyyy-MM-dd'T'HH:mm:ssZ") {
-                    print("Article Pub date: \(articleDate)")
-                    return articleDate >= daysAgoDate
-                }
-                return false
+        let filteredArticles = readArticles.filter { article in
+            if let pubDate = article.publishedAt,
+               let articleDate = DateUtils.dateFromString(pubDate, fromFormat: "yyyy-MM-dd'T'HH:mm:ssZ") {
+                return articleDate >= daysAgoDate
             }
-            
-            return filteredArticles
+            return false
+        }
+        return filteredArticles
     }
     
     // Save bookmarked articles
@@ -92,10 +90,19 @@ class ArticleStorage {
         saveBookmarkedArticles(bookmarkedArticles)
     }
     
+    // Update logic when an article is read
+    func markArticleAsRead(_ article: Article) {
+        let updatedArticle = article
+        updatedArticle.isRead = true
+        updatedArticle.lastRead = Date()
+        addOrUpdateArticle(updatedArticle)
+    }
+    
     // Toggle the bookmark status of an article
     func toggleBookmark(for article: Article) -> Article {
         let updatedArticle = article
-        updatedArticle.isBookmarked = !(article.isBookmarked ?? false)
+        updatedArticle.isBookmarked = !(article.isBookmarked ?? false) // update bookmark status
+        updatedArticle.lastBookmarked = updatedArticle.isBookmarked ?? false ? Date() : nil // Set or clear lastBookmarked date
         addOrUpdateArticle(updatedArticle)
         return updatedArticle
     }

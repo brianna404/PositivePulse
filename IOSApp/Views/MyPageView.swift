@@ -42,10 +42,14 @@ struct MyPageView: View {
         }
     }
     private func refreshArticles() {
-            // Reload the articles every time the view appears
-            self.bookmarkedArticles = Array(articleStorage.fetchBookmarkedArticles())
-            self.readArticles = Array(articleStorage.fetchReadArticles())
-        }
+        // Fetch and sort bookmarked articles
+        self.bookmarkedArticles = Array(articleStorage.fetchBookmarkedArticles())
+            .sorted { ($0.lastBookmarked ?? Date.distantPast) > ($1.lastBookmarked ?? Date.distantPast) }
+        
+        // Fetch and sort read articles
+        self.readArticles = Array(articleStorage.fetchReadArticles())
+            .sorted { ($0.lastRead ?? Date.distantPast) > ($1.lastRead ?? Date.distantPast) }
+    }
 }
 
 struct ArticleListView: View {
