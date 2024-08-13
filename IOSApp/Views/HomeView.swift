@@ -23,18 +23,8 @@ struct HomeView: View {
             case .failed(error: let error):
                 ErrorView(error: error, handler: viewModel.getArticles)
             case .success:
-                List (viewModel.positiveArticles) { article in
-                    if let urlString = article.url, let url = URL(string: urlString) {
-                        Button(action: {
-                            // Open URL in the browser
-                            UIApplication.shared.open(url)
-                        }) {
-                            ArticleView(article: article)
-                                .contentShape(Rectangle()) // Make the entire cell tappable
-                        }
-                    } else {
-                        ArticleView(article: article)
-                    }
+                List(viewModel.positiveArticles) { article in
+                    ArticleView(article: article)
                 }
             }
         }

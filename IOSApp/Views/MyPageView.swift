@@ -49,7 +49,6 @@ struct ArticleListView: View {
     var body: some View {
         List(articles) { article in
             ArticleView(article: article)
-                .contentShape(Rectangle()) // Make the entire cell tappable
         }
     }
 }

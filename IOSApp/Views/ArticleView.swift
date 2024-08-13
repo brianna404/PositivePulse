@@ -16,6 +16,8 @@ struct ArticleView: View {
     
     // place to store bookmarked articles
     private let articleStorage = ArticleStorage()
+    
+    // initialize
     init(article: Article) {
            self.article = article
            self._isBookmarked = State(initialValue: article.isBookmarked ?? false)
@@ -43,10 +45,22 @@ struct ArticleView: View {
                         isBookmarked = updatedArticle.isBookmarked ?? false
                     }) {
                         Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
-                    }                    }
+                    }
+                    .buttonStyle(PlainButtonStyle()) // otherwise Bookmark icon not clickable
+                }
                 Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
                     .foregroundStyle(Color.gray)
                     .font(.system(size: 11))
+            }
+        }
+        .onTapGesture {
+            // Open URL when the article is clicked on
+            if let urlString = article.url, let url = URL(string: urlString) {
+                UIApplication.shared.open(url)
+                // Mark article as read
+                let updatedArticle = article
+                updatedArticle.isRead = true
+                articleStorage.addOrUpdateArticle(updatedArticle)
             }
         }
     }
