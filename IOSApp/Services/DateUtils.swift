@@ -37,14 +37,14 @@ class DateUtils {
         }
     }
     
-    // Function to get the date for yesterday in the specified format
-    static func dateYesterday() -> String? {
+    // Function to get a past date in the specified format
+    static func dateAgo(daysAgo: Int) -> String? {
         let currentDate = Date()
-        if let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: currentDate) {
+        if let dateAgo = Calendar.current.date(byAdding: .day, value: -daysAgo, to: currentDate) {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-            return dateFormatter.string(from: yesterday)
+            return dateFormatter.string(from: dateAgo)
         }
         return nil
     }

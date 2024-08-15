@@ -26,7 +26,7 @@ class NewsResponse: Codable {
 
 // MARK: - Article
 // class to represent a single news article
-class Article: Codable, Identifiable {
+class Article: Codable, Identifiable, Hashable {
     // attributes
     let id: UUID = UUID() // id of type universally unique identifier
     let source: Source?
@@ -39,12 +39,16 @@ class Article: Codable, Identifiable {
     let content: String?
     
     // Attributes specific to the app
+    // History
     var isRead: Bool?
+    var lastRead: Date?
+    // Bookmarking
     var isBookmarked: Bool?
+    var lastBookmarked: Date?
     
     // methods
     // initializer
-    init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?, isRead: Bool?, isBookmarked: Bool?) {
+    init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?, isRead: Bool?, lastRead: Date?, isBookmarked: Bool?, lastBookmarked: Date?) {
         self.source = source
         self.author = author
         self.title = title
@@ -54,9 +58,21 @@ class Article: Codable, Identifiable {
         self.publishedAt = publishedAt
         self.content = content
         self.isRead = isRead
+        self.lastRead = lastRead
         self.isBookmarked = isBookmarked
+        self.lastBookmarked = lastBookmarked
     }
+    
+    // MARK: - Hashable
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(url) // Assuming the URL is unique for each article
     }
+    
+    // MARK: - Equatable
+    static func == (lhs: Article, rhs: Article) -> Bool {
+        return lhs.url == rhs.url // Assuming the URL is unique for each article
+    }
+}
     
 
 // MARK: - Source

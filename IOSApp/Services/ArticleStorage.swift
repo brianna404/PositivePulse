@@ -13,46 +13,57 @@ class ArticleStorage {
     private let bookmarkedArticlesKey = "bookmarkedArticles"
     
     // Function to save articles
-    func saveArticles(articles: [Article], forKey key: String) {
-        if let data = try? JSONEncoder().encode(articles) {
+    func saveArticles(articles: Set<Article>, forKey key: String) {
+        if let data = try? JSONEncoder().encode(Array(articles)) {
             UserDefaults.standard.set(data, forKey: key)
         }
     }
     
     // Function to fetch articles
-    func fetchArticles(forKey key: String) -> [Article] {
+    func fetchArticles(forKey key: String) -> Set<Article> {
         if let data = UserDefaults.standard.data(forKey: key),
            let articles = try? JSONDecoder().decode([Article].self, from: data) {
-            return articles
+            return Set(articles)
         }
         return []
     }
     
     // Save read articles
-    func saveReadArticles(_ articles: [Article]) {
+    func saveReadArticles(_ articles: Set<Article>) {
         saveArticles(articles: articles, forKey: readArticlesKey)
     }
     
-    // Fetch read articles
-    func fetchReadArticles() -> [Article] {
-        let articles = fetchArticles(forKey: readArticlesKey)
-        let daysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())
+    // Fetch read articles (not older than 30 days ago)
+    func fetchReadArticles() -> Set<Article> {
+        // fetch all read articles
+        let readArticles = fetchArticles(forKey: readArticlesKey)
+        
+        // Get the date 30 days ago
+         guard let daysAgoString = DateUtils.dateAgo(daysAgo: 30),
                
-        return articles.filter { article in
-            if let pubDate = article.publishedAt, let date = DateUtils.dateFromString(pubDate, fromFormat: "yyyy-MM-dd  HH:mm:ss"), let daysAgo = daysAgo {
-                return date >= daysAgo
+               let daysAgoDate = DateUtils.dateFromString(daysAgoString, fromFormat: "yyyy-MM-dd") else {
+             return []
+         }
+        print("Date 30 days ago: \(daysAgoDate)")
+        
+        // Filter the articles to return only those published within the last 30 days
+        let filteredArticles = readArticles.filter { article in
+            if let pubDate = article.publishedAt,
+               let articleDate = DateUtils.dateFromString(pubDate, fromFormat: "yyyy-MM-dd'T'HH:mm:ssZ") {
+                return articleDate >= daysAgoDate
             }
             return false
         }
+        return filteredArticles
     }
     
     // Save bookmarked articles
-    func saveBookmarkedArticles(_ articles: [Article]) {
+    func saveBookmarkedArticles(_ articles: Set<Article>) {
         saveArticles(articles: articles, forKey: bookmarkedArticlesKey)
     }
     
     // Fetch bookmarked articles
-    func fetchBookmarkedArticles() -> [Article] {
+    func fetchBookmarkedArticles() -> Set<Article> {
         return fetchArticles(forKey: bookmarkedArticlesKey)
     }
     
@@ -63,33 +74,35 @@ class ArticleStorage {
         
         // Handle read articles
         if article.isRead ?? false { // provide false as default if nil
-            if let index = readArticles.firstIndex(where: { $0.id == article.id }) {
-                readArticles[index] = article
+            readArticles.update(with: article) // Use update to ensure uniqueness
             } else {
-                readArticles.append(article)
+                readArticles.remove(article)
             }
-        } else {
-            readArticles.removeAll { $0.id == article.id }
-        }
         saveReadArticles(readArticles)
+
         
         // Handle bookmarked articles
         if article.isBookmarked ?? false { // provide false as default if nil
-            if let index = bookmarkedArticles.firstIndex(where: { $0.id == article.id }) {
-                bookmarkedArticles[index] = article
+            bookmarkedArticles.update(with: article) // Use update to ensure uniqueness
             } else {
-                bookmarkedArticles.append(article)
+                bookmarkedArticles.remove(article)
             }
-        } else {
-            bookmarkedArticles.removeAll { $0.id == article.id }
-        }
         saveBookmarkedArticles(bookmarkedArticles)
+    }
+    
+    // Update logic when an article is read
+    func markArticleAsRead(_ article: Article) {
+        let updatedArticle = article
+        updatedArticle.isRead = true
+        updatedArticle.lastRead = Date()
+        addOrUpdateArticle(updatedArticle)
     }
     
     // Toggle the bookmark status of an article
     func toggleBookmark(for article: Article) -> Article {
-        var updatedArticle = article
-        updatedArticle.isBookmarked = !(article.isBookmarked ?? false)
+        let updatedArticle = article
+        updatedArticle.isBookmarked = !(article.isBookmarked ?? false) // update bookmark status
+        updatedArticle.lastBookmarked = updatedArticle.isBookmarked ?? false ? Date() : nil // Set or clear lastBookmarked date
         addOrUpdateArticle(updatedArticle)
         return updatedArticle
     }
