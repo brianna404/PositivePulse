@@ -18,7 +18,7 @@ protocol APIBuilder {
 // MARK: - NewsAPI Enum
 // represent different API endpoints
 enum NewsAPI {
-    case getNews
+    case getNews(category: String)
     // more can be added here
 }
 
@@ -50,13 +50,13 @@ extension NewsAPI: APIBuilder {
             switch self {
             case .getNews:
                 // Return the specific path
-                return "/v2/everything"
+                return "/v2/top-headlines"
             }
         }
     // queryItems returns the query parameters for the API endpoint
         var queryItems: [URLQueryItem] {
             switch self {
-            case .getNews:
+            case .getNews(let category):
                 // Load the API key from the Config.plist file
                  guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
                        let config = NSDictionary(contentsOfFile: path),
@@ -68,11 +68,9 @@ extension NewsAPI: APIBuilder {
                 
                 // Return the query parameters
                 return [
-                    URLQueryItem(name: "from", value: date),
-                    URLQueryItem(name: "language", value: "de"),
-                    URLQueryItem(name: "sortBy", value: "popularity"),
-                    URLQueryItem(name: "domains", value: "tagesschau.de,n-tv.de"),
+                    URLQueryItem(name: "country", value: "de"),
                     URLQueryItem(name: "pageSize", value: "100"),
+                    URLQueryItem(name: "category", value: category),
                     URLQueryItem(name: "apiKey", value: apiKey)
                 ]
             }
