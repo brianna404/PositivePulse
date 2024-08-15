@@ -44,7 +44,6 @@ class ArticleStorage {
                let daysAgoDate = DateUtils.dateFromString(daysAgoString, fromFormat: "yyyy-MM-dd") else {
              return []
          }
-        print("Date 30 days ago: \(daysAgoDate)")
         
         // Filter the articles to return only those published within the last 30 days
         let filteredArticles = readArticles.filter { article in
