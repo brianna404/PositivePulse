@@ -76,7 +76,4 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         // Store the cancellable to be able to cancel it if needed
         self.cancellables.insert(cancellable)
     }
-//    func getFilterValue() -> String {
-//       return selectedCategory?.filterValue ?? "general"
-//    }
 }
