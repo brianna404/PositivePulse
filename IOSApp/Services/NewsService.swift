@@ -66,7 +66,10 @@ class NewsServiceImpl: NewsService {
         func filterPositiveNews(from articles: [Article]) -> [Article] {
             return articles.filter { article in
                 // Analyze the sentiment of the article title and filter if positive
-                if let title = article.title, let score = analyzeSentiment(for: title) {
+                if  let description = article.description, let score = analyzeSentiment(for: description) {
+                    return score > 0
+                }
+                if  let title = article.title, let score = analyzeSentiment(for: title) {
                     return score > 0
                 }
                 return false
