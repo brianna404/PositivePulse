@@ -24,8 +24,9 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     private var cancellables = Set<AnyCancellable>() // Set to keep track of Combine cancellables
     
     @Published private(set) var positiveArticles = [Article]() // Array to hold positive articles
+    @Published private(set) var searchResults = [Article]() // Array to hold result of search
     @Published private(set) var state: ResultState = .loading // Current state of the view model
-    @Published var selectedCategory: FilterCategory? = .general { // Selected filter categorie
+    @Published var selectedCategory: FilterCategory? = .general { // Selected filter category
         didSet {
                 refreshArticles()
             }
@@ -79,4 +80,30 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
 //    func getFilterValue() -> String {
 //       return selectedCategory?.filterValue ?? "general"
 //    }
+    
+    func searchArticles(with keyword: String) {
+        self.state = .loading
+        
+        // Begin a new search with the provided keyword
+        let cancellable = service.searchArticles(keyword: keyword)
+            .sink { res in
+                // Check the result of the publisher
+                switch res {
+                case .finished:
+                    self.state = .success(content: self.searchResults)
+                case .failure(let error):
+                    self.state = .failed(error: error)
+                }
+            // When the response is received, update the search results
+            } receiveValue: { response in
+                self.searchResults = response.articles
+            }
+        // Store the cancellable to allow for the network request to be cancelled later if needed
+        self.cancellables.insert(cancellable)
+    }
+    
+    // Function to clear the search results
+    func clearSearchResults() {
+        self.searchResults = []
+    }
 }

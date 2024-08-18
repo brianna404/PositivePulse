@@ -23,7 +23,7 @@ struct HomeView: View {
             case .failed(error: let error):
                 ErrorView(error: error) {
                     viewModel.getArticles(category: viewModel.selectedCategoryStrg) }
-            case .success(let content):
+            case .success:
                 VStack {
                     CategoryFilterView(viewModel: viewModel)
                         .shadow(color: .gray, radius: 2, y: 4)

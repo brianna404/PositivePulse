@@ -60,8 +60,9 @@ extension NewsAPI: APIBuilder {
                 // Load the API key from the Config.plist file
                  guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
                        let config = NSDictionary(contentsOfFile: path),
-                       let apiKey = config["API_KEY"] as? String,
-                       let date = DateUtils.dateAgo(daysAgo: 1)
+                       let apiKey = config["API_KEY"] as? String
+                       // only needed for /everything:
+                       // let date = DateUtils.dateAgo(daysAgo: 1)
                  else {
                      fatalError("Required parameters missing or invalid")
                  }
