@@ -12,12 +12,14 @@ struct SearchView: View {
     @State private var searchResults: [Article] = [] // Stores the search results
     @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl()) // ViewModel to handle the search logic
     @FocusState private var isFocused: Bool // Tracks whether the search bar is focused (keyboard is open)
+    @State private var searchExecuted = false // Tracks whether a search has been executed
 
     var body: some View {
         VStack {
             // Search Bar
             TextField("Suchen...", text: $searchText, onCommit: {
                 viewModel.searchArticles(with: searchText)
+                searchExecuted = true
             })
             .padding()
             .background(Color(.systemGray6))
@@ -31,7 +33,7 @@ struct SearchView: View {
                 List(viewModel.searchResults) { article in
                     ArticleView(article: article)
                 }
-            } else if !searchText.isEmpty {
+            } else if searchExecuted && !searchText.isEmpty {
                 // Display an info message when no results are found
                 Text("Keine Ergebnisse gefunden.")
                     .foregroundColor(.gray)
@@ -42,6 +44,7 @@ struct SearchView: View {
         .onChange(of: searchText) { newValue in
             if newValue.isEmpty {
                 viewModel.clearSearchResults()
+                searchExecuted = false
             }
         }
         .onTapGesture {

@@ -56,6 +56,9 @@ class NewsServiceImpl: NewsService {
         let tagger = NLTagger(tagSchemes: [.sentimentScore])
         tagger.string = text
 
+        // Set the language to German (de)
+        tagger.setLanguage(.german, range: text.startIndex..<text.endIndex)
+        
         // Get the sentiment score for the text
         let (sentiment, _) = tagger.tag(at: text.startIndex, unit: .paragraph, scheme: .sentimentScore)
         if let sentimentValue = sentiment?.rawValue, let score = Double(sentimentValue) {
@@ -69,7 +72,8 @@ class NewsServiceImpl: NewsService {
         return articles.filter { article in
             // Analyze the sentiment of the article title and filter if positive
             if let title = article.title, let score = analyzeSentiment(for: title) {
-                return score > 0
+                print("Title: \(title); score: \(score)")
+                return score > 0 // score from -1 (negative) to 1 (positive), -> 0 is neutral
             }
             return false
         }
@@ -89,7 +93,7 @@ class NewsServiceImpl: NewsService {
         // Create the URL components with the base URL and query items
         var components = URLComponents(string: "https://newsapi.org/v2/top-headlines")!
         components.queryItems = [
-          URLQueryItem(name: "country", value: "de"),
+          URLQueryItem(name: "language", value: "de"),
           URLQueryItem(name: "q", value: keyword),
           URLQueryItem(name: "apiKey", value: apiKey)
         ]
@@ -115,6 +119,16 @@ class NewsServiceImpl: NewsService {
                   // Decode the JSON response into a NewsResponse object
                   return Just(data)
                       .decode(type: NewsResponse.self, decoder: jsonDecoder)
+                      .map { response in
+                        // Filter the articles to include only those with positive sentiment
+                        let positiveArticles = response.articles.filter { article in
+                            if let title = article.title, let score = self.analyzeSentiment(for: title) {
+                                return score > 0 // score from -1 (negative) to 1 (positive), -> 0 is neutral
+                            }
+                            return false
+                        }
+                        return NewsResponse(status: response.status, totalResults: positiveArticles.count, articles: positiveArticles)
+                        }
                       .mapError { _ in APIError.decodingError }
                       .eraseToAnyPublisher()
               } else {

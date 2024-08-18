@@ -69,7 +69,7 @@ extension NewsAPI: APIBuilder {
                 
                 // Return the query parameters
                 return [
-                    URLQueryItem(name: "country", value: "de"),
+                    URLQueryItem(name: "language", value: "de"),
                     URLQueryItem(name: "pageSize", value: "100"),
                     URLQueryItem(name: "category", value: category),
                     URLQueryItem(name: "apiKey", value: apiKey)
