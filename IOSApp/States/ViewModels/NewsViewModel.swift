@@ -81,24 +81,24 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
 //       return selectedCategory?.filterValue ?? "general"
 //    }
     
-    func searchArticles(with keyword: String) {
+    func searchArticles(with keyword: String, in category: String) {
         self.state = .loading
         
-        // Begin a new search with the provided keyword
-        let cancellable = service.searchArticles(keyword: keyword)
+        // new search with keyword and category
+        let cancellable = service.searchArticles(keyword: keyword, category: category)
             .sink { res in
-                // Check the result of the publisher
+                // Check result of publisher
                 switch res {
                 case .finished:
                     self.state = .success(content: self.searchResults)
                 case .failure(let error):
                     self.state = .failed(error: error)
                 }
-            // When the response is received, update the search results
+            // When response is received, update search results
             } receiveValue: { response in
                 self.searchResults = response.articles
             }
-        // Store the cancellable to allow for the network request to be cancelled later if needed
+        // Store the cancellable to allow for the network request to be cancelled later
         self.cancellables.insert(cancellable)
     }
     

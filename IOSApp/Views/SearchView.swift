@@ -7,6 +7,36 @@
 
 import SwiftUI
 
+struct CategoryBoxView: View {
+    @ObservedObject var viewModel: NewsViewModelImpl
+    
+    // create two columns with flexible size for grid layout
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    
+    var body: some View {
+        LazyVGrid(columns: columns, spacing: 20) { // vertical grid
+            ForEach(FilterCategory.allCases, id: \.self) { category in // loop through all categories
+                Button(action: {
+                    // update selected category when box is clicked
+                    viewModel.selectedCategoryStrg = category.filterValue
+                    viewModel.selectedCategory = category
+                }) {
+                    // display category name on box/button
+                    Text(category.rawValue)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, minHeight: 100)
+                        .background(viewModel.selectedCategory == category ? Color.blue : Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(15)
+                }
+            }
+        }
+        .padding()
+    }
+}
 struct SearchView: View {
     @State private var searchText = "" // Holds the current search text
     @State private var searchResults: [Article] = [] // Stores the search results
@@ -18,7 +48,7 @@ struct SearchView: View {
         VStack {
             // Search Bar
             TextField("Suchen...", text: $searchText, onCommit: {
-                viewModel.searchArticles(with: searchText)
+                viewModel.searchArticles(with: searchText, in: viewModel.selectedCategoryStrg)
                 searchExecuted = true
             })
             .padding()
@@ -26,7 +56,22 @@ struct SearchView: View {
             .cornerRadius(10)
             .padding(.horizontal)
             .focused($isFocused) // Bind the focus state to the search bar
+            
+            // Show the selected category after search is committed
+            if searchExecuted {
+                Text("in \(viewModel.selectedCategory?.rawValue ?? "Allgemein")")
+                    .foregroundColor(.gray)
+                    .font(.footnote) // Make the font smaller
+                    .padding(.top, 3)
+                    .frame(alignment: .leading)
+            }
 
+            // Category Filter Boxes
+            if !searchExecuted {
+                CategoryBoxView(viewModel: viewModel)
+                    .padding(.top, 16)
+            }
+            
             // Search Results or No Results Info
             if !searchResults.isEmpty {
                 // Display the search results
