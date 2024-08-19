@@ -41,8 +41,8 @@ struct SearchView: View {
             }
             Spacer()
         }
-        .onChange(of: searchText) { newValue in
-            if newValue.isEmpty {
+        .onChange(of: searchText) {
+            if searchText.isEmpty {
                 viewModel.clearSearchResults()
                 searchExecuted = false
             }
