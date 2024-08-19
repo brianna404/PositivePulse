@@ -13,6 +13,7 @@ import NaturalLanguage
 protocol NewsService {
     func request(from endpoint: NewsAPI) -> AnyPublisher<NewsResponse, APIError>
     func filterPositiveNews(from articles: [Article]) -> [Article]
+    func searchArticles(keyword: String) -> AnyPublisher<NewsResponse, APIError>
 }
 
 // MARK: - NewsServiceImpl Class
@@ -49,27 +50,117 @@ class NewsServiceImpl: NewsService {
             }
             .eraseToAnyPublisher() // erase the type for external consumption
     }
+    
+    // define negative keywords for manual filtering 
+    let negativeKeywords = [
+        "katastrophe", "unglück", "unfall", "krise", "mord", "terror", "tod", "leiche",
+        "krieg", "verlust", "tragödie", "gewalt", "missbrauch", "verbrechen", "attacke", "angriff", "gefahr",
+        "brand", "feuer", "erdbeben", "explosion", "flut", "seuche", "virus", "pandemie", "dürre",
+        "hungersnot", "krankheit", "epidemie", "entführung", "betrug", "skandal",
+        "verletzung", "misshandlung", "folter", "diskriminierung", "rassismus",
+        "kriminalität", "sterben", "ermorden", "verletzen", "töt", // Anfangssilbe um alles mit töt-... auszuschließen
+        "explodieren", "verunglücken", "zerstören", "betrügen", "missbrauchen",
+        "entführen", "ertrinken", "abstürzen", "attackieren", "bombardieren", "erschießen",
+        "vergiften", "überfallen", "ausrotten",
+        "diskriminieren", "tödlich", "schrecklich", "tragisch", "katastrophal", "gewaltsam", "bitter",
+        "grausam", "gefährlich", "verheerend", "desaströs", "brutal", "böse",
+        "skandalös", "fatal", "unmenschlich", "unheilvoll", "elend", "vernichtend",
+        "hoffnungslos", "mörderisch"
+    ]
+    
     // Function to perform sentiment analysis on a given text
-        func analyzeSentiment(for text: String) -> Double? {
-            let tagger = NLTagger(tagSchemes: [.sentimentScore])
-            tagger.string = text
+    func analyzeSentiment(for text: String) -> Double? {
+        let tagger = NLTagger(tagSchemes: [.sentimentScore])
+        tagger.string = text
 
-            // Get the sentiment score for the text
-            let (sentiment, _) = tagger.tag(at: text.startIndex, unit: .paragraph, scheme: .sentimentScore)
-            if let sentimentValue = sentiment?.rawValue, let score = Double(sentimentValue) {
-                return score
-            }
-            return nil
-        }
+        // Set the language to German
+        tagger.setLanguage(.german, range: text.startIndex..<text.endIndex)
+        
+        // Get the sentiment score for the text
+        let (sentiment, _) = tagger.tag(at: text.startIndex, unit: .paragraph, scheme: .sentimentScore)
+        var score = sentiment.flatMap { Double($0.rawValue) } ?? 0.0 // convert sentiment string to double if possible, else use 0.0
 
-        // Function to filter positive news from a list of articles
-        func filterPositiveNews(from articles: [Article]) -> [Article] {
-            return articles.filter { article in
-                // Analyze the sentiment of the article title and filter if positive
-                if let title = article.title, let score = analyzeSentiment(for: title) {
-                    return score > 0
-                }
-                return false
+        let lowercasedText = text.lowercased()
+        
+        // check if negative keyword is in text
+        for keyword in negativeKeywords {
+            if lowercasedText.contains(keyword) {
+                // if found set score to a negative value
+                score = min(score, -0.5) // if bigger than -0,5 set score to -0,5
             }
         }
+        
+        return score
+    }
+
+    // Function to filter positive news from a list of articles
+    func filterPositiveNews(from articles: [Article]) -> [Article] {
+        return articles.filter { article in
+            // Analyze the sentiment of the article title and filter if positive
+            if let title = article.title, let score = analyzeSentiment(for: title) {
+                return score > 0 // score from -1 (negative) to 1 (positive), -> 0 is neutral
+            }
+            return false
+        }
+    }
+    
+    // Function to search articles by keyword
+    func searchArticles(keyword: String) -> AnyPublisher<NewsResponse, APIError> {
+        
+        // Load the API key from the Config.plist file
+        guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+             let config = NSDictionary(contentsOfFile: path),
+             let apiKey = config["API_KEY"] as? String else {
+           return Fail(error: APIError.errorCode(400)) // Return an error if the API key is missing
+               .eraseToAnyPublisher()
+        }
+        
+        // Create the URL components with the base URL and query items
+        var components = URLComponents(string: "https://newsapi.org/v2/top-headlines")!
+        components.queryItems = [
+          URLQueryItem(name: "language", value: "de"),
+          URLQueryItem(name: "q", value: keyword),
+          URLQueryItem(name: "apiKey", value: apiKey)
+        ]
+        
+        // Get the complete URL from the components
+        let url = components.url!
+        // Create a URL request with the generated URL
+        let request = URLRequest(url: url)
+
+        // Perform a network request using URLSession
+        return URLSession.shared.dataTaskPublisher(for: request)
+          .receive(on: DispatchQueue.main) // Ensure the network response is received on the main thread
+          .mapError { _ in APIError.unkown } // map any error to a generic unknown APIError
+          .flatMap { data, response -> AnyPublisher<NewsResponse, APIError> in
+              // ensure the response is an HTTPURLResponse
+              guard let response = response as? HTTPURLResponse else {
+                  return Fail(error: APIError.unkown).eraseToAnyPublisher()
+              }
+              // Check if the status code indicates success (2xx)
+              if (200...299).contains(response.statusCode) {
+                  let jsonDecoder = JSONDecoder()
+                  jsonDecoder.dateDecodingStrategy = .iso8601
+                  // Decode the JSON response into a NewsResponse object
+                  return Just(data)
+                      .decode(type: NewsResponse.self, decoder: jsonDecoder)
+                      .map { response in
+                        // Filter the articles to include only those with positive sentiment
+                        let positiveArticles = response.articles.filter { article in
+                            if let title = article.title, let score = self.analyzeSentiment(for: title) {
+                                return score > 0 // score from -1 (negative) to 1 (positive), -> 0 is neutral
+                            }
+                            return false
+                        }
+                        return NewsResponse(status: response.status, totalResults: positiveArticles.count, articles: positiveArticles)
+                        }
+                      .mapError { _ in APIError.decodingError }
+                      .eraseToAnyPublisher()
+              } else {
+                  // Handle non-success HTTP status codes by returning a custom error
+                  return Fail(error: APIError.errorCode(response.statusCode)).eraseToAnyPublisher()
+              }
+          }
+          .eraseToAnyPublisher() // Erase the type information for external consumption
+      }
 }

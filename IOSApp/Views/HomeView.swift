@@ -10,27 +10,34 @@ import SwiftUI
 struct HomeView: View {
     
     @StateObject
-    var viewModel = NewsViewModelImpl(service:  NewsServiceImpl())
+    var viewModel = NewsViewModelImpl(service: NewsServiceImpl())
     
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .loading:
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(2)
-                    .padding()
-            case .failed(error: let error):
-                ErrorView(error: error, handler: viewModel.getArticles)
-            case .success:
-                List(viewModel.positiveArticles) { article in
-                    ArticleView(article: article)
+        NavigationStack {
+            Group {
+                switch viewModel.state {
+                case .loading:
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(2)
+                        .padding()
+                case .failed(error: let error):
+                    ErrorView(error: error) {
+                        viewModel.getArticles(category: viewModel.selectedCategoryStrg) }
+                case .success(let content):
+                    VStack {
+                        CategoryFilterView(viewModel: viewModel)
+                            .shadow(color: .gray, radius: 2, y: 4)
+                            .padding(.top, 20)
+                        ArticleListView(articles: viewModel.positiveArticles)
+                        .refreshable {
+                                viewModel.loadNewArticles()
+                            }
+                    }
                 }
             }
-        }
-        .onAppear {
-            if !viewModel.hasFetched {
-                viewModel.getArticles()
+            .onAppear {
+                viewModel.getArticles(category: viewModel.selectedCategoryStrg)
             }
         }
     }
