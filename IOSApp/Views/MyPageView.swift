@@ -27,19 +27,37 @@ struct MyPageView: View {
                 .padding(.horizontal, 16)
                 
                 // Tab Views
-                if selectedTab == 0 {
-                    ArticleListView(articles: bookmarkedArticles)
-                } else {
-                    ArticleListView(articles: readArticles)
+                if selectedTab == 0 { // Bookmarked articles
+                    if bookmarkedArticles.isEmpty {
+                        Spacer() // display text in the middle
+                        Text("Sobald du einen Artikel mit einem Lesezeichen versiehst, wird er hier angezeigt.")
+                            .padding()
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.gray)
+                        Spacer() // display text in the middle
+                    } else {
+                        ArticleListView(articles: bookmarkedArticles)
+                    }
+                } else { // read articles
+                    if readArticles.isEmpty {
+                        Spacer() // display text in the middle
+                        Text("Sobald du einen Artikel gelesen hast, wird er hier angezeigt.")
+                            .padding()
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.gray)
+                        Spacer() // display text in the middle
+                    } else {
+                        ArticleListView(articles: readArticles)
+                    }
                 }
-            }
-            // refresh articles when displaying myPage
-            .onAppear {
-                refreshArticles()
-            }
-            // refresh articles when switching tabs
-            .onChange(of: selectedTab){
-                refreshArticles()
+                // refresh articles when displaying myPage
+                    .onAppear {
+                        refreshArticles()
+                    }
+                // refresh articles when switching tabs
+                    .onChange(of: selectedTab){
+                        refreshArticles()   
+                    }
             }
         }
     }
