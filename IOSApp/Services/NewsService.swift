@@ -51,20 +51,46 @@ class NewsServiceImpl: NewsService {
             .eraseToAnyPublisher() // erase the type for external consumption
     }
     
+    // define negative keywords for manual filtering 
+    let negativeKeywords = [
+        "katastrophe", "unglück", "unfall", "krise", "mord", "terror", "tod", "leiche",
+        "krieg", "verlust", "tragödie", "gewalt", "missbrauch", "verbrechen", "attacke", "angriff", "gefahr",
+        "brand", "feuer", "erdbeben", "explosion", "flut", "seuche", "virus", "pandemie", "dürre",
+        "hungersnot", "krankheit", "epidemie", "entführung", "betrug", "skandal",
+        "verletzung", "misshandlung", "folter", "diskriminierung", "rassismus",
+        "kriminalität", "sterben", "ermorden", "verletzen", "töt", // Anfangssilbe um alles mit töt-... auszuschließen
+        "explodieren", "verunglücken", "zerstören", "betrügen", "missbrauchen",
+        "entführen", "ertrinken", "abstürzen", "attackieren", "bombardieren", "erschießen",
+        "vergiften", "überfallen", "ausrotten",
+        "diskriminieren", "tödlich", "schrecklich", "tragisch", "katastrophal", "gewaltsam", "bitter",
+        "grausam", "gefährlich", "verheerend", "desaströs", "brutal", "böse",
+        "skandalös", "fatal", "unmenschlich", "unheilvoll", "elend", "vernichtend",
+        "hoffnungslos", "mörderisch"
+    ]
+    
     // Function to perform sentiment analysis on a given text
     func analyzeSentiment(for text: String) -> Double? {
         let tagger = NLTagger(tagSchemes: [.sentimentScore])
         tagger.string = text
 
-        // Set the language to German (de)
+        // Set the language to German
         tagger.setLanguage(.german, range: text.startIndex..<text.endIndex)
         
         // Get the sentiment score for the text
         let (sentiment, _) = tagger.tag(at: text.startIndex, unit: .paragraph, scheme: .sentimentScore)
-        if let sentimentValue = sentiment?.rawValue, let score = Double(sentimentValue) {
-            return score
+        var score = sentiment.flatMap { Double($0.rawValue) } ?? 0.0 // convert sentiment string to double if possible, else use 0.0
+
+        let lowercasedText = text.lowercased()
+        
+        // check if negative keyword is in text
+        for keyword in negativeKeywords {
+            if lowercasedText.contains(keyword) {
+                // if found set score to a negative value
+                score = min(score, -0.5) // if bigger than -0,5 set score to -0,5
+            }
         }
-        return nil
+        
+        return score
     }
 
     // Function to filter positive news from a list of articles
@@ -72,7 +98,6 @@ class NewsServiceImpl: NewsService {
         return articles.filter { article in
             // Analyze the sentiment of the article title and filter if positive
             if let title = article.title, let score = analyzeSentiment(for: title) {
-                print("Title: \(title); score: \(score)")
                 return score > 0 // score from -1 (negative) to 1 (positive), -> 0 is neutral
             }
             return false
