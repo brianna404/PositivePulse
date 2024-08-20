@@ -28,7 +28,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     @Published private(set) var state: ResultState = .loading // Current state of the view model
     @Published var selectedCategory: FilterCategory? = .general { // Selected filter category
         didSet {
-                refreshArticles()
+                loadNewArticles()
             }
     }
     @Published var selectedCategoryStrg = "general"
@@ -40,7 +40,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     }
     
 // MARK: - Methods
-    func refreshArticles() {
+    func loadNewArticles() {
         // setting hasFetched to false for loading articles in new api call
         self.hasFetched = false
         self.getArticles(category: self.selectedCategoryStrg)

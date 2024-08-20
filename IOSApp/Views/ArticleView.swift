@@ -15,7 +15,7 @@ struct ArticleView: View {
     @State private var isBookmarked: Bool
     
     // place to store bookmarked articles
-    private let articleStorage = ArticleStorage()
+    @ObservedObject private var articleStorage = ArticleStorage()
     
     // initialize
     init(article: Article) {
@@ -51,14 +51,6 @@ struct ArticleView: View {
                 Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
                     .foregroundStyle(Color.gray)
                     .font(.system(size: 11))
-            }
-        }
-        .onTapGesture {
-            // Open URL when the article is clicked on
-            if let urlString = article.url, let url = URL(string: urlString) {
-                UIApplication.shared.open(url)
-                // Mark article as read
-                articleStorage.markArticleAsRead(article)
             }
         }
     }

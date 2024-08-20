@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ArticleStorage {
+class ArticleStorage: ObservableObject {
     // define keys for sets
     private let readArticlesKey = "readArticles"
     private let bookmarkedArticlesKey = "bookmarkedArticles"
