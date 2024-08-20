@@ -16,6 +16,7 @@ struct CategoryBoxView: View {
         GridItem(.flexible())
     ]
     
+    // Category grid boxes
     var body: some View {
         LazyVGrid(columns: columns, spacing: 20) { // vertical grid
             ForEach(FilterCategory.allCases, id: \.self) { category in // loop through all categories
@@ -37,6 +38,7 @@ struct CategoryBoxView: View {
         .padding()
     }
 }
+
 struct SearchView: View {
     @State private var searchText = "" // Holds the current search text
     @State private var searchResults: [Article] = [] // Stores the search results
