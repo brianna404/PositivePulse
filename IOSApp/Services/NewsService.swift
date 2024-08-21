@@ -13,7 +13,7 @@ import NaturalLanguage
 protocol NewsService {
     func request(from endpoint: NewsAPI) -> AnyPublisher<NewsResponse, APIError>
     func filterPositiveNews(from articles: [Article]) -> [Article]
-    func searchArticles(keyword: String) -> AnyPublisher<NewsResponse, APIError>
+    func searchArticles(keyword: String, category: String) -> AnyPublisher<NewsResponse, APIError>
 }
 
 // MARK: - NewsServiceImpl Class
@@ -104,8 +104,8 @@ class NewsServiceImpl: NewsService {
         }
     }
     
-    // Function to search articles by keyword
-    func searchArticles(keyword: String) -> AnyPublisher<NewsResponse, APIError> {
+    // Function to search articles by keyword and in category
+    func searchArticles(keyword: String, category: String) -> AnyPublisher<NewsResponse, APIError> {
         
         // Load the API key from the Config.plist file
         guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
@@ -120,6 +120,7 @@ class NewsServiceImpl: NewsService {
         components.queryItems = [
           URLQueryItem(name: "language", value: "de"),
           URLQueryItem(name: "q", value: keyword),
+          URLQueryItem(name: "category", value: category),
           URLQueryItem(name: "apiKey", value: apiKey)
         ]
         

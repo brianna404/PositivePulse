@@ -29,9 +29,9 @@
 		25C5DAE82C736518009B2029 /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAE72C736518009B2029 /* ArticleListView.swift */; };
 		25C5DAEA2C74761A009B2029 /* HeadlineArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAE92C74761A009B2029 /* HeadlineArticleView.swift */; };
 		25C5DAEC2C749E5C009B2029 /* HeadlineTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAEB2C749E5C009B2029 /* HeadlineTabView.swift */; };
+		263405212C73992E0073D487 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 263405202C73992E0073D487 /* URLImage */; };
+		263405232C73992E0073D487 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 263405222C73992E0073D487 /* URLImageStore */; };
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
-		26E918802C6A4E3F0010AC76 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 26E9187F2C6A4E3F0010AC76 /* URLImage */; };
-		26E918822C6A4E3F0010AC76 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 26E918812C6A4E3F0010AC76 /* URLImageStore */; };
 		26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */; };
 		26F1FBCF2C63C1E800D4CF54 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26F1FBCE2C63C1E800D4CF54 /* Config.plist */; };
 		26F1FBE02C69612700D4CF54 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBDF2C69612700D4CF54 /* ContentView.swift */; };
@@ -97,8 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26E918822C6A4E3F0010AC76 /* URLImageStore in Frameworks */,
-				26E918802C6A4E3F0010AC76 /* URLImage in Frameworks */,
+				263405272C7399AD0073D487 /* URLImageStore in Frameworks */,
+				263405252C7399AD0073D487 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,8 +278,8 @@
 			);
 			name = IOSApp;
 			packageProductDependencies = (
-				26E9187F2C6A4E3F0010AC76 /* URLImage */,
-				26E918812C6A4E3F0010AC76 /* URLImageStore */,
+				263405242C7399AD0073D487 /* URLImage */,
+				263405262C7399AD0073D487 /* URLImageStore */,
 			);
 			productName = IOSApp;
 			productReference = 257810BA2C2EEA13001C7487 /* IOSApp.app */;
@@ -768,12 +768,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		26E9187F2C6A4E3F0010AC76 /* URLImage */ = {
+		263405202C73992E0073D487 /* URLImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
 		};
-		26E918812C6A4E3F0010AC76 /* URLImageStore */ = {
+		263405262C7399AD0073D487 /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImageStore;
