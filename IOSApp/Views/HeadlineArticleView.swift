@@ -1,16 +1,17 @@
 //
-//  ArticleView.swift
+//  HeadlineArticleView.swift
 //  IOSApp
 //
-//  Created by Michelle Köhler on 28.07.24.
+//  Created by Michelle Köhler on 20.08.24.
 //
 
 import SwiftUI
 import URLImage
 
-struct ArticleView: View {
+struct HeadlineArticleView: View {
     
     let article: Article
+    
     // track bookmarked status
     @State private var isBookmarked: Bool
     
@@ -24,12 +25,8 @@ struct ArticleView: View {
        }
     
     var body: some View {
+        
         // vertical stack to display article details
-        HStack {
-            // load image
-            ArticleImageView(imgUrl: article.urlToImage)
-                
-            // display information
             VStack(alignment: .leading, spacing: 4) {
                 Text(article.author ?? "")
                     .foregroundStyle(Color.gray)
@@ -37,7 +34,9 @@ struct ArticleView: View {
                 HStack {
                     Text(article.title ?? "")
                         .foregroundStyle(Color.black)
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.system(size: 22, weight: .semibold))
+                        .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
+                        .multilineTextAlignment(.leading)
                     Spacer()
                     Button(action: {
                         // Call the toggleBookmark function from ArticleStorage
@@ -46,47 +45,16 @@ struct ArticleView: View {
                     }) {
                         Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                     }
+                    .frame(width: 50, height: 50)
+                    .foregroundStyle(Color.black)
                     .buttonStyle(PlainButtonStyle()) // otherwise Bookmark icon not clickable
                 }
+                Text(article.description ?? "")
+                    .foregroundStyle(Color.black)
                 Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
                     .foregroundStyle(Color.gray)
-                    .font(.system(size: 11))
+                    .font(.system(size: 14))
             }
-        }
-    }
-}
-    
-// image loading logic -> separated to prevent image from reloading when bookmark icon is clicked
-struct ArticleImageView: View {
-    let imgUrl: String?
-    
-    var body: some View {
-        if let imgUrl = imgUrl, let url = URL(string: imgUrl) {
-            URLImage(url) {
-                // view displayed before download starts
-                EmptyView()
-            } inProgress: { progress in
-                // Display progress
-                Text("Loading...")
-            } failure: { error, retry in
-                // if error accured
-                PlaceholderImageView()
-            } content: { image in
-                // Downloaded image
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-            }
-        }
-    }
-}
-
-// placeholder view for the article image if image loading fails
-struct PlaceholderImageView: View {
-    var body: some View {
-        Image(systemName: "photo.fill") // Placeholder image
-            .foregroundStyle(Color.white)
-            .background(Color.gray) // Background color for placeholder
     }
 }
 

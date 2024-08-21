@@ -28,11 +28,25 @@ struct HomeView: View {
                     VStack {
                         CategoryFilterView(viewModel: viewModel)
                             .shadow(color: .gray, radius: 2, y: 4)
-                            .padding(.top, 20)
-                        ArticleListView(articles: viewModel.positiveArticles)
-                        .refreshable {
-                                viewModel.loadNewArticles()
+                        List {
+                            Section {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(LinearGradient(gradient: Gradient(colors: [.white, ColorScheme.backgroundColor]), startPoint: .top, endPoint: .bottom))
+                                        .opacity(0.7)
+                                    HeadlineTabView(articles: selectFirstThreeArticles(from: viewModel.positiveArticles))
+                                        .padding(EdgeInsets(top: 5, leading: 7, bottom: 10, trailing: 7))
+                                }
                             }
+                            .padding(EdgeInsets(top: -10, leading: -10, bottom: -10, trailing: -10))
+                            Section {
+                                ArticleListView(articles: dropFirstThree(from: viewModel.positiveArticles))
+                            }
+                        }
+                        .padding(EdgeInsets(top: 0, leading: -15, bottom: 0, trailing: -15))
+                        .refreshable {
+                            viewModel.loadNewArticles()
+                        }
                     }
                 }
             }
@@ -41,6 +55,13 @@ struct HomeView: View {
             }
         }
     }
+}
+
+func selectFirstThreeArticles(from articles: [Article]) -> [Article] {
+    return Array(articles.prefix(3))
+}
+func dropFirstThree(from articles: [Article]) -> [Article]  {
+    return Array(articles.dropFirst(3))
 }
     
 #Preview {

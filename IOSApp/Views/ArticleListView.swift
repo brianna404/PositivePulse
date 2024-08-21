@@ -15,7 +15,7 @@ struct ArticleListView: View {
     var viewModel = NewsViewModelImpl(service: NewsServiceImpl())
     
     var body: some View {
-        List (articles) { article in
+        ForEach (articles) { article in
             if let urlString = article.url, let url = URL(string: urlString) {
                 NavigationLink(
                     destination: ArticleWebView(url: url, article: article) // navigate to URL WebView
@@ -27,6 +27,5 @@ struct ArticleListView: View {
                 ArticleView(article: article)
             }
         }
-        .padding(EdgeInsets(top: 0, leading: -20, bottom: 0, trailing: -20))
     }
 }
