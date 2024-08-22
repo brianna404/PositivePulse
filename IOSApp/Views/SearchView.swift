@@ -45,66 +45,94 @@ struct SearchView: View {
     @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl()) // ViewModel to handle the search logic
     @FocusState private var isFocused: Bool // Tracks whether the search bar is focused (keyboard is open)
     @State private var searchExecuted = false // Tracks whether a search has been executed
-
+    @State private var keyboardHeight: CGFloat = 0 // Tracks the height of the keyboard
+    
     var body: some View {
-        VStack {
-            // Search Bar
-            TextField("Suchen...", text: $searchText, onCommit: {
-                viewModel.searchArticles(with: searchText, in: viewModel.selectedCategoryStrg)
-                searchExecuted = true
-            })
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(10)
-            .padding(.horizontal)
-            .focused($isFocused) // Bind the focus state to the search bar
-            
-            // Show the selected category after search is committed
-            if searchExecuted {
-                Text("in \(viewModel.selectedCategory?.rawValue ?? "Allgemein")")
-                    .foregroundColor(.gray)
-                    .font(.footnote) // Make the font smaller
-                    .padding(.top, 3)
-                    .frame(alignment: .leading)
-            }
-
-            // Category Filter Boxes
-            if !searchExecuted {
-                CategoryBoxView(viewModel: viewModel)
-                    .padding(.top, 16)
-            }
-            
-            // Search Results or No Results Info
-            if !searchResults.isEmpty {
-                // Display the search results
-                List(viewModel.searchResults) { article in
-                    ArticleView(article: article)
+        GeometryReader { geometry in
+            VStack {
+                // Search Bar
+                TextField("Suchen...", text: $searchText, onCommit: {
+                    if !searchText.isEmpty { // only execute if searchText is not empty
+                        viewModel.searchArticles(with: searchText, in: viewModel.selectedCategoryStrg)
+                        searchExecuted = true
+                    }
+                })
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(10)
+                .padding(.horizontal)
+                .focused($isFocused) // Bind the focus state to the search bar
+                
+                // Show the selected category after search is committed
+                if searchExecuted && !searchText.isEmpty {
+                    Text("in \(viewModel.selectedCategory?.rawValue ?? "Allgemein")")
+                        .foregroundColor(.gray)
+                        .font(.footnote) // Make the font smaller
+                        .padding(.top, 3)
+                        .frame(alignment: .leading)
                 }
-            } else if searchExecuted && !searchText.isEmpty {
-                // Display an info message when no results are found
-                Text("Keine Ergebnisse gefunden.")
-                    .foregroundColor(.gray)
-                    .padding()
+                
+                // Category Filter Boxes
+                if !searchExecuted || searchText.isEmpty {
+                    CategoryBoxView(viewModel: viewModel)
+                        .padding(.top, 16)
+                }
+                
+                // Search Results or No Results Info
+                if searchExecuted && !searchResults.isEmpty && !searchText.isEmpty {
+                    // Display the search results
+                    List(viewModel.searchResults) { article in
+                        ArticleView(article: article)
+                    }
+                } else if searchExecuted && searchExecuted && !searchText.isEmpty {
+                    // Display an info message when no results are found
+                    Text("Keine Ergebnisse gefunden.")
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                Spacer()
             }
-            Spacer()
-        }
-        .onChange(of: searchText) {
-            if searchText.isEmpty {
-                viewModel.clearSearchResults()
-                searchExecuted = false
+            
+            // reset search view
+            .onChange(of: searchText) {
+                if searchText.isEmpty {
+                    viewModel.clearSearchResults()
+                    searchExecuted = false
+                }
             }
-        }
-        .onTapGesture {
-            isFocused = false // close keyboard when clicking outside
-        }
-        .onReceive(viewModel.$searchResults) { results in
+            
+            // close keyboard when clicking outside
+            .onTapGesture {
+                isFocused = false
+            }
+            
             // Update local searchResults when viewModel updates
-            self.searchResults = results
-            print("Search results updated: \(results.count) articles found.")
+            .onReceive(viewModel.$searchResults) { results in
+                self.searchResults = results
+            }
+            
+            // handle display of keyboard
+            .onAppear {
+                // when keyboard is about to be shown
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                    // if keyboard is shown get its height
+                    if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                        keyboardHeight = keyboardFrame.height - geometry.safeAreaInsets.bottom
+                    }
+                }
+                
+                // when keyboard is about to be hidden
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                    // set keyboard height to 0
+                    keyboardHeight = 0
+                }
+            }
+            .padding(.bottom, keyboardHeight) // Adjust the view's bottom padding by the keyboard height
+            .animation(.easeOut(duration: 0.16), value: keyboardHeight) // Smooth animation when the keyboard appears/disappears
+            }
         }
     }
-}
-
-#Preview {
-    SearchView()
-}
+    
+    #Preview {
+        SearchView()
+    }
