@@ -29,8 +29,7 @@
 		25C5DAE82C736518009B2029 /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAE72C736518009B2029 /* ArticleListView.swift */; };
 		25C5DAEA2C74761A009B2029 /* HeadlineArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAE92C74761A009B2029 /* HeadlineArticleView.swift */; };
 		25C5DAEC2C749E5C009B2029 /* HeadlineTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAEB2C749E5C009B2029 /* HeadlineTabView.swift */; };
-		263405212C73992E0073D487 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 263405202C73992E0073D487 /* URLImage */; };
-		263405232C73992E0073D487 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 263405222C73992E0073D487 /* URLImageStore */; };
+		2634052B2C774BE30073D487 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 263405262C7399AD0073D487 /* URLImageStore */; };
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
 		26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */; };
 		26F1FBCF2C63C1E800D4CF54 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26F1FBCE2C63C1E800D4CF54 /* Config.plist */; };
@@ -97,8 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				263405272C7399AD0073D487 /* URLImageStore in Frameworks */,
-				263405252C7399AD0073D487 /* URLImage in Frameworks */,
+				2634052B2C774BE30073D487 /* URLImageStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,7 +276,6 @@
 			);
 			name = IOSApp;
 			packageProductDependencies = (
-				263405242C7399AD0073D487 /* URLImage */,
 				263405262C7399AD0073D487 /* URLImageStore */,
 			);
 			productName = IOSApp;
@@ -587,7 +584,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IOSApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 6K9FZ3XPMZ;
+				DEVELOPMENT_TEAM = BPRQ3Q6R33;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -618,7 +615,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IOSApp/Preview Content\"";
-				DEVELOPMENT_TEAM = 6K9FZ3XPMZ;
+				DEVELOPMENT_TEAM = BPRQ3Q6R33;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -768,11 +765,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		263405202C73992E0073D487 /* URLImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
-		};
 		263405262C7399AD0073D487 /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
