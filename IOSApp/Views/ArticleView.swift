@@ -14,7 +14,7 @@ struct ArticleView: View {
     // track bookmarked status
     @State private var isBookmarked: Bool
     
-    // place to store bookmarked articles
+    // track bookmarked articles
     @ObservedObject private var articleStorage = ArticleStorage()
     
     // initialize
@@ -39,8 +39,9 @@ struct ArticleView: View {
                         .foregroundStyle(Color.black)
                         .font(.system(size: 18, weight: .semibold))
                     Spacer()
+                    // Bookmark button
                     Button(action: {
-                        // Call the toggleBookmark function from ArticleStorage
+                        // toggle bookmark status
                         let updatedArticle = articleStorage.toggleBookmark(for: article)
                         isBookmarked = updatedArticle.isBookmarked ?? false
                     }) {
@@ -52,6 +53,10 @@ struct ArticleView: View {
                     .foregroundStyle(Color.gray)
                     .font(.system(size: 11))
             }
+        }
+        .onAppear {
+            // Ensure that the bookmark status is up-to-date when the view appears
+            isBookmarked = articleStorage.bookmarkedArticles.contains(article)
         }
     }
 }

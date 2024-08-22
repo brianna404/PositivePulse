@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HeadlineTabView: View {
+    @ObservedObject var articleStorage = ArticleStorage() // to track bookmarked status of articles
     
     let articles: [Article]
     

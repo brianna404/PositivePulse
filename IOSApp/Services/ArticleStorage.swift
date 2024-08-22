@@ -12,6 +12,13 @@ class ArticleStorage: ObservableObject {
     private let readArticlesKey = "readArticles"
     private let bookmarkedArticlesKey = "bookmarkedArticles"
     
+    // published bookmarked articles for bug fixing 
+    @Published private(set) var bookmarkedArticles: Set<Article> = []
+
+    init() {
+        self.bookmarkedArticles = fetchBookmarkedArticles()
+    }
+    
     // Function to save articles
     func saveArticles(articles: Set<Article>, forKey key: String) {
         if let data = try? JSONEncoder().encode(Array(articles)) {
