@@ -22,6 +22,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     private let service: NewsService // Service responsible for fetching news
     private(set) var articles = [Article] () // Array to hold fetched articles
     private var cancellables = Set<AnyCancellable>() // Set to keep track of Combine cancellables
+    private var isInitialLoad = true // safes if articles loaded for first time
     
     @Published private(set) var positiveArticles = [Article]() // Array to hold positive articles
     @Published private(set) var searchResults = [Article]() // Array to hold result of search
@@ -52,7 +53,10 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         
         self.articles = []
         self.positiveArticles = []
-        self.state = .loading // Set state to loading
+        if isInitialLoad {
+            self.state = .loading // Set state to loading
+            isInitialLoad = false
+        }
 
         // Make a network request using the NewsService
         let cancellable = service
@@ -77,9 +81,6 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         // Store the cancellable to be able to cancel it if needed
         self.cancellables.insert(cancellable)
     }
-//    func getFilterValue() -> String {
-//       return selectedCategory?.filterValue ?? "general"
-//    }
     
     func searchArticles(with keyword: String, in category: String) {
         self.state = .loading

@@ -36,7 +36,10 @@ struct MyPageView: View {
                             .foregroundColor(.gray)
                         Spacer() // display text in the middle
                     } else {
-                        ArticleListView(articles: bookmarkedArticles)
+                        List {
+                            ArticleListView(articles: bookmarkedArticles)
+                        }
+                        .padding(EdgeInsets(top: 0, leading: -15, bottom: 0, trailing: -15))
                     }
                 } else { // read articles
                     if readArticles.isEmpty {
@@ -47,7 +50,10 @@ struct MyPageView: View {
                             .foregroundColor(.gray)
                         Spacer() // display text in the middle
                     } else {
-                        ArticleListView(articles: readArticles)
+                        List {
+                            ArticleListView(articles: readArticles)
+                        }
+                        .padding(EdgeInsets(top: 0, leading: -15, bottom: 0, trailing: -15))
                     }
                 }
             }
