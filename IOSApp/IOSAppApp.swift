@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct IOSAppApp: App {
+    @State var showLaunchScreen = true
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if showLaunchScreen {
+                LaunchScreenView()
+                    .onTapGesture {
+                        withAnimation {
+                            showLaunchScreen = false
+                        }
+                    }
+            } else {
+                ContentView()
+            }
         }
     }
 }

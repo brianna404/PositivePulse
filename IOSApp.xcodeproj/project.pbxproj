@@ -29,8 +29,8 @@
 		25C5DAE82C736518009B2029 /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAE72C736518009B2029 /* ArticleListView.swift */; };
 		25C5DAEA2C74761A009B2029 /* HeadlineArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAE92C74761A009B2029 /* HeadlineArticleView.swift */; };
 		25C5DAEC2C749E5C009B2029 /* HeadlineTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAEB2C749E5C009B2029 /* HeadlineTabView.swift */; };
-		263405212C73992E0073D487 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 263405202C73992E0073D487 /* URLImage */; };
-		263405232C73992E0073D487 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 263405222C73992E0073D487 /* URLImageStore */; };
+		25C5DAEE2C75E752009B2029 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 263405262C7399AD0073D487 /* URLImageStore */; };
+		25C5DAF82C772687009B2029 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C5DAF72C772687009B2029 /* LaunchScreenView.swift */; };
 		268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268936242C5FC61B00ADAB5F /* DateUtils.swift */; };
 		26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */; };
 		26F1FBCF2C63C1E800D4CF54 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26F1FBCE2C63C1E800D4CF54 /* Config.plist */; };
@@ -83,6 +83,7 @@
 		25C5DAE72C736518009B2029 /* ArticleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListView.swift; sourceTree = "<group>"; };
 		25C5DAE92C74761A009B2029 /* HeadlineArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlineArticleView.swift; sourceTree = "<group>"; };
 		25C5DAEB2C749E5C009B2029 /* HeadlineTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlineTabView.swift; sourceTree = "<group>"; };
+		25C5DAF72C772687009B2029 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		268936242C5FC61B00ADAB5F /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		26F1FBC82C628F5500D4CF54 /* ArticleStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleStorage.swift; sourceTree = "<group>"; };
 		26F1FBCE2C63C1E800D4CF54 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
@@ -97,8 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				263405272C7399AD0073D487 /* URLImageStore in Frameworks */,
-				263405252C7399AD0073D487 /* URLImage in Frameworks */,
+				25C5DAEE2C75E752009B2029 /* URLImageStore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +142,7 @@
 				25C5DAE72C736518009B2029 /* ArticleListView.swift */,
 				25C5DAE92C74761A009B2029 /* HeadlineArticleView.swift */,
 				25C5DAEB2C749E5C009B2029 /* HeadlineTabView.swift */,
+				25C5DAF72C772687009B2029 /* LaunchScreenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -278,7 +279,6 @@
 			);
 			name = IOSApp;
 			packageProductDependencies = (
-				263405242C7399AD0073D487 /* URLImage */,
 				263405262C7399AD0073D487 /* URLImageStore */,
 			);
 			productName = IOSApp;
@@ -400,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26F1FBC92C628F5500D4CF54 /* ArticleStorage.swift in Sources */,
+				25C5DAF82C772687009B2029 /* LaunchScreenView.swift in Sources */,
 				268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */,
 				26F1FBE42C6961AD00D4CF54 /* MyPageView.swift in Sources */,
 				2512B2022C559A200037ADD1 /* ResultState.swift in Sources */,
@@ -768,11 +769,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		263405202C73992E0073D487 /* URLImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
-		};
 		263405262C7399AD0073D487 /* URLImageStore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2512B2082C57D4450037ADD1 /* XCRemoteSwiftPackageReference "url-image" */;
