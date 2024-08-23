@@ -34,6 +34,7 @@ struct CategoryFilterView: View {
             }
             .background(Color.white)
             .padding(.bottom, -3)
+            .padding(.top, 17)
         }
     }
 }
