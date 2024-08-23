@@ -50,24 +50,7 @@ class NewsServiceImpl: NewsService {
             }
             .eraseToAnyPublisher() // erase the type for external consumption
     }
-    
-    // define negative keywords for manual filtering 
-    let negativeKeywords = [
-        "katastrophe", "unglück", "unfall", "krise", "mord", "terror", "tod", "leiche",
-        "krieg", "verlust", "tragödie", "gewalt", "missbrauch", "verbrechen", "attacke", "angriff", "gefahr",
-        "brand", "feuer", "erdbeben", "explosion", "flut", "seuche", "virus", "pandemie", "dürre",
-        "hungersnot", "krankheit", "epidemie", "entführung", "betrug", "skandal",
-        "verletzung", "misshandlung", "folter", "diskriminierung", "rassismus",
-        "kriminalität", "sterben", "ermorden", "verletzen", "töt", // Anfangssilbe um alles mit töt-... auszuschließen
-        "explodieren", "verunglücken", "zerstören", "betrügen", "missbrauchen",
-        "entführen", "ertrinken", "abstürzen", "attackieren", "bombardieren", "erschießen",
-        "vergiften", "überfallen", "ausrotten",
-        "diskriminieren", "tödlich", "schrecklich", "tragisch", "katastrophal", "gewaltsam", "bitter",
-        "grausam", "gefährlich", "verheerend", "desaströs", "brutal", "böse",
-        "skandalös", "fatal", "unmenschlich", "unheilvoll", "elend", "vernichtend",
-        "hoffnungslos", "mörderisch"
-    ]
-    
+        
     // Function to perform sentiment analysis on a given text
     func analyzeSentiment(for text: String) -> Double? {
         let tagger = NLTagger(tagSchemes: [.sentimentScore])
@@ -83,7 +66,7 @@ class NewsServiceImpl: NewsService {
         let lowercasedText = text.lowercased()
         
         // check if negative keyword is in text
-        for keyword in negativeKeywords {
+        for keyword in NegativeKeywords.list {
             if lowercasedText.contains(keyword) {
                 // if found set score to a negative value
                 score = min(score, -0.5) // if bigger than -0,5 set score to -0,5
