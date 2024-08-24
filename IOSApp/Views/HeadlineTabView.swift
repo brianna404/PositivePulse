@@ -44,8 +44,8 @@ struct HeadlineTabView: View {
                             destination: ArticleWebView(url: url, article: article) // navigate to URL WebView
                                 .navigationTitle(article.title ?? "Article")
                         ) {
-                            HeadlineArticleView(article: article)
-                                .contentShape(Rectangle()) 
+                            ArticleView(article: article, titleFontSize: 22, iconSize: 50, dateFontSize: 14)
+                                .contentShape(Rectangle())
                                 .tag(index)
                         }
                     }

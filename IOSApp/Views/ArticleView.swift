@@ -11,6 +11,10 @@ import URLImage
 struct ArticleView: View {
     
     let article: Article
+    let titleFontSize: CGFloat
+    let iconSize: CGFloat
+    let dateFontSize: CGFloat
+    
     // track bookmarked status
     @State private var isBookmarked: Bool
     
@@ -18,8 +22,11 @@ struct ArticleView: View {
     @ObservedObject private var articleStorage = ArticleStorage()
     
     // initialize
-    init(article: Article) {
+    init(article: Article, titleFontSize: CGFloat, iconSize: CGFloat, dateFontSize: CGFloat) {
            self.article = article
+        self.titleFontSize = titleFontSize
+        self.iconSize = iconSize
+        self.dateFontSize = dateFontSize
            self._isBookmarked = State(initialValue: article.isBookmarked ?? false)
        }
     
@@ -37,7 +44,8 @@ struct ArticleView: View {
                 HStack {
                     Text(article.title ?? "")
                         .foregroundStyle(Color.black)
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.system(size: titleFontSize, weight: .semibold))
+                        .multilineTextAlignment(.leading)
                     Spacer()
                     // Bookmark button
                     Button(action: {
@@ -47,11 +55,13 @@ struct ArticleView: View {
                     }) {
                         Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                     }
+                    .frame(width: iconSize, height: iconSize)
+                    .foregroundStyle(Color.black)
                     .buttonStyle(PlainButtonStyle()) // otherwise Bookmark icon not clickable
                 }
                 Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
                     .foregroundStyle(Color.gray)
-                    .font(.system(size: 11))
+                    .font(.system(size: dateFontSize))
             }
         }
         .onAppear {
