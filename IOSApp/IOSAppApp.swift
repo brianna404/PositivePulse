@@ -12,16 +12,7 @@ struct IOSAppApp: App {
     @State var showLaunchScreen = true
     var body: some Scene {
         WindowGroup {
-            if showLaunchScreen {
-                LaunchScreenView()
-                    .onTapGesture {
-                        withAnimation {
-                            showLaunchScreen = false
-                        }
-                    }
-            } else {
-                ContentView()
-            }
+            ContentView()
         }
     }
 }

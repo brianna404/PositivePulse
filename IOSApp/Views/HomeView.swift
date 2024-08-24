@@ -18,10 +18,7 @@ struct HomeView: View {
             Group {
                 switch viewModel.state {
                 case .loading:
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(2)
-                        .padding()
+                        LaunchScreenView()                
                 case .failed(error: let error):
                     ErrorView(error: error) {
                         viewModel.getArticles(category: viewModel.selectedCategoryStrg) }
