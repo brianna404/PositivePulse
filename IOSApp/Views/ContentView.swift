@@ -15,7 +15,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-                HomeView(viewModel: viewModel)
+            HomeView(viewModel: viewModel)
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
@@ -43,10 +43,12 @@ struct ContentView: View {
                 }
                 .tag(3)
         }
+        .accentColor(ColorScheme.fontColor)
+        // so tab bar is not invisible when first opening the app
         .onAppear {
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
-            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance // looks the same even when scrolled completely down
         }
         .onChange(of: selectedTab) {
             if selectedTab == 0 {

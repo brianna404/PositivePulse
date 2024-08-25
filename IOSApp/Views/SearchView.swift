@@ -16,22 +16,48 @@ struct CategoryBoxView: View {
         GridItem(.flexible())
     ]
     
+    // Get appropriate symbol for each category
+    func getSymbol(for category: FilterCategory) -> String {
+        switch category {
+        case .general:
+            return "globe"
+        case .business:
+            return "briefcase"
+        case .entertainment:
+            return "film"
+        case .health:
+            return "heart"
+        case .science:
+            return "flask"
+        case .sports:
+            return "sportscourt"
+        case .technology:
+            return "desktopcomputer"
+        }
+    }
+    
     // Category grid boxes
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 20) { // vertical grid
+        LazyVGrid(columns: columns, spacing: 16) { // vertical grid
             ForEach(FilterCategory.allCases, id: \.self) { category in // loop through all categories
                 Button(action: {
                     // update selected category when box is clicked
                     viewModel.selectedCategoryStrg = category.filterValue
                     viewModel.selectedCategory = category
                 }) {
-                    // display category name on box/button
-                    Text(category.rawValue)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, minHeight: 100)
-                        .background(viewModel.selectedCategory == category ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(15)
+                    VStack {
+                        Image(systemName: getSymbol(for: category))
+                            .font(.system(size: 24))
+                            .foregroundColor(.white)
+                        Text(category.rawValue)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.top, 4)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 120)
+                    .background(viewModel.selectedCategory == category ? ColorScheme.fontColor : Color.gray)
+                    .cornerRadius(15)
+                    .shadow(color: .gray, radius: 4, x: 0, y: 2)
                 }
             }
         }
@@ -60,8 +86,9 @@ struct SearchView: View {
                 })
                 .padding()
                 .background(Color(.systemGray6))
-                .cornerRadius(10)
+                .cornerRadius(12)
                 .padding(.horizontal)
+                .shadow(color: .gray, radius: 4, x: 0, y: 2)
                 .focused($isFocused) // Bind the focus state to the search bar
                 
                 // Show the selected category after search is committed
@@ -93,6 +120,7 @@ struct SearchView: View {
                 }
                 Spacer()
             }
+            .padding(.top, 15)
             
             // reset search view
             .onChange(of: searchText) {

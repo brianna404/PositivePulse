@@ -12,7 +12,7 @@ struct NegativeKeywords {
         "katastrophe", "unglück", "unfall", "krise", "mord", "terror", "tod", "leiche",
         "krieg", "verlust", "tragödie", "gewalt", "missbrauch", "verbrechen", "attacke", "angriff", "gefahr",
         "brand", "feuer", "erdbeben", "explosion", "flut", "seuche", "virus", "pandemie", "dürre",
-        "hungersnot", "krankheit", "epidemie", "entführung", "betrug", "skandal",
+        "hungersnot", "krankheit", "epidemie", "infektion", "entführung", "betrug", "skandal",
         "verletzung", "misshandlung", "folter", "diskriminierung", "rassismus",
         "kriminalität", "sterben", "ermorden", "verletzen", "töt", // Anfangssilbe um alles mit töt-... auszuschließen
         "explodieren", "verunglücken", "zerstören", "betrügen", "missbrauchen",
