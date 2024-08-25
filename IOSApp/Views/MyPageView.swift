@@ -42,6 +42,7 @@ struct MyPageView: View {
                 refreshArticles()
             }
         }
+        .background(ColorScheme.backgroundColor)
     }
     
     private func refreshArticles() {
@@ -71,6 +72,9 @@ struct ArticleListViewContainer: View {
             List {
                 ArticleListView(articles: articles)
             }
+            .listStyle(PlainListStyle())
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
             .padding(EdgeInsets(top: 0, leading: -15, bottom: 0, trailing: -15))
         }
     }
