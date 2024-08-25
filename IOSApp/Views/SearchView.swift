@@ -110,7 +110,7 @@ struct SearchView: View {
                 if searchExecuted && !searchResults.isEmpty && !searchText.isEmpty {
                     // Display the search results
                     List(viewModel.searchResults) { article in
-                        ArticleView(article: article)
+                        ArticleView(article: article, titleFontSize: 18, iconSize: 20, dateFontSize: 11)
                     }
                 } else if searchExecuted && searchExecuted && !searchText.isEmpty {
                     // Display an info message when no results are found

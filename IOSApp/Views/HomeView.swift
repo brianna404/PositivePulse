@@ -18,17 +18,14 @@ struct HomeView: View {
             Group {
                 switch viewModel.state {
                 case .loading:
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .scaleEffect(2)
-                        .padding()
+                        LaunchScreenView()
                 case .failed(error: let error):
                     ErrorView(error: error) {
                         viewModel.getArticles(category: viewModel.selectedCategoryStrg) }
                 case .success(let content):
                     VStack {
                         CategoryFilterView(viewModel: viewModel)
-                            .shadow(color: .gray, radius: 2, y: 4)
+                            .shadow(color: Color.gray, radius: 2, y: 4)
                         List {
                             Section {
                                 ZStack {
