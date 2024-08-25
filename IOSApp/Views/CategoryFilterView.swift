@@ -23,7 +23,7 @@ struct CategoryFilterView: View {
                                 viewModel.selectedCategoryStrg = category.filterValue
                                 viewModel.selectedCategory = category
                             }
-                            .foregroundColor(viewModel.selectedCategory == category ? ColorScheme.fontColor: .black)
+                            .foregroundColor(viewModel.selectedCategory == category ? ColorScheme.fontColor: Color.primary)
                             .padding([.leading, .trailing], 10)
                         Rectangle()
                             .frame(height: 2)
@@ -32,7 +32,7 @@ struct CategoryFilterView: View {
                     }
                 }
             }
-            .background(Color.white)
+            .background(Color(UIColor.systemBackground))
             .padding(.bottom, -3)
             .padding(.top, 17)
         }

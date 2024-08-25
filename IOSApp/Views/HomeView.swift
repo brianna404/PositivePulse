@@ -25,7 +25,7 @@ struct HomeView: View {
                 case .success(let content):
                     VStack {
                         CategoryFilterView(viewModel: viewModel)
-                            .shadow(color: .gray, radius: 2, y: 4)
+                            .shadow(color: Color.gray, radius: 2, y: 4)
                         List {
                             Section {
                                 ZStack {

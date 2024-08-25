@@ -18,19 +18,20 @@ struct HeadlineTabView: View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
+                    .fill(Color(UIColor.systemBackground))
                     .frame(width: 400, height: 70)
-                    .shadow(color: Color.white, radius: 8, y: 3)
+                    .shadow(color: Color(UIColor.systemBackground), radius: 8, y: 3)
                     .padding(.top, -10)
                 HStack {
                     Image("AppIconCodeUsage")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(10)
                         .shadow(color: ColorScheme.fontColor, radius: 2)
                     Text("Your Feel-Good-Favorites")
                         .fontWeight(.bold)
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color.primary)
                 }
             }
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 5, trailing: 10))

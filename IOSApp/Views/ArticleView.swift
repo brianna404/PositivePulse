@@ -43,8 +43,8 @@ struct ArticleView: View {
                     .font(.footnote)
                 HStack {
                     Text(article.title ?? "")
-                        .foregroundStyle(Color.black)
                         .font(.system(size: titleFontSize, weight: .semibold))
+                        .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.leading)
                     Spacer()
                     // Bookmark button
@@ -56,7 +56,7 @@ struct ArticleView: View {
                         Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                     }
                     .frame(width: iconSize, height: iconSize)
-                    .foregroundStyle(Color.black)
+                    .foregroundStyle(Color.primary)
                     .buttonStyle(PlainButtonStyle()) // otherwise Bookmark icon not clickable
                 }
                 Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
