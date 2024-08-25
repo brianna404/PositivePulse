@@ -15,7 +15,7 @@ struct MyPageView: View {
     private let articleStorage = ArticleStorage()
     
     init() {
-        // organge background color of picker
+        // orange background color of picker
         UISegmentedControl.appearance().backgroundColor = UIColor(ColorScheme.fontColor)
     }
     
@@ -34,9 +34,9 @@ struct MyPageView: View {
                 
                 // Tab Views
                 if selectedTab == 0 {
-                    ArticleListViewContainer(articles: bookmarkedArticles, emptyMessage: "Sobald du einen Artikel mit einem Lesezeichen versiehst, wird er hier angezeigt.")
+                    MyPageArticleListView(articles: bookmarkedArticles, emptyMessage: "Sobald du einen Artikel mit einem Lesezeichen versiehst, wird er hier angezeigt.")
                 } else {
-                    ArticleListViewContainer(articles: readArticles, emptyMessage: "Sobald du einen Artikel gelesen hast, wird er hier angezeigt.")
+                    MyPageArticleListView(articles: readArticles, emptyMessage: "Sobald du einen Artikel gelesen hast, wird er hier angezeigt.")
                 }
             }
             // refresh articles when displaying myPage
@@ -59,30 +59,6 @@ struct MyPageView: View {
         // Fetch and sort read articles
         self.readArticles = Array(articleStorage.fetchReadArticles())
             .sorted { ($0.lastRead ?? Date.distantPast) > ($1.lastRead ?? Date.distantPast) }
-    }
-}
-
-struct ArticleListViewContainer: View {
-    let articles: [Article]
-    let emptyMessage: String
-
-    var body: some View {
-        if articles.isEmpty {
-            Spacer()
-            Text(emptyMessage)
-                .padding()
-                .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
-            Spacer()
-        } else {
-            List {
-                ArticleListView(articles: articles)
-            }
-            .listStyle(PlainListStyle())
-            .padding(.top, 10)
-            .padding(.horizontal, 20)
-            .padding(EdgeInsets(top: 0, leading: -15, bottom: 0, trailing: -15))
-        }
     }
 }
 
