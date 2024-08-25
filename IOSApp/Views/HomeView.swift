@@ -18,7 +18,7 @@ struct HomeView: View {
             Group {
                 switch viewModel.state {
                 case .loading:
-                        LaunchScreenView()                
+                        LaunchScreenView()
                 case .failed(error: let error):
                     ErrorView(error: error) {
                         viewModel.getArticles(category: viewModel.selectedCategoryStrg) }
