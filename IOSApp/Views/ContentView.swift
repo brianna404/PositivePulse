@@ -15,8 +15,9 @@ struct ContentView: View {
     
     var body: some View {
         if case .loading = viewModel.state {
-            HomeView()
-        } else {
+            HomeView(viewModel: viewModel)
+        }
+        if case .success = viewModel.state {
             TabView(selection: $selectedTab) {
                 HomeView(viewModel: viewModel)
                     .tabItem {
