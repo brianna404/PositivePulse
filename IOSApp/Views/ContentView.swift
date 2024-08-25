@@ -39,13 +39,6 @@ struct ContentView: View {
                         Text("Mein Bereich")
                     }
                     .tag(2)
-                
-                SettingsView() // Placeholder view
-                    .tabItem {
-                        Image(systemName: "gear")
-                        Text("Einstellungen")
-                    }
-                    .tag(3)
             }
             .accentColor(ColorScheme.fontColor)
             // so tab bar is not invisible when first opening the app

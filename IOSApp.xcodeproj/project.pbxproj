@@ -37,7 +37,6 @@
 		26F1FBE02C69612700D4CF54 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBDF2C69612700D4CF54 /* ContentView.swift */; };
 		26F1FBE22C69619000D4CF54 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBE12C69619000D4CF54 /* SearchView.swift */; };
 		26F1FBE42C6961AD00D4CF54 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBE32C6961AD00D4CF54 /* MyPageView.swift */; };
-		26F1FBE62C6961D200D4CF54 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F1FBE52C6961D200D4CF54 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +89,6 @@
 		26F1FBDF2C69612700D4CF54 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		26F1FBE12C69619000D4CF54 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		26F1FBE32C6961AD00D4CF54 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
-		26F1FBE52C6961D200D4CF54 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +134,6 @@
 				26F1FBDF2C69612700D4CF54 /* ContentView.swift */,
 				26F1FBE12C69619000D4CF54 /* SearchView.swift */,
 				26F1FBE32C6961AD00D4CF54 /* MyPageView.swift */,
-				26F1FBE52C6961D200D4CF54 /* SettingsView.swift */,
 				2508BB5A2C6A22D30016A78E /* CategoryFilterView.swift */,
 				251B5EE22C6F884200212B87 /* ArticleWebView.swift */,
 				25C5DAE72C736518009B2029 /* ArticleListView.swift */,
@@ -415,7 +412,6 @@
 				257810BE2C2EEA13001C7487 /* IOSAppApp.swift in Sources */,
 				2634052D2C7889810073D487 /* NegativeKeywords.swift in Sources */,
 				2512B1F32C55811B0037ADD1 /* HomeView.swift in Sources */,
-				26F1FBE62C6961D200D4CF54 /* SettingsView.swift in Sources */,
 				2512B20A2C57F1FE0037ADD1 /* ErrorView.swift in Sources */,
 				2512B1F62C558C500037ADD1 /* NewsResponse.swift in Sources */,
 				25C5DAE82C736518009B2029 /* ArticleListView.swift in Sources */,
