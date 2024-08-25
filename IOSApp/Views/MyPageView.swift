@@ -14,6 +14,11 @@ struct MyPageView: View {
     
     private let articleStorage = ArticleStorage()
     
+    init() {
+        // organge background color of picker
+        UISegmentedControl.appearance().backgroundColor = UIColor(ColorScheme.fontColor)
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -25,6 +30,7 @@ struct MyPageView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.top, 16)
                 .padding(.horizontal, 16)
+                
                 
                 // Tab Views
                 if selectedTab == 0 {
