@@ -14,10 +14,11 @@ struct ContentView: View {
     var viewModel = NewsViewModelImpl(service: NewsServiceImpl())
     
     var body: some View {
-        if case .loading = viewModel.state {
+        switch viewModel.state {
+        case .loading, .failed:
             HomeView(viewModel: viewModel)
-        }
-        if case .success = viewModel.state {
+            
+        case .success:
             TabView(selection: $selectedTab) {
                 HomeView(viewModel: viewModel)
                     .tabItem {
