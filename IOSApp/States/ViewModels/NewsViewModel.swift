@@ -14,7 +14,7 @@ protocol NewsViewModel {
     var articles: [Article] { get }
     var positiveArticles: [Article] { get }
     var state: ResultState { get }
-    func getArticles(category: String)
+    func getArticles(category: String?, keyword: String?)
 }
 
 // MARK: - Implementation of NewsViewModel
@@ -29,38 +29,42 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     @Published private(set) var state: ResultState = .loading // Current state of the view model
     @Published var selectedCategory: FilterCategory? = .general { // Selected filter category
         didSet {
-                loadNewArticles()
-            }
+            loadNewArticles(keyword: nil)
+        }
     }
     @Published var selectedCategoryStrg = "general"
     
     var hasFetched = false  // flag to prevent fetching several times
+    
     // Initialization
     init (service: NewsService) {
         self.service = service
     }
     
-// MARK: - Methods
-    func loadNewArticles() {
+    // MARK: - Methods
+    func loadNewArticles(keyword: String? = nil) {
         // setting hasFetched to false for loading articles in new api call
         self.hasFetched = false
-        self.getArticles(category: self.selectedCategoryStrg)
+        self.getArticles(category: self.selectedCategoryStrg, keyword: keyword)
     }
     
-    func getArticles(category: String) {
+    func getArticles(category: String?, keyword: String?) {
         // block unused api calls if has fetched
-        guard !hasFetched else { return }
+        guard !hasFetched || keyword != nil else { return }
         
+        // reset results
         self.articles = []
         self.positiveArticles = []
+        self.searchResults = []
+        
         if isInitialLoad {
             self.state = .loading // Set state to loading
             isInitialLoad = false
         }
-
+        
         // Make a network request using the NewsService
         let cancellable = service
-            .request(from: .getNews(category: category)) // Call the getNews endpoint of the service
+            .request(from: .getNews(category: category, keyword: keyword)) // Call the getNews endpoint of the service
             .sink { res in // Subscribe to the publisher's output
                 switch res {
                 case .finished:
@@ -68,42 +72,28 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
                     self.state = .success(content: self.articles)
                     // Filter and update positive articles
                     self.positiveArticles = self.service.filterPositiveNews(from: self.articles)
-                    //print("Fetching and filtering articles complete. Filtered positive articles count: \(self.positiveArticles.count)")
                     self.hasFetched = true  // Set the flag after successful fetch
                 case .failure(let error):
                     // if failed update state to failed with error
                     self.state = .failed(error: error)
                 }
-            // When receiving a value, update the articles with response articles
+                // When receiving a value, update the articles with response articles
             } receiveValue: { response in
                 self.articles = response.articles
+                if keyword != nil && !keyword!.isEmpty {
+                    self.searchResults = response.articles
+                }
             }
         // Store the cancellable to be able to cancel it if needed
         self.cancellables.insert(cancellable)
     }
     
-    func searchArticles(with keyword: String, in category: String) {
-        self.state = .loading
-        
-        // new search with keyword and category
-        let cancellable = service.searchArticles(keyword: keyword, category: category)
-            .sink { res in
-                // Check result of publisher
-                switch res {
-                case .finished:
-                    self.state = .success(content: self.searchResults)
-                case .failure(let error):
-                    self.state = .failed(error: error)
-                }
-            // When response is received, update search results
-            } receiveValue: { response in
-                self.searchResults = response.articles
-            }
-        // Store the cancellable to allow for the network request to be cancelled later
-        self.cancellables.insert(cancellable)
+    // function for searching articles
+    func searchArticles(with keyword: String, in category: String?) {
+        loadNewArticles(keyword: keyword)
     }
     
-    // Function to clear the search results
+    // function to clear search results
     func clearSearchResults() {
         self.searchResults = []
     }
