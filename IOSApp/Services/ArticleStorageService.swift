@@ -1,5 +1,5 @@
 //
-//  ArticleStorage.swift
+//  ArticleStorageService.swift
 //  IOSApp
 //
 //  Created by Brianna Kruschke on 06.08.24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ArticleStorage: ObservableObject {
+class ArticleStorageService: ObservableObject {
     // define keys for sets
     private let readArticlesKey = "readArticles"
     private let bookmarkedArticlesKey = "bookmarkedArticles"

@@ -12,11 +12,11 @@ struct MyPageView: View {
     @State private var bookmarkedArticles: [Article] = []
     @State private var readArticles: [Article] = []
     
-    private let articleStorage = ArticleStorage()
+    private let articleStorage = ArticleStorageService()
     
     init() {
         // orange background color of picker
-        UISegmentedControl.appearance().backgroundColor = UIColor(ColorScheme.fontColor)
+        UISegmentedControl.appearance().backgroundColor = UIColor(Color.accentColor)
     }
     
     var body: some View {
@@ -48,7 +48,7 @@ struct MyPageView: View {
                 refreshArticles()
             }
         }
-        .background(ColorScheme.backgroundColor)
+        .background(Color.background)
     }
     
     private func refreshArticles() {

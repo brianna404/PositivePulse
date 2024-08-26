@@ -10,8 +10,8 @@ import SwiftUI
 struct HomeView: View {
     
     @StateObject
-    var viewModel = NewsViewModelImpl(service: NewsServiceImpl())
-    @ObservedObject var articleStorage = ArticleStorage() // to track bookmarked status of articles
+    var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
+    @ObservedObject var articleStorage = ArticleStorageService() // to track bookmarked status of articles
 
     var body: some View {
         NavigationStack {
@@ -30,7 +30,7 @@ struct HomeView: View {
                             Section {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(LinearGradient(gradient: Gradient(colors: [.white, ColorScheme.backgroundColor]), startPoint: .top, endPoint: .bottom))
+                                        .fill(LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.background]), startPoint: .top, endPoint: .bottom))
                                         .opacity(0.7)
                                     HeadlineTabView(articles: selectFirstThreeArticles(from: viewModel.positiveArticles))
                                         .padding(EdgeInsets(top: 5, leading: 7, bottom: 10, trailing: 7))

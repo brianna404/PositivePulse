@@ -11,14 +11,14 @@ struct ContentView: View {
     
     @State private var selectedTab: Int = 0
     @StateObject
-    var viewModel = NewsViewModelImpl(service: NewsServiceImpl())
+    var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
     
     var body: some View {
         switch viewModel.state {
-        case .loading, .failed:
+        case .loading:
             HomeView(viewModel: viewModel)
             
-        case .success:
+        case .success, .failed:
             TabView(selection: $selectedTab) {
                 HomeView(viewModel: viewModel)
                     .tabItem {
@@ -41,7 +41,7 @@ struct ContentView: View {
                     }
                     .tag(2)
             }
-            .accentColor(ColorScheme.fontColor)
+            .accentColor(Color.accentColor)
             // so tab bar is not invisible when first opening the app
             .onAppear {
                 let tabBarAppearance = UITabBarAppearance()

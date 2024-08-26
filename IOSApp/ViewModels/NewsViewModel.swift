@@ -20,6 +20,7 @@ protocol NewsViewModel {
 // MARK: - Implementation of NewsViewModel
 class NewsViewModelImpl: ObservableObject, NewsViewModel {
     private let service: NewsService // Service responsible for fetching news
+    private let filterService: FilterService // Service responsible for filtering
     private(set) var articles = [Article] () // Array to hold fetched articles
     private var cancellables = Set<AnyCancellable>() // Set to keep track of Combine cancellables
     private var isInitialLoad = true // safes if articles loaded for first time
@@ -27,7 +28,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     @Published private(set) var positiveArticles = [Article]() // Array to hold positive articles
     @Published private(set) var searchResults = [Article]() // Array to hold result of search
     @Published private(set) var state: ResultState = .loading // Current state of the view model
-    @Published var selectedCategory: FilterCategory? = .general { // Selected filter category
+    @Published var selectedCategory: FilterCategoryState? = .general { // Selected filter category
         didSet {
             loadNewArticles(keyword: nil)
         }
@@ -37,8 +38,9 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     var hasFetched = false  // flag to prevent fetching several times
     
     // Initialization
-    init (service: NewsService) {
+    init (service: NewsService, filterService: FilterService) {
         self.service = service
+        self.filterService = filterService
     }
     
     // MARK: - Methods
@@ -71,7 +73,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
                     // if successful update state to success with articles
                     self.state = .success(content: self.articles)
                     // Filter and update positive articles
-                    self.positiveArticles = self.service.filterPositiveNews(from: self.articles)
+                    self.positiveArticles = self.filterService.filterPositiveNews(from: self.articles)
                     self.hasFetched = true  // Set the flag after successful fetch
                 case .failure(let error):
                     // if failed update state to failed with error

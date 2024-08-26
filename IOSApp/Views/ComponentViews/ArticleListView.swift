@@ -12,7 +12,7 @@ struct ArticleListView: View {
     let articles: [Article]
     
     @StateObject
-    var viewModel = NewsViewModelImpl(service: NewsServiceImpl())
+    var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
     
     var body: some View {
         ForEach (articles) { article in

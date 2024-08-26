@@ -17,7 +17,7 @@ struct CategoryBoxView: View {
     ]
     
     // Get appropriate symbol for each category
-    func getSymbol(for category: FilterCategory) -> String {
+    func getSymbol(for category: FilterCategoryState) -> String {
         switch category {
         case .general:
             return "globe"
@@ -39,7 +39,7 @@ struct CategoryBoxView: View {
     // Category grid boxes
     var body: some View {
         LazyVGrid(columns: columns, spacing: 16) { // vertical grid
-            ForEach(FilterCategory.allCases, id: \.self) { category in // loop through all categories
+            ForEach(FilterCategoryState.allCases, id: \.self) { category in // loop through all categories
                 Button(action: {
                     // update selected category when box is clicked
                     viewModel.selectedCategoryStrg = category.filterValue
@@ -55,7 +55,7 @@ struct CategoryBoxView: View {
                             .padding(.top, 4)
                     }
                     .frame(maxWidth: .infinity, minHeight: 120)
-                    .background(viewModel.selectedCategory == category ? ColorScheme.fontColor : Color.gray)
+                    .background(viewModel.selectedCategory == category ? Color.accentColor : Color.gray)
                     .cornerRadius(15)
                     .shadow(color: .gray, radius: 4, x: 0, y: 2)
                 }

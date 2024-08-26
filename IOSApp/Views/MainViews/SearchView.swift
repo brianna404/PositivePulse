@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SearchView: View {
-    @ObservedObject var articleStorage = ArticleStorage() // to track bookmarked status of articles
+    @ObservedObject var articleStorage = ArticleStorageService() // to track bookmarked status of articles
     @State private var searchText = "" // Holds the current search text
     @State private var searchResults: [Article] = [] // Stores the search results
-    @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl()) // ViewModel to handle the search logic
+    @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()) // ViewModel to handle the search logic
     @FocusState private var isFocused: Bool // Tracks whether the search bar is focused (keyboard is open)
     @State private var searchExecuted = false // Tracks whether a search has been executed
     @State private var keyboardHeight: CGFloat = 0 // Tracks the height of the keyboard

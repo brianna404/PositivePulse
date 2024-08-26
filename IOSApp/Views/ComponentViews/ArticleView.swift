@@ -18,7 +18,7 @@ struct ArticleView: View {
     @State private var isBookmarked: Bool
     
     // track bookmarked articles
-    @ObservedObject private var articleStorage = ArticleStorage()
+    @ObservedObject private var articleStorage = ArticleStorageService()
     
     // initialize
     init(article: Article, titleFontSize: CGFloat, iconSize: CGFloat, dateFontSize: CGFloat) {

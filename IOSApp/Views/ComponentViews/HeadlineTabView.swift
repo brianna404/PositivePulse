@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HeadlineTabView: View {
-    @ObservedObject var articleStorage = ArticleStorage() // to track bookmarked status of articles
+    @ObservedObject var articleStorage = ArticleStorageService() // to track bookmarked status of articles
     
     let articles: [Article]
     
@@ -28,7 +28,7 @@ struct HeadlineTabView: View {
                         .frame(width: 30, height: 30)
                         .background(Color(UIColor.systemBackground))
                         .cornerRadius(10)
-                        .shadow(color: ColorScheme.fontColor, radius: 2)
+                        .shadow(color: Color.accentColor, radius: 2)
                     Text("Your Feel-Good-Favorites")
                         .fontWeight(.bold)
                         .foregroundStyle(Color.primary)
@@ -57,7 +57,7 @@ struct HeadlineTabView: View {
             HStack {
                 ForEach(0..<3) { index in
                     Circle()
-                        .fill(index == currentHeadline ? ColorScheme.fontColor : Color.white)
+                        .fill(index == currentHeadline ? Color.accentColor : Color.white)
                         .frame(width: 8, height: 8)
                         .animation(.easeInOut(duration: 0.2), value: currentHeadline)
                 }

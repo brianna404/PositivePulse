@@ -12,7 +12,7 @@ import WebKit
 struct ArticleWebView: UIViewRepresentable {
     let url: URL
     let article: Article
-    @ObservedObject var articleStorage = ArticleStorage()
+    @ObservedObject var articleStorage = ArticleStorageService()
 
     func makeUIView(context: Context) -> WKWebView {
         return WKWebView()

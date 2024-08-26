@@ -14,7 +14,7 @@ struct CategoryFilterView: View {
     var body: some View {
         ScrollView (.horizontal, showsIndicators: false) {
         HStack(spacing:20) {
-            ForEach (FilterCategory.allCases, id: \.self) {
+            ForEach (FilterCategoryState.allCases, id: \.self) {
                 category in
                     VStack {
                         Text(category.rawValue)
@@ -23,11 +23,11 @@ struct CategoryFilterView: View {
                                 viewModel.selectedCategoryStrg = category.filterValue
                                 viewModel.selectedCategory = category
                             }
-                            .foregroundColor(viewModel.selectedCategory == category ? ColorScheme.fontColor: Color.primary)
+                            .foregroundColor(viewModel.selectedCategory == category ? Color.accentColor: Color.primary)
                             .padding([.leading, .trailing], 10)
                         Rectangle()
                             .frame(height: 2)
-                            .foregroundColor(viewModel.selectedCategory == category ? ColorScheme.fontColor: .clear)
+                            .foregroundColor(viewModel.selectedCategory == category ? Color.accentColor: .clear)
                             .padding(EdgeInsets(top: -5, leading: -10, bottom: 0, trailing: -10))
                     }
                 }
