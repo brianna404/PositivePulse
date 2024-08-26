@@ -12,10 +12,15 @@ class ArticleStorageService: ObservableObject {
     private let readArticlesKey = "readArticles"
     private let bookmarkedArticlesKey = "bookmarkedArticles"
     
-    // published bookmarked articles for bug fixing 
+    // singleton instance to provide single source of truth with global access
+    static let shared = ArticleStorageService()
+    
+    // published bookmarked articles (writing only from here, reading from everywhere possible)
+    // needed to ensure the fill of the icon is immeadetely displayed correctly when toggling
     @Published private(set) var bookmarkedArticles: Set<Article> = []
 
     init() {
+        // populate with bookmarked articles from past app sessions
         self.bookmarkedArticles = fetchBookmarkedArticles()
     }
     
@@ -73,43 +78,39 @@ class ArticleStorageService: ObservableObject {
         return fetchArticles(forKey: bookmarkedArticlesKey)
     }
     
-    // Add or update an article
-    func addOrUpdateArticle(_ article: Article) {
-        var readArticles = fetchReadArticles()
-        var bookmarkedArticles = fetchBookmarkedArticles()
-        
-        // Handle read articles
-        if article.isRead ?? false { // provide false as default if nil
-            readArticles.update(with: article) // Use update to ensure uniqueness
-            } else {
-                readArticles.remove(article)
-            }
-        saveReadArticles(readArticles)
-
-        
-        // Handle bookmarked articles
-        if article.isBookmarked ?? false { // provide false as default if nil
-            bookmarkedArticles.update(with: article) // Use update to ensure uniqueness
-            } else {
-                bookmarkedArticles.remove(article)
-            }
-        saveBookmarkedArticles(bookmarkedArticles)
-    }
-    
     // Update logic when an article is read
     func markArticleAsRead(_ article: Article) {
         let updatedArticle = article
         updatedArticle.isRead = true
         updatedArticle.lastRead = Date()
-        addOrUpdateArticle(updatedArticle)
+        
+        // Fetch the current read articles
+        var readArticles = fetchReadArticles()
+        
+        // Update the set with the read article
+        readArticles.update(with: updatedArticle)
+        
+        // Save the updated set
+        saveReadArticles(readArticles)
     }
     
     // Toggle the bookmark status of an article
-    func toggleBookmark(for article: Article) -> Article {
+    func toggleBookmark(for article: Article) {
         let updatedArticle = article
-        updatedArticle.isBookmarked = !(article.isBookmarked ?? false) // update bookmark status
-        updatedArticle.lastBookmarked = updatedArticle.isBookmarked ?? false ? Date() : nil // Set or clear lastBookmarked date
-        addOrUpdateArticle(updatedArticle)
-        return updatedArticle
+        // update bookmark status
+        updatedArticle.isBookmarked = !(article.isBookmarked ?? false)
+        // Set or clear lastBookmarked date
+        updatedArticle.lastBookmarked = updatedArticle.isBookmarked ?? false ? Date() : nil
+        
+        if updatedArticle.isBookmarked ?? false {
+            // If the article is bookmarked, add/update it in the set
+            bookmarkedArticles.update(with: updatedArticle)
+        } else {
+            // If the article is not bookmarked, remove it from the set
+            bookmarkedArticles.remove(updatedArticle)
+        }
+        
+        // Save the updated set
+        saveBookmarkedArticles(bookmarkedArticles)
     }
 }

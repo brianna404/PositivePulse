@@ -26,7 +26,7 @@ class NewsResponse: Codable {
 
 // MARK: - Article
 // class to represent a single news article
-class Article: Codable, Identifiable, Hashable {
+class Article: Codable, Identifiable, Hashable, Equatable {
     // attributes
     let id: UUID = UUID() // id of type universally unique identifier
     let source: Source?

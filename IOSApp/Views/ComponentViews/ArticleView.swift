@@ -14,20 +14,16 @@ struct ArticleView: View {
     let iconSize: CGFloat
     let dateFontSize: CGFloat
     
-    // track bookmarked status
-    @State private var isBookmarked: Bool
-    
-    // track bookmarked articles
-    @ObservedObject private var articleStorage = ArticleStorageService()
-    
     // initialize
     init(article: Article, titleFontSize: CGFloat, iconSize: CGFloat, dateFontSize: CGFloat) {
         self.article = article
         self.titleFontSize = titleFontSize
         self.iconSize = iconSize
         self.dateFontSize = dateFontSize
-        self._isBookmarked = State(initialValue: article.isBookmarked ?? false)
     }
+    
+    // observe articleStorage to track changes of bookmarks
+    @ObservedObject var articleStorage = ArticleStorageService.shared
     
     var body: some View {
         // vertical stack to display article details
@@ -49,10 +45,9 @@ struct ArticleView: View {
                     // Bookmark button
                     Button(action: {
                         // toggle bookmark status
-                        let updatedArticle = articleStorage.toggleBookmark(for: article)
-                        isBookmarked = updatedArticle.isBookmarked ?? false
+                        articleStorage.toggleBookmark(for: article)
                     }) {
-                        Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                        Image(systemName: articleStorage.bookmarkedArticles.contains(article) ? "bookmark.fill" : "bookmark")
                     }
                     .frame(width: iconSize, height: iconSize)
                     .foregroundStyle(Color.primary)
@@ -62,10 +57,6 @@ struct ArticleView: View {
                     .foregroundStyle(Color.gray)
                     .font(.system(size: dateFontSize))
             }
-        }
-        .onAppear {
-            // Ensure that the bookmark status is up-to-date when the view appears
-            isBookmarked = articleStorage.bookmarkedArticles.contains(article)
         }
     }
 }

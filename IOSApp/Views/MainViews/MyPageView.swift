@@ -12,7 +12,8 @@ struct MyPageView: View {
     @State private var bookmarkedArticles: [Article] = []
     @State private var readArticles: [Article] = []
     
-    private let articleStorage = ArticleStorageService()
+    // observe article storage
+    @ObservedObject var articleStorage = ArticleStorageService.shared
     
     init() {
         // orange background color of picker

@@ -11,7 +11,6 @@ struct HomeView: View {
     
     @StateObject
     var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
-    @ObservedObject var articleStorage = ArticleStorageService() // to track bookmarked status of articles
 
     var body: some View {
         NavigationStack {
