@@ -18,7 +18,7 @@ protocol APIBuilder {
 // MARK: - NewsAPI Enum
 // represent different API endpoints
 enum NewsAPI {
-    case getNews(category: String)
+    case getNews(category: String?, keyword: String?)
     // more can be added here
 }
 
@@ -54,26 +54,35 @@ extension NewsAPI: APIBuilder {
             }
         }
     // queryItems returns the query parameters for the API endpoint
-        var queryItems: [URLQueryItem] {
-            switch self {
-            case .getNews(let category):
-                // Load the API key from the Config.plist file
-                 guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
-                       let config = NSDictionary(contentsOfFile: path),
-                       let apiKey = config["API_KEY"] as? String
-                       // only needed for /everything:
-                       // let date = DateUtils.dateAgo(daysAgo: 1)
-                 else {
-                     fatalError("Required parameters missing or invalid")
-                 }
-                
-                // Return the query parameters
-                return [
-                    URLQueryItem(name: "language", value: "de"),
-                    URLQueryItem(name: "pageSize", value: "100"),
-                    URLQueryItem(name: "category", value: category),
-                    URLQueryItem(name: "apiKey", value: apiKey)
-                ]
+    var queryItems: [URLQueryItem] {
+        switch self {
+        case .getNews(let category, let keyword):
+            // Load the API key from the Config.plist file
+            guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+                  let config = NSDictionary(contentsOfFile: path),
+                  let apiKey = config["API_KEY"] as? String
+            else {
+                fatalError("Required parameters missing or invalid")
             }
+            
+            // general query items
+            var queryItems = [
+                URLQueryItem(name: "language", value: "de"),
+                URLQueryItem(name: "pageSize", value: "100"),
+                URLQueryItem(name: "apiKey", value: apiKey)
+            ]
+            
+            // Add the category query item if a category is provided
+            if let category = category {
+                queryItems.append(URLQueryItem(name: "category", value: category))
+            }
+            
+            // Add the keyword query item if a keyword is provided
+            if let keyword = keyword, !keyword.isEmpty {
+                queryItems.append(URLQueryItem(name: "q", value: keyword))
+            }
+            
+            return queryItems
         }
+    }
 }

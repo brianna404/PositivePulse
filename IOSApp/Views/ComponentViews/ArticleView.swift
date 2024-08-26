@@ -22,19 +22,19 @@ struct ArticleView: View {
     
     // initialize
     init(article: Article, titleFontSize: CGFloat, iconSize: CGFloat, dateFontSize: CGFloat) {
-           self.article = article
+        self.article = article
         self.titleFontSize = titleFontSize
         self.iconSize = iconSize
         self.dateFontSize = dateFontSize
-           self._isBookmarked = State(initialValue: article.isBookmarked ?? false)
-       }
+        self._isBookmarked = State(initialValue: article.isBookmarked ?? false)
+    }
     
     var body: some View {
         // vertical stack to display article details
         HStack {
             // load image
             ArticleImageView(imgUrl: article.urlToImage)
-                
+            
             // display information
             VStack(alignment: .leading, spacing: 4) {
                 Text(article.author ?? "")
