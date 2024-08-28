@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SearchView: View {
-    @ObservedObject var articleStorage = ArticleStorageService() // to track bookmarked status of articles
     @State private var searchText = "" // Holds the current search text
     @State private var searchResults: [Article] = [] // Stores the search results
     @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()) // ViewModel to handle the search logic
