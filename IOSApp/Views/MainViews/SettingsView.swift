@@ -8,24 +8,38 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State var selectedTheme = ThemeState.light
+    @AppStorage("isDarkMode") private var darkModeOn = false
+    @State var selectedCountry = CountryState.germany
+    @State var selectedLanguage = LanguageState.german
     
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    Picker("Appearance", selection: $selectedTheme) {
-                        ForEach(ThemeState.allCases, id: \.self) { theme in
-                            Text(theme.rawValue)
+                    Text("Appearance Settings")
+                        .font(.headline)
+                        .frame(alignment: .topLeading)
+                    Toggle("Dark Mode active", isOn: $darkModeOn)
+                    Picker("Language", selection: $selectedLanguage) {
+                        ForEach(LanguageState.allCases, id: \.self) { language in
+                            Text(language.rawValue)
                         }
                     }
-                    Section
                 }
+            Section {
+                Text("Article Settings")
+                    .font(.headline)
+                    .frame(alignment: .topLeading)
+                Picker("Country", selection: $selectedCountry) {
+                    ForEach(CountryState.allCases, id: \.self) { country in
+                        Text(country.rawValue)
+                    }
+                }
+            }
             }
         }
     }
 }
-
 #Preview {
     SettingsView()
 }

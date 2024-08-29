@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct IOSAppApp: App {
-    @State var showLaunchScreen = true
+    @AppStorage("isDarkMode") private var isDarkMode = false
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }
 }
