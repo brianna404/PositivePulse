@@ -20,7 +20,7 @@ struct HomeView: View {
                         LaunchScreenView()
                 case .failed(error: let error):
                     ErrorView(error: error) {
-                        viewModel.getArticles(category: viewModel.selectedCategoryStrg, keyword: nil) }
+                        viewModel.getArticles(category: viewModel.selectedCategoryStrg, keyword: nil, country: viewModel.selectedCountryStrg) }
                 case .success(let content):
                     VStack {
                         CategoryFilterView(viewModel: viewModel)
@@ -48,7 +48,7 @@ struct HomeView: View {
                 }
             }
             .onAppear {
-                viewModel.getArticles(category: viewModel.selectedCategoryStrg, keyword: nil)
+                viewModel.getArticles(category: viewModel.selectedCategoryStrg, keyword: nil, country: viewModel.selectedCountryStrg)
             }
         }
     }

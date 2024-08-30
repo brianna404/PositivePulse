@@ -14,7 +14,7 @@ protocol NewsViewModel {
     var articles: [Article] { get }
     var positiveArticles: [Article] { get }
     var state: ResultState { get }
-    func getArticles(category: String?, keyword: String?)
+    func getArticles(category: String?, keyword: String?, country: String?)
 }
 
 // MARK: - Implementation of NewsViewModel
@@ -34,6 +34,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         }
     }
     @Published var selectedCategoryStrg = "general"
+    @Published var selectedCountryStrg = CountryState.germany.filterValue
     
     var hasFetched = false  // flag to prevent fetching several times
     
@@ -47,10 +48,10 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     func loadNewArticles(keyword: String? = nil) {
         // setting hasFetched to false for loading articles in new api call
         self.hasFetched = false
-        self.getArticles(category: self.selectedCategoryStrg, keyword: keyword)
+        self.getArticles(category: self.selectedCategoryStrg, keyword: keyword, country: self.selectedCountryStrg)
     }
     
-    func getArticles(category: String?, keyword: String?) {
+    func getArticles(category: String?, keyword: String?, country: String?) {
         // block unused api calls if has fetched
         guard !hasFetched || keyword != nil else { return }
         
@@ -66,7 +67,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         
         // Make a network request using the NewsService
         let cancellable = service
-            .request(from: .getNews(category: category, keyword: keyword)) // Call the getNews endpoint of the service
+            .request(from: .getNews(category: category, keyword: keyword, country: selectedCountryStrg)) // Call the getNews endpoint of the service
             .sink { res in // Subscribe to the publisher's output
                 switch res {
                 case .finished:

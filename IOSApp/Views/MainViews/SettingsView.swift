@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @ObservedObject
+    var viewModel: NewsViewModelImpl
     @AppStorage("isDarkMode") private var darkModeOn = false
-    @State var selectedCountry = CountryState.germany
-    @State var selectedLanguage = LanguageState.german
+    @State private var selectedCountry = CountryState.germany
+    @AppStorage("selectedLanguage") private var selectedLanguage = LanguageState.german
     
     var body: some View {
         NavigationStack {
@@ -33,6 +35,9 @@ struct SettingsView: View {
                 Picker("Country", selection: $selectedCountry) {
                     ForEach(CountryState.allCases, id: \.self) { country in
                         Text(country.rawValue)
+                            .onTapGesture {
+                                viewModel.selectedCountryStrg = selectedCountry.filterValue
+                            }
                     }
                 }
             }
@@ -41,5 +46,5 @@ struct SettingsView: View {
     }
 }
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()))
 }

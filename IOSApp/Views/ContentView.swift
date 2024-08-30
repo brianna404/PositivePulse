@@ -41,7 +41,7 @@ struct ContentView: View {
                     }
                     .tag(2)
                 
-                SettingsView() 
+                SettingsView(viewModel: viewModel)
                     .tabItem {
                         Image(systemName: "gear")
                         Text("Einstellungen")
