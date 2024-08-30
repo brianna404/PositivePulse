@@ -11,7 +11,7 @@ import Foundation
 enum CountryState: String, CaseIterable {
     case germany = "Germany"
     case austria = "Austria"
-    case switzerland = "Schwitzerland"
+    case switzerland = "Switzerland"
     case unitedKingdom = "United Kingdom"
     case unitedStates = "United States"
     case canada = "Canada"

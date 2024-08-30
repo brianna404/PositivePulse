@@ -35,11 +35,11 @@ struct SettingsView: View {
                 Picker("Country", selection: $selectedCountry) {
                     ForEach(CountryState.allCases, id: \.self) { country in
                         Text(country.rawValue)
-                            .onTapGesture {
-                                viewModel.selectedCountryStrg = selectedCountry.filterValue
-                            }
                     }
                 }
+            }
+            .onChange(of: selectedCountry) {
+                viewModel.selectedCountryStrg = selectedCountry.filterValue
             }
             }
         }
