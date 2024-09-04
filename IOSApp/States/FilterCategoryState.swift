@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SwiftUI
 
 // MARK: - FilterCategoryState Enum
+// Represents the different categories which can be selected by the user
 enum FilterCategoryState: String, CaseIterable {
     case general = "Allgemein"
     case business = "Business"
@@ -18,6 +18,7 @@ enum FilterCategoryState: String, CaseIterable {
     case sports = "Sport"
     case technology = "Technologie"
     
+    // Value for parameter in URLRequest 
     var filterValue: String {
         switch self {
         case .general:

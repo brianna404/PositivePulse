@@ -8,22 +8,24 @@
 import Foundation
 
 // MARK: - APIError Enum
-// define different types of possible API interaction errors
+// Define different types of possible API interaction errors
 enum APIError: Error {
     case decodingError
-    case errorCode(Int) // associates a HTTP status code with the error.
+    // Associates a HTTP status code with the error
+    case errorCode(Int)
     case unkown
 }
 
 // MARK: - LocalizedError Conformance
-// extending APIError to conform to LocalizedError for providing error descriptions
+// Extending APIError to conform to LocalizedError for providing error descriptions
 extension APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .decodingError:
             return "Failed to decode object from service"
         case .errorCode(let code):
-            return "\(code) - something went wrong" // description for errors associated with specific HTTP status codes
+            // Description for errors associated with specific HTTP status codes
+            return "\(code) - something went wrong"
         case .unkown:
             return "This error is unknown"
         }

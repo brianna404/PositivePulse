@@ -8,9 +8,12 @@
 import Foundation
 
 // MARK: - ResultState Enum
-// represent the different states of asynchronous operation
+// Represents the different states of asynchronous operation
 enum ResultState {
-    case loading // operation in progress
-    case success(content: [Article]) // operation successfull, contains array of articles
-    case failed(error: Error) // failed, contains error description
+    // Operation in progress
+    case loading
+    // Operation successfull, contains array of articles
+    case success(content: [Article])
+    // Failed, contains error description
+    case failed(error: Error)
 }

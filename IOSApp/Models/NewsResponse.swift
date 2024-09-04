@@ -8,15 +8,14 @@
 import Foundation
 
 // MARK: - NewsResponse
-// class to represent the structure of the response from the news API
+// Class to represent the structure of the response from the news API
 class NewsResponse: Codable {
-    // attributes
+    // Attributes
     let status: String
     let totalResults: Int
     let articles: [Article]
     
-    // methods
-    // initializer
+    // Initializer
     init(status: String, totalResults: Int, articles: [Article]) {
         self.status = status
         self.totalResults = totalResults
@@ -25,10 +24,11 @@ class NewsResponse: Codable {
 }
 
 // MARK: - Article
-// class to represent a single news article
+// Class to represent a single news article
 class Article: Codable, Identifiable, Hashable, Equatable {
-    // attributes
-    let id: UUID = UUID() // id of type universally unique identifier
+    // MARK: - Attributes
+    // Id of type universally unique identifier because no Id for articles provided by API
+    let id: UUID = UUID()
     let source: Source?
     let author: String?
     let title: String?
@@ -46,8 +46,8 @@ class Article: Codable, Identifiable, Hashable, Equatable {
     var isBookmarked: Bool?
     var lastBookmarked: Date?
     
-    // methods
-    // initializer
+    // MARK: - Methods
+    // Initializer
     init(source: Source?, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?, isRead: Bool?, lastRead: Date?, isBookmarked: Bool?, lastBookmarked: Date?) {
         self.source = source
         self.author = author
@@ -76,14 +76,14 @@ class Article: Codable, Identifiable, Hashable, Equatable {
     
 
 // MARK: - Source
-// class to represent the source of a news article
+// Class to represent the source of a news article
 class Source: Codable {
-    // attributes
+    // Attributes
     let id: String?
     let name: String?
     
-    // methods
-    // initializer
+    // MARK: - Methods
+    // Initializer
     init(id: String?, name: String?) {
         self.id = id
         self.name = name
@@ -91,32 +91,34 @@ class Source: Codable {
 }
 
 // MARK: - Encode/decode helpers
-// class to handle null values in JSON data
+// Class to handle null values in JSON data
 class JSONNull: Codable, Hashable {
 
-    // methods
-    // equality operator for JSONNull, as all instances are considered equal
+    // MARK: - Methods
+    // Equality operator for JSONNull, as all instances are considered equal
     public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
             return true
     }
 
-    // hash value for JSONNull. All instances have the same hash value
+    // Hash value for JSONNull. All instances have the same hash value
     public func hash(into hasher: inout Hasher) {
         hasher.combine(0)
     }
 
-    // initializer
-    public init() {} // no-op initializer since JSONNull does not need any properties initialized
+    // Initializer
+    // No-op initializer since JSONNull does not need any properties initialized
+    public init() {}
 
     // Required initializer for decoding JSONNull from JSON data
     public required init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
-            if !container.decodeNil() { // throws an error if the JSON value is not null
+            // Throws an error if the JSON value is not null
+            if !container.decodeNil() {
                     throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
             }
     }
 
-    // encode JSONNull into JSON data
+    // Encode JSONNull into JSON data
     public func encode(to encoder: Encoder) throws {
             var container = encoder.singleValueContainer()
             try container.encodeNil()

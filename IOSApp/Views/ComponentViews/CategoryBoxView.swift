@@ -66,5 +66,5 @@ struct CategoryBoxView: View {
 }
 
 #Preview {
-    MyPageView()
+    SearchView()
 }
