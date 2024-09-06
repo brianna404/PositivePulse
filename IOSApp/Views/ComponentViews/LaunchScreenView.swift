@@ -42,7 +42,7 @@ struct LaunchScreenView: View {
             
             Text("Positive Pulse")
                 .fontWeight(.bold)
-                .font(.title)
+                .font(.system(size: 28))
         }
     }
 }

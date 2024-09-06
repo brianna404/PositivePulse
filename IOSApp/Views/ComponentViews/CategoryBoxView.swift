@@ -10,6 +10,9 @@ import SwiftUI
 struct CategoryBoxView: View {
     @ObservedObject var viewModel: NewsViewModelImpl
     
+    // Use AppStorage for setting fontSize of text elements
+    @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
+    
     // create two columns with flexible size for grid layout
     let columns = [
         GridItem(.flexible()),
@@ -47,7 +50,7 @@ struct CategoryBoxView: View {
                 }) {
                     VStack {
                         Image(systemName: getSymbol(for: category))
-                            .font(.system(size: 24))
+                            .font(.system(size: selectedFontSize.fontSizeCGFloat["title2"] ?? 20))
                             .foregroundColor(.white)
                         Text(category.rawValue)
                             .fontWeight(.bold)

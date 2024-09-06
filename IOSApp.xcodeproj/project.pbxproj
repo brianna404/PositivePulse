@@ -13,6 +13,7 @@
 		2512B1FF2C5592D10037ADD1 /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B1FE2C5592D10037ADD1 /* NewsService.swift */; };
 		2512B2022C559A200037ADD1 /* ResultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2012C559A200037ADD1 /* ResultState.swift */; };
 		2512B2052C567CC00037ADD1 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2042C567CC00037ADD1 /* NewsViewModel.swift */; };
+		252A240A2C8AF6DC006D32EA /* FontSizeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252A24092C8AF6DC006D32EA /* FontSizeState.swift */; };
 		257810BE2C2EEA13001C7487 /* IOSAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810BD2C2EEA13001C7487 /* IOSAppApp.swift */; };
 		257810C22C2EEA15001C7487 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C12C2EEA15001C7487 /* Assets.xcassets */; };
 		257810C52C2EEA15001C7487 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C42C2EEA15001C7487 /* Preview Assets.xcassets */; };
@@ -69,6 +70,7 @@
 		2512B1FE2C5592D10037ADD1 /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
 		2512B2012C559A200037ADD1 /* ResultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultState.swift; sourceTree = "<group>"; };
 		2512B2042C567CC00037ADD1 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
+		252A24092C8AF6DC006D32EA /* FontSizeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeState.swift; sourceTree = "<group>"; };
 		257810BA2C2EEA13001C7487 /* IOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		257810BD2C2EEA13001C7487 /* IOSAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppApp.swift; sourceTree = "<group>"; };
 		257810C12C2EEA15001C7487 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				2508BB5C2C6A25C00016A78E /* FilterCategoryState.swift */,
 				25E3CEA72C7F5E5000E45C09 /* CountryState.swift */,
 				25E3CEAF2C80D2F300E45C09 /* LanguageState.swift */,
+				252A24092C8AF6DC006D32EA /* FontSizeState.swift */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				268936252C5FC61B00ADAB5F /* DateUtils.swift in Sources */,
 				2512B2022C559A200037ADD1 /* ResultState.swift in Sources */,
 				260061B22C7B8C3A00647380 /* HeadlineTabView.swift in Sources */,
+				252A240A2C8AF6DC006D32EA /* FontSizeState.swift in Sources */,
 				260061B12C7B8C3A00647380 /* ErrorView.swift in Sources */,
 				260061AB2C7B8C3A00647380 /* ArticleImageView.swift in Sources */,
 				258BC6D72C664E660025C241 /* NewsEndpoint.swift in Sources */,

@@ -96,13 +96,17 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
             .sink { res in
                 switch res {
                     
-                // If successful update state to success with articles
+                // If fetching articles was successful update state to success with articles otherwise set state to failed
                 case .finished:
-                    self.state = .success(content: self.articles)
-                    // Filter and update positive articles
-                    self.positiveArticles = self.filterService.filterPositiveNews(from: self.articles)
-                    // Set the flag after successful fetch
-                    self.hasFetched = true
+                    if !self.articles.isEmpty {
+                        self.state = .success(content: self.articles)
+                        // Filter and update positive articles
+                        self.positiveArticles = self.filterService.filterPositiveNews(from: self.articles)
+                        // Set the flag after successful fetch
+                        self.hasFetched = true
+                    } else {
+                        self.state = .failed(error: APIError.noArticles)
+                    }
                     
                 // If failed update state to failed with error
                 case .failure(let error):

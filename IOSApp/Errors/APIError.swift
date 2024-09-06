@@ -14,6 +14,7 @@ enum APIError: Error {
     case decodingError
     // Associates a HTTP status code with the error
     case errorCode(Int)
+    case noArticles
     case unkown
 }
 
@@ -28,6 +29,8 @@ extension APIError: LocalizedError {
         case .errorCode(let code):
             // Description for errors associated with specific HTTP status codes
             return "\(code) - something went wrong"
+        case .noArticles:
+            return "No articles available at the moment. Please try again later"
         case .unkown:
             return "This error is unknown"
         }

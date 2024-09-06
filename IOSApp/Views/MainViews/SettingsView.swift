@@ -19,6 +19,7 @@ struct SettingsView: View {
     // Usage of AppStorage for global access to settings options
     @AppStorage("isDarkMode") private var darkModeOn = false
     @AppStorage("selectedLanguage") private var selectedLanguage = LanguageState.german
+    @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
     
     @State private var selectedCountry = CountryState.germany
     
@@ -29,7 +30,7 @@ struct SettingsView: View {
             // Section for visible sectioning of different setting options
             Section {
                 Text("Appearance Settings")
-                    .font(.headline)
+                    .font(.system(size: selectedFontSize.fontSizeCGFloat["headline"] ?? 17, weight: .bold))
                     .frame(alignment: .topLeading)
                 
                 Toggle("Dark Mode active", isOn: $darkModeOn)
@@ -41,11 +42,19 @@ struct SettingsView: View {
                         Text(language.rawValue)
                     }
                 }
+                
+                Picker("Fontsize", selection: $selectedFontSize) {
+                    // Iterating through FontSizeStates for showing all stages in rawValue
+                    ForEach(FontSizeState.allCases, id: \.self) { fontSize in
+                        
+                        Text(fontSize.rawValue)
+                    }
+                }
             }
             
             Section {
                 Text("Article Settings")
-                    .font(.headline)
+                    .font(.system(size: selectedFontSize.fontSizeCGFloat["headline"] ?? 17, weight: .bold))
                     .frame(alignment: .topLeading)
                 
                 // Iterating through countryStates for showing all stages in rawValue

@@ -15,6 +15,13 @@ struct HeadlineTabView: View {
     // Array to hold first three fetched articles
     let articles: [Article]
     
+    // Use AppStorage for setting fontSize of text elements
+    @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
+    
+    // Observe object NewsViewModelImp provided from contentView
+    @ObservedObject
+    var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
+    
     // Default value for headline is article with index 0
     @State private var currentHeadline = 0
     
@@ -73,7 +80,7 @@ struct HeadlineTabView: View {
                         ) {
                             
                             // ArticleView as clickable object for navigation
-                            ArticleView(article: article, titleFontSize: 22, iconSize: 50, dateFontSize: 14)
+                            ArticleView(article: article, titleFontSize: selectedFontSize.fontSizeCGFloat["title2"] ?? 22, iconSize: 50, dateFontSize: selectedFontSize.fontSizeCGFloat["subheadline"] ?? 15)
                                 .contentShape(Rectangle())
                             // Tags every ArticleView with index of article
                                 .tag(index)

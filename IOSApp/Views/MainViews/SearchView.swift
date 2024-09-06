@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SearchView: View {
+    // Use AppStorage for setting fontSize of text elements 
+    @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
     @State private var searchText = "" // Holds the current search text
     @State private var searchResults: [Article] = [] // Stores the search results
     @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()) // ViewModel to handle the search logic
@@ -41,7 +43,7 @@ struct SearchView: View {
                     if searchExecuted && !searchText.isEmpty {
                         Text("in \(viewModel.selectedCategory?.rawValue ?? "Allgemein")")
                             .foregroundColor(.gray)
-                            .font(.footnote) // Make the font smaller
+                            .font(.system(size: selectedFontSize.fontSizeCGFloat["foodnote"] ?? 13)) // Make the font smaller
                             .padding(.top, 3)
                             .frame(alignment: .leading)
                     }
