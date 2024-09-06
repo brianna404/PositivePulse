@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - FilterCategoryState Enum
 // Represents the different categories which can be selected by the user
+
 enum FilterCategoryState: String, CaseIterable {
     case general = "Allgemein"
     case business = "Business"

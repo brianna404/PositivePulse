@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - ResultState Enum
 // Represents the different states of asynchronous operation
+
 enum ResultState {
     // Operation in progress
     case loading

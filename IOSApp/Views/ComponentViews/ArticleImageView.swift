@@ -10,24 +10,29 @@ import URLImage
 
 // MARK: - ArticleImageView Struct
 // Image loading logic
+
 struct ArticleImageView: View {
     
-    // MARK: - Attributes
+    // MARK: - ArticleImageView Attributes
     let imgUrl: String?
     
     var body: some View {
+        
         if let imgUrl = imgUrl, let url = URL(string: imgUrl) {
             URLImage(url) {
                 // View displayed before download starts
                 EmptyView()
+                
+            // Display progress
             } inProgress: { progress in
-                // Display progress
                 Text("Loading...")
+                
+            // If error accured
             } failure: { error, retry in
-                // If error accured
                 PlaceholderImageView()
+                
+            // Downloaded image
             } content: { image in
-                // Downloaded image
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -38,8 +43,11 @@ struct ArticleImageView: View {
 
 // MARK: - PlaceholderImageView Struct
 // Placeholder view for the article image if image loading fails
+
 struct PlaceholderImageView: View {
+    
     var body: some View {
+        
         // Placeholder image
         Image(systemName: "photo.fill")
             .foregroundStyle(Color.white)

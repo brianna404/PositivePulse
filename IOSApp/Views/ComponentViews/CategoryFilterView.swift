@@ -9,24 +9,28 @@ import SwiftUI
 
 // MARK: - CategoryFilterView Struct
 // Shows possible filter categories as scrollable and clickable elements at the top
+
 struct CategoryFilterView: View {
     
-    // MARK: - Attributes
+    // MARK: - CategoryFilterView Attributes
     // Observe instance of provided NewsViewModelImpl
     @ObservedObject
     var viewModel: NewsViewModelImpl
     
     var body: some View {
+        
         // Make view scrollable in horizontal direction
         // Hide bar to indicate at which position has been scrolled
         ScrollView (.horizontal, showsIndicators: false) {
             
         // Sort categories horizontally
         HStack(spacing: 20) {
+            
             // Iterate through categories in FilterCategoryState
             ForEach (FilterCategoryState.allCases, id: \.self) {
                 category in
                     // Style Text of Category with colored underline
+                
                     VStack {
                         // Show readable name of category
                         Text(category.rawValue)

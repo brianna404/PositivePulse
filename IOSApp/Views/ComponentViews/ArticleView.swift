@@ -9,16 +9,20 @@ import SwiftUI
 
 // MARK: - ArticleView Struct
 // Image and article information in single article view
+
 struct ArticleView: View {
     
-    // MARK: - Attributes
+    // MARK: - ArticleView Attributes
     let article: Article
     // Styling elements provided as parameters for styling article as list or headline articles in tabview
     let titleFontSize: CGFloat
     let iconSize: CGFloat
     let dateFontSize: CGFloat
     
-    // Initializer
+    // Observe articleStorage to track changes of bookmarks
+    @ObservedObject var articleStorage = ArticleStorageService.shared
+    
+    // MARK: ArticleView Initializer
     init(article: Article, titleFontSize: CGFloat, iconSize: CGFloat, dateFontSize: CGFloat) {
         self.article = article
         self.titleFontSize = titleFontSize
@@ -26,10 +30,8 @@ struct ArticleView: View {
         self.dateFontSize = dateFontSize
     }
     
-    // Observe articleStorage to track changes of bookmarks
-    @ObservedObject var articleStorage = ArticleStorageService.shared
-    
     var body: some View {
+        
         // Horizontal stack to display image and details on horizontal line next to eachother
         HStack {
             // Load image and provide URL of image of given article
@@ -37,6 +39,7 @@ struct ArticleView: View {
             
             // Vertical stack to display article details
             VStack(alignment: .leading, spacing: 4) {
+                
                 // If author not empty show author
                 Text(article.author ?? "")
                     .foregroundStyle(Color.gray)
@@ -44,6 +47,7 @@ struct ArticleView: View {
                 
                 // Show bookmarkButton on horizontal line next to title and date
                 HStack {
+                    
                     // If title not empty show title
                     Text(article.title ?? "")
                         // Show title in provided titleFontSize fontsize

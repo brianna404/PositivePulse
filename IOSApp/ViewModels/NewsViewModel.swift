@@ -9,7 +9,9 @@ import Foundation
 import Combine
 import NaturalLanguage
 
-// MARK: - Protocol defining the interface for NewsViewModel
+// MARK: - NewsViewModel Protocol
+// Defines interface for NewaViewModel
+
 protocol NewsViewModel {
     var articles: [Article] { get }
     var positiveArticles: [Article] { get }
@@ -18,26 +20,41 @@ protocol NewsViewModel {
     func getArticles(category: String?, keyword: String?, country: String?)
 }
 
-// MARK: - Implementation of NewsViewModel
+// MARK: - NewsViewModelImpl Class
+// Implementing NewsViewModel
+
 class NewsViewModelImpl: ObservableObject, NewsViewModel {
-    private let service: NewsService // Service responsible for fetching news
-    private let filterService: FilterService // Service responsible for filtering
-    private(set) var articles = [Article] () // Array to hold fetched articles
-    private var cancellables = Set<AnyCancellable>() // Set to keep track of Combine cancellables
-    private var isInitialLoad = true // Safes if articles loaded for first time
-    private var hasFetched = false // Flag to prevent fetching several times
     
-    @Published private(set) var positiveArticles = [Article]() // Array to hold positive articles
-    @Published private(set) var searchResults = [Article]() // Array to hold result of search
-    @Published private(set) var state: ResultState = .loading // Current state of the view model
-    @Published var selectedCategory: FilterCategoryState? = .general { // Selected filter category
+    // Service responsible for fetching news
+    private let service: NewsService
+    // Service responsible for filtering
+    private let filterService: FilterService
+    // Array to hold fetched articles
+    private(set) var articles = [Article] ()
+    // Set to keep track of Combine cancellables
+    private var cancellables = Set<AnyCancellable>()
+    // Safes if articles loaded for first time
+    private var isInitialLoad = true
+    // Flag to prevent fetching several times
+    private var hasFetched = false
+    
+    // Array to hold positive articles
+    @Published private(set) var positiveArticles = [Article]()
+    // Array to hold result of search
+    @Published private(set) var searchResults = [Article]()
+    // Current state of the view model
+    @Published private(set) var state: ResultState = .loading
+    // String value for api filter
+    @Published var selectedCountryStrg = CountryState.germany.filterValue
+    // String value for api filter
+    @Published var selectedCategoryStrg = FilterCategoryState.general.filterValue
+    // Selected filter category
+    @Published var selectedCategory: FilterCategoryState? = .general {
         // If category is set for observed parameter new articles will be loaded
         didSet {
             loadNewArticles(keyword: nil)
         }
     }
-    @Published var selectedCategoryStrg = FilterCategoryState.general.filterValue // String value for api filter
-    @Published var selectedCountryStrg = CountryState.germany.filterValue // String value for api filter
     
     // Initialization
     init (service: NewsService, filterService: FilterService) {
@@ -46,6 +63,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     }
     
 // MARK: - Methods
+    
     // Loads new articles in case of filtering, searching or reloading
     func loadNewArticles(keyword: String? = nil) {
         // Setting hasFetched to false for loading articles in new api call

@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: - APIError Enum
 // Define different types of possible API interaction errors
+
 enum APIError: Error {
     case decodingError
     // Associates a HTTP status code with the error
@@ -18,6 +19,7 @@ enum APIError: Error {
 
 // MARK: - LocalizedError Conformance
 // Extending APIError to conform to LocalizedError for providing error descriptions
+
 extension APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
