@@ -22,6 +22,7 @@ struct SettingsView: View {
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
     
     @State private var selectedCountry = CountryState.germany
+    @State private var preferedSources = ""
     
     var body: some View {
         
@@ -56,6 +57,12 @@ struct SettingsView: View {
                 Text("Article Settings")
                     .font(.system(size: selectedFontSize.fontSizeCGFloat["headline"] ?? 17, weight: .bold))
                     .frame(alignment: .topLeading)
+                
+                // this function is not functional in this version!!
+                TextField(
+                        "Prefered Sources",
+                        text: $preferedSources
+                    )
                 
                 // Iterating through countryStates for showing all stages in rawValue
                 Picker("Country", selection: $selectedCountry) {
