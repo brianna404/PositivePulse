@@ -45,7 +45,7 @@ struct CategoryBoxView: View {
             ForEach(FilterCategoryState.allCases, id: \.self) { category in // loop through all categories
                 Button(action: {
                     // update selected category when box is clicked
-                    viewModel.selectedCategoryStrg = category.filterValue
+                    // viewModel.selectedCategoryStrg = category.filterValue
                     viewModel.selectedCategory = category
                 }) {
                     VStack {

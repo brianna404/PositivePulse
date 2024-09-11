@@ -36,6 +36,7 @@ struct ArticleView: View {
         HStack {
             // Load image and provide URL of image of given article
             ArticleImageView(imgUrl: article.urlToImage)
+                .frame(width: 100, height: 100)
             
             // Vertical stack to display article details
             VStack(alignment: .leading, spacing: 4) {
@@ -43,7 +44,8 @@ struct ArticleView: View {
                 // If author not empty show author
                 Text(article.author ?? "")
                     .foregroundStyle(Color.gray)
-                    .font(.footnote)
+                // Show author in provided dateSize fontsize
+                .font(.system(size: dateFontSize))
                 
                 // Show bookmarkButton on horizontal line next to title and date
                 HStack {

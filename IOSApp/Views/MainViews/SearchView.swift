@@ -24,7 +24,7 @@ struct SearchView: View {
                     // Search Bar
                     TextField("Suchen...", text: $searchText, onCommit: {
                         if !searchText.isEmpty { // only execute if searchText is not empty
-                            viewModel.searchArticles(with: searchText, in: viewModel.selectedCategoryStrg)
+                            viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
                             searchExecuted = true
                         }
                     })
@@ -41,7 +41,7 @@ struct SearchView: View {
                     
                     // Show the selected category after search is committed
                     if searchExecuted && !searchText.isEmpty {
-                        Text("in \(viewModel.selectedCategory?.rawValue ?? "Allgemein")")
+                        Text("in \(viewModel.selectedCategory.rawValue)")
                             .foregroundColor(.gray)
                             .font(.system(size: selectedFontSize.fontSizeCGFloat["foodnote"] ?? 13)) // Make the font smaller
                             .padding(.top, 3)

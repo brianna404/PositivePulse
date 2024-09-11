@@ -20,8 +20,9 @@ struct SettingsView: View {
     @AppStorage("isDarkMode") private var darkModeOn = false
     @AppStorage("selectedLanguage") private var selectedLanguage = LanguageState.german
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
+    @AppStorage("selectedCountry") private var selectedCountry =  CountryState.germany
+    @AppStorage("selectedCategory") private var selectedCategory = FilterCategoryState.general
     
-    @State private var selectedCountry = CountryState.germany
     @State private var preferedSources = ""
     
     var body: some View {
@@ -64,6 +65,14 @@ struct SettingsView: View {
                         text: $preferedSources
                     )
                 
+                // Iterating through FilterCategoryStates for showing all stages in rawValue
+                Picker("Prefered Category", selection: $selectedCategory) {
+                    ForEach(FilterCategoryState.allCases, id: \.self) { category in
+                        
+                        Text(category.rawValue)
+                    }
+                }
+                
                 // Iterating through countryStates for showing all stages in rawValue
                 Picker("Country", selection: $selectedCountry) {
                     ForEach(CountryState.allCases, id: \.self) { country in
@@ -71,10 +80,7 @@ struct SettingsView: View {
                         Text(country.rawValue)
                     }
                 }
-            }
-            // Change variable selectedCountrStrg in observedObject for api call
-            .onChange(of: selectedCountry) {
-                viewModel.selectedCountryStrg = selectedCountry.filterValue
+                
             }
         }
     }

@@ -38,7 +38,6 @@ struct CategoryFilterView: View {
                             // Update related categoryFilter values in observed viewModel
                             .onTapGesture {
                                 // Use filterValue of enum value for providing string readable for api
-                                viewModel.selectedCategoryStrg = category.filterValue
                                 viewModel.selectedCategory = category
                             }
                             // If category selected it is highlighted otherwise default color for showing differently in darkMode and LightMode

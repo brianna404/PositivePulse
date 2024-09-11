@@ -32,7 +32,7 @@ struct HomeView: View {
                 // Show EwworView if error accured
                 case .failed(error: let error):
                     ErrorView(error: error) {
-                        viewModel.getArticles(category: viewModel.selectedCategoryStrg, keyword: nil, country: viewModel.selectedCountryStrg) }
+                        viewModel.getArticles(category: viewModel.selectedCategory, keyword: nil, country: viewModel.selectedCountry) }
                     
                 // Show TabView headlines and list of articles when request was successful
                 case .success(let content):
@@ -74,7 +74,7 @@ struct HomeView: View {
             }
             // On appear get articles initially
             .onAppear {
-                viewModel.getArticles(category: viewModel.selectedCategoryStrg, keyword: nil, country: viewModel.selectedCountryStrg)
+                viewModel.getArticles(category: viewModel.selectedCategory, keyword: nil, country: viewModel.selectedCountry)
             }
         }
     }

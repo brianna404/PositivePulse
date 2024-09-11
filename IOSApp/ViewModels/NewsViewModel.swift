@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import NaturalLanguage
+import SwiftUI
 
 // MARK: - NewsViewModel Protocol
 // Defines interface for NewaViewModel
@@ -17,7 +18,7 @@ protocol NewsViewModel {
     var positiveArticles: [Article] { get }
     var state: ResultState { get }
     
-    func getArticles(category: String?, keyword: String?, country: String?)
+    func getArticles(category: FilterCategoryState?, keyword: String?, country: CountryState?)
 }
 
 // MARK: - NewsViewModelImpl Class
@@ -44,17 +45,11 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     @Published private(set) var searchResults = [Article]()
     // Current state of the view model
     @Published private(set) var state: ResultState = .loading
-    // String value for api filter
-    @Published var selectedCountryStrg = CountryState.germany.filterValue
-    // String value for api filter
-    @Published var selectedCategoryStrg = FilterCategoryState.general.filterValue
+    
+    // Selected filter country
+    @AppStorage("selectedCountry") var selectedCountry =  CountryState.germany
     // Selected filter category
-    @Published var selectedCategory: FilterCategoryState? = .general {
-        // If category is set for observed parameter new articles will be loaded
-        didSet {
-            loadNewArticles(keyword: nil)
-        }
-    }
+    @AppStorage("selectedCategory") var selectedCategory = FilterCategoryState.general
     
     // Initialization
     init (service: NewsService, filterService: FilterService) {
@@ -68,11 +63,11 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     func loadNewArticles(keyword: String? = nil) {
         // Setting hasFetched to false for loading articles in new api call
         self.hasFetched = false
-        self.getArticles(category: self.selectedCategoryStrg, keyword: keyword, country: self.selectedCountryStrg)
+        self.getArticles(category: self.selectedCategory, keyword: keyword, country: self.selectedCountry)
     }
     
     // Makes api call and gets articles
-    func getArticles(category: String?, keyword: String?, country: String?) {
+    func getArticles(category: FilterCategoryState?, keyword: String?, country: CountryState?) {
         // Block unused api calls if has fetched
         guard !hasFetched || keyword != nil else { return }
         
@@ -91,7 +86,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         let cancellable = service
         
             // Call the getNews endpoint of the service
-            .request(from: .getNews(category: category, keyword: keyword, country: selectedCountryStrg))
+            .request(from: .getNews(category: category?.filterValue, keyword: keyword, country: selectedCountry.filterValue))
             // Subscribe to the publisher's output
             .sink { res in
                 switch res {
