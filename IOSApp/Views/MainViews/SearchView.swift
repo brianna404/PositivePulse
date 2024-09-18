@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SearchView: View {
+    // Use AppStorage for setting fontSize of text elements 
+    @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
     @State private var searchText = "" // Holds the current search text
     @State private var searchResults: [Article] = [] // Stores the search results
     @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()) // ViewModel to handle the search logic
@@ -22,7 +24,7 @@ struct SearchView: View {
                     // Search Bar
                     TextField("Suchen...", text: $searchText, onCommit: {
                         if !searchText.isEmpty { // only execute if searchText is not empty
-                            viewModel.searchArticles(with: searchText, in: viewModel.selectedCategoryStrg)
+                            viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
                             searchExecuted = true
                         }
                     })
@@ -33,11 +35,15 @@ struct SearchView: View {
                     .shadow(color: .gray, radius: 4, x: 0, y: 2)
                     .focused($isFocused) // Bind the focus state to the search bar
                     
+                    .onTapGesture {
+                        searchExecuted = false
+                    }
+                    
                     // Show the selected category after search is committed
                     if searchExecuted && !searchText.isEmpty {
-                        Text("in \(viewModel.selectedCategory?.rawValue ?? "Allgemein")")
+                        Text("in \(viewModel.selectedCategory.rawValue)")
                             .foregroundColor(.gray)
-                            .font(.footnote) // Make the font smaller
+                            .font(.system(size: selectedFontSize.fontSizeCGFloat["foodnote"] ?? 13)) // Make the font smaller
                             .padding(.top, 3)
                             .frame(alignment: .leading)
                     }
@@ -54,7 +60,7 @@ struct SearchView: View {
                         List {
                             ArticleListView(articles: viewModel.searchResults, viewModel: viewModel)
                         }
-                    } else if searchExecuted && searchExecuted && !searchText.isEmpty {
+                    } else if searchExecuted && searchResults.isEmpty && !searchText.isEmpty {
                         // Display an info message when no results are found
                         Text("Keine Ergebnisse gefunden.")
                             .foregroundColor(.gray)
@@ -62,13 +68,12 @@ struct SearchView: View {
                     }
                     Spacer()
                 }
-                .padding(.top, 15)
+                .padding(.top, keyboardHeight + 15) // Adjust the view's top padding by the keyboard height
                 
                 // reset search view
                 .onChange(of: searchText) {
                     if searchText.isEmpty {
                         viewModel.clearSearchResults()
-                        searchExecuted = false
                     }
                 }
                 
@@ -83,7 +88,7 @@ struct SearchView: View {
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
                         // if keyboard is shown get its height
                         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-                            keyboardHeight = keyboardFrame.height - geometry.safeAreaInsets.bottom
+                            keyboardHeight = keyboardFrame.height
                         }
                     }
                     
@@ -93,7 +98,6 @@ struct SearchView: View {
                         keyboardHeight = 0
                     }
                 }
-                .padding(.bottom, keyboardHeight) // Adjust the view's bottom padding by the keyboard height
                 .animation(.easeOut(duration: 0.16), value: keyboardHeight) // Smooth animation when the keyboard appears/disappears
             }
         }

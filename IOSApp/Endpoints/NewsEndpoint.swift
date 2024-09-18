@@ -8,7 +8,8 @@
 import Foundation
 
 // MARK: - APIBuilder Protocol
-// protocol to define the requirements for building a URLRequest
+// Protocol to define the requirements for building a URLRequest
+
 protocol APIBuilder {
     var request: URLRequest { get }
     var baseURL: URL { get }
@@ -16,36 +17,46 @@ protocol APIBuilder {
 }
 
 // MARK: - NewsAPI Enum
-// represent different API endpoints
+// Represents different API endpoints
+
 enum NewsAPI {
-    case getNews(category: String?, keyword: String?)
-    // more can be added here
+    case getNews(category: String?, keyword: String?, country: String?)
+    // More can be added here
 }
 
 // MARK: - Conformance to APIBuilder
-// extending NewsAPI to conform to the APIBuilder protocol
+// Extending NewsAPI to conform to the APIBuilder protocol
+
 extension NewsAPI: APIBuilder {
+    
     // URLRequest builds the complete URLRequest for the given API endpoint
     var request: URLRequest {
-        // construct a URLRequest using the baseURL and path for the endpoint.
+        
+        // Construct a URLRequest using the baseURL and path for the endpoint
         var urlComponents = URLComponents(url: self.baseURL.appendingPathComponent(self.path), resolvingAgainstBaseURL: false)!
+            // Add filters in form of array of query items
                 urlComponents.queryItems = self.queryItems
 
+                // Return error if URL invalid
                 guard let url = urlComponents.url else {
                     fatalError("Invalid URL components")
                 }
         
+                // Return constructed URL
                 return URLRequest(url: url)
     }
-    // baseURL returns the base URL for the API
+    
+    // BaseURL returns the base URL for the API
     var baseURL: URL {
+        
         switch self {
         case .getNews:
             // Return the base URL
             return URL(string: "https://newsapi.org")!
         }
     }
-    // path returns the specific path for the API endpoint
+    
+    // Path returns the specific path for the API endpoint
         var path: String {
             switch self {
             case .getNews:
@@ -53,10 +64,12 @@ extension NewsAPI: APIBuilder {
                 return "/v2/top-headlines"
             }
         }
-    // queryItems returns the query parameters for the API endpoint
+    
+    // QueryItems returns the filters as query parameters for the API endpoint
     var queryItems: [URLQueryItem] {
+        
         switch self {
-        case .getNews(let category, let keyword):
+        case .getNews(let category, let keyword, let country):
             // Load the API key from the Config.plist file
             guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
                   let config = NSDictionary(contentsOfFile: path),
@@ -65,9 +78,9 @@ extension NewsAPI: APIBuilder {
                 fatalError("Required parameters missing or invalid")
             }
             
-            // general query items
+            // General filters as query items
             var queryItems = [
-                URLQueryItem(name: "language", value: "de"),
+                URLQueryItem(name: "country", value: country),
                 URLQueryItem(name: "pageSize", value: "100"),
                 URLQueryItem(name: "apiKey", value: apiKey)
             ]
@@ -82,6 +95,7 @@ extension NewsAPI: APIBuilder {
                 queryItems.append(URLQueryItem(name: "q", value: keyword))
             }
             
+            // Return filters as array of query items
             return queryItems
         }
     }

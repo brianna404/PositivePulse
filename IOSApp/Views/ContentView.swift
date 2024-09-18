@@ -27,19 +27,26 @@ struct ContentView: View {
                     }
                     .tag(0)
                 
-                SearchView() // Placeholder view
+                SearchView()
                     .tabItem {
                         Image(systemName: "magnifyingglass")
                         Text("Suche")
                     }
                     .tag(1)
                 
-                MyPageView() // Placeholder view
+                MyPageView()
                     .tabItem {
                         Image(systemName: "bookmark")
                         Text("Mein Bereich")
                     }
                     .tag(2)
+                
+                SettingsView(viewModel: viewModel)
+                    .tabItem {
+                        Image(systemName: "gear")
+                        Text("Einstellungen")
+                    }
+                    .tag(3)
             }
             .accentColor(Color.accentColor)
             // so tab bar is not invisible when first opening the app

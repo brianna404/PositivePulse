@@ -10,6 +10,9 @@ import SwiftUI
 struct CategoryBoxView: View {
     @ObservedObject var viewModel: NewsViewModelImpl
     
+    // Use AppStorage for setting fontSize of text elements
+    @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
+    
     // create two columns with flexible size for grid layout
     let columns = [
         GridItem(.flexible()),
@@ -42,12 +45,12 @@ struct CategoryBoxView: View {
             ForEach(FilterCategoryState.allCases, id: \.self) { category in // loop through all categories
                 Button(action: {
                     // update selected category when box is clicked
-                    viewModel.selectedCategoryStrg = category.filterValue
+                    // viewModel.selectedCategoryStrg = category.filterValue
                     viewModel.selectedCategory = category
                 }) {
                     VStack {
                         Image(systemName: getSymbol(for: category))
-                            .font(.system(size: 24))
+                            .font(.system(size: selectedFontSize.fontSizeCGFloat["title2"] ?? 20))
                             .foregroundColor(.white)
                         Text(category.rawValue)
                             .fontWeight(.bold)
@@ -66,5 +69,5 @@ struct CategoryBoxView: View {
 }
 
 #Preview {
-    MyPageView()
+    SearchView()
 }

@@ -8,23 +8,31 @@
 import SwiftUI
 import URLImage
 
-// image loading logic -> separated to prevent image from reloading when bookmark icon is clicked
+// MARK: - ArticleImageView Struct
+// Image loading logic
+
 struct ArticleImageView: View {
+    
+    // MARK: - ArticleImageView Attributes
     let imgUrl: String?
     
     var body: some View {
+        
         if let imgUrl = imgUrl, let url = URL(string: imgUrl) {
             URLImage(url) {
-                // view displayed before download starts
+                // View displayed before download starts
                 EmptyView()
+                
+            // Display progress
             } inProgress: { progress in
-                // Display progress
                 Text("Loading...")
+                
+            // If error accured
             } failure: { error, retry in
-                // if error accured
                 PlaceholderImageView()
+                
+            // Downloaded image
             } content: { image in
-                // Downloaded image
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -33,11 +41,17 @@ struct ArticleImageView: View {
     }
 }
 
-// placeholder view for the article image if image loading fails
+// MARK: - PlaceholderImageView Struct
+// Placeholder view for the article image if image loading fails
+
 struct PlaceholderImageView: View {
+    
     var body: some View {
-        Image(systemName: "photo.fill") // Placeholder image
+        
+        // Placeholder image
+        Image(systemName: "photo.fill")
             .foregroundStyle(Color.white)
-            .background(Color.gray) // Background color for placeholder
+            // Background color for placeholder
+            .background(Color.gray)
     }
 }

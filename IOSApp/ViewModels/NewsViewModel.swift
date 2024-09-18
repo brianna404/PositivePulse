@@ -8,34 +8,48 @@
 import Foundation
 import Combine
 import NaturalLanguage
+import SwiftUI
 
-// MARK: - Protocol defining the interface for NewsViewModel
+// MARK: - NewsViewModel Protocol
+// Defines interface for NewaViewModel
+
 protocol NewsViewModel {
     var articles: [Article] { get }
     var positiveArticles: [Article] { get }
     var state: ResultState { get }
-    func getArticles(category: String?, keyword: String?)
+    
+    func getArticles(category: FilterCategoryState?, keyword: String?, country: CountryState?)
 }
 
-// MARK: - Implementation of NewsViewModel
+// MARK: - NewsViewModelImpl Class
+// Implementing NewsViewModel
+
 class NewsViewModelImpl: ObservableObject, NewsViewModel {
-    private let service: NewsService // Service responsible for fetching news
-    private let filterService: FilterService // Service responsible for filtering
-    private(set) var articles = [Article] () // Array to hold fetched articles
-    private var cancellables = Set<AnyCancellable>() // Set to keep track of Combine cancellables
-    private var isInitialLoad = true // safes if articles loaded for first time
     
-    @Published private(set) var positiveArticles = [Article]() // Array to hold positive articles
-    @Published private(set) var searchResults = [Article]() // Array to hold result of search
-    @Published private(set) var state: ResultState = .loading // Current state of the view model
-    @Published var selectedCategory: FilterCategoryState? = .general { // Selected filter category
-        didSet {
-            loadNewArticles(keyword: nil)
-        }
-    }
-    @Published var selectedCategoryStrg = "general"
+    // Service responsible for fetching news
+    private let service: NewsService
+    // Service responsible for filtering
+    private let filterService: FilterService
+    // Array to hold fetched articles
+    private(set) var articles = [Article] ()
+    // Set to keep track of Combine cancellables
+    private var cancellables = Set<AnyCancellable>()
+    // Safes if articles loaded for first time
+    private var isInitialLoad = true
+    // Flag to prevent fetching several times
+    private var hasFetched = false
     
-    var hasFetched = false  // flag to prevent fetching several times
+    // Array to hold positive articles
+    @Published private(set) var positiveArticles = [Article]()
+    // Array to hold result of search
+    @Published private(set) var searchResults = [Article]()
+    // Current state of the view model
+    @Published private(set) var state: ResultState = .loading
+    
+    // Selected filter country
+    @AppStorage("selectedCountry") var selectedCountry =  CountryState.germany
+    // Selected filter category
+    @AppStorage("selectedCategory") var selectedCategory = FilterCategoryState.general
     
     // Initialization
     init (service: NewsService, filterService: FilterService) {
@@ -43,59 +57,75 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         self.filterService = filterService
     }
     
-    // MARK: - Methods
+// MARK: - Methods
+    
+    // Loads new articles in case of filtering, searching or reloading
     func loadNewArticles(keyword: String? = nil) {
-        // setting hasFetched to false for loading articles in new api call
+        // Setting hasFetched to false for loading articles in new api call
         self.hasFetched = false
-        self.getArticles(category: self.selectedCategoryStrg, keyword: keyword)
+        self.getArticles(category: self.selectedCategory, keyword: keyword, country: self.selectedCountry)
     }
     
-    func getArticles(category: String?, keyword: String?) {
-        // block unused api calls if has fetched
+    // Makes api call and gets articles
+    func getArticles(category: FilterCategoryState?, keyword: String?, country: CountryState?) {
+        // Block unused api calls if has fetched
         guard !hasFetched || keyword != nil else { return }
         
-        // reset results
+        // Reset results
         self.articles = []
         self.positiveArticles = []
         self.searchResults = []
         
+        // Only if initial loading of articles, do actions of loading state
         if isInitialLoad {
-            self.state = .loading // Set state to loading
+            self.state = .loading
             isInitialLoad = false
         }
         
         // Make a network request using the NewsService
         let cancellable = service
-            .request(from: .getNews(category: category, keyword: keyword)) // Call the getNews endpoint of the service
-            .sink { res in // Subscribe to the publisher's output
+        
+            // Call the getNews endpoint of the service
+            .request(from: .getNews(category: category?.filterValue, keyword: keyword, country: selectedCountry.filterValue))
+            // Subscribe to the publisher's output
+            .sink { res in
                 switch res {
+                    
+                // If fetching articles was successful update state to success with articles otherwise set state to failed
                 case .finished:
-                    // if successful update state to success with articles
-                    self.state = .success(content: self.articles)
-                    // Filter and update positive articles
-                    self.positiveArticles = self.filterService.filterPositiveNews(from: self.articles)
-                    self.hasFetched = true  // Set the flag after successful fetch
+                    if !self.articles.isEmpty {
+                        self.state = .success(content: self.articles)
+                        // Filter and update positive articles
+                        self.positiveArticles = self.filterService.filterPositiveNews(from: self.articles)
+                        // Set the flag after successful fetch
+                        self.hasFetched = true
+                    } else {
+                        self.state = .failed(error: APIError.noArticles)
+                    }
+                    
+                // If failed update state to failed with error
                 case .failure(let error):
-                    // if failed update state to failed with error
                     self.state = .failed(error: error)
                 }
-                // When receiving a value, update the articles with response articles
+                
+            // When receiving a value, update the articles with response articles
             } receiveValue: { response in
                 self.articles = response.articles
                 if keyword != nil && !keyword!.isEmpty {
                     self.searchResults = response.articles
                 }
             }
+        
         // Store the cancellable to be able to cancel it if needed
         self.cancellables.insert(cancellable)
     }
     
-    // function for searching articles
+    // Function for searching articles
     func searchArticles(with keyword: String, in category: String?) {
         loadNewArticles(keyword: keyword)
     }
     
-    // function to clear search results
+    // Function to clear search results
     func clearSearchResults() {
         self.searchResults = []
     }
