@@ -35,9 +35,6 @@ struct SearchView: View {
                     .shadow(color: .gray, radius: 4, x: 0, y: 2)
                     .focused($isFocused) // Bind the focus state to the search bar
                     
-                    .onTapGesture {
-                        searchExecuted = false
-                    }
                     
                     // Show the selected category after search is committed
                     if searchExecuted && !searchText.isEmpty {
@@ -88,12 +85,14 @@ struct SearchView: View {
                     }
                     Spacer()
                 }
-                .padding(.top, keyboardHeight + 15) // Adjust the view's top padding by the keyboard height
+                .padding(.top, 15)
+                .ignoresSafeArea(.keyboard)
                 
                 // reset search view
                 .onChange(of: searchText) {
                     if searchText.isEmpty {
                         viewModel.clearSearchResults()
+                        searchExecuted = false
                     }
                 }
                 
@@ -101,24 +100,6 @@ struct SearchView: View {
                 .onReceive(viewModel.$searchResults) { results in
                     self.searchResults = results
                 }
-                
-                // handle display of keyboard
-                .onAppear {
-                    // when keyboard is about to be shown
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
-                        // if keyboard is shown get its height
-                        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-                            keyboardHeight = keyboardFrame.height
-                        }
-                    }
-                    
-                    // when keyboard is about to be hidden
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                        // set keyboard height to 0
-                        keyboardHeight = 0
-                    }
-                }
-                .animation(.easeOut(duration: 0.16), value: keyboardHeight) // Smooth animation when the keyboard appears/disappears
             }
         }
     }
