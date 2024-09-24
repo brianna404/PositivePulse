@@ -54,17 +54,37 @@ struct SearchView: View {
                             .padding(.top, 16)
                     }
                     
-                    // Search Results or No Results Info
-                    if searchExecuted && !searchResults.isEmpty && !searchText.isEmpty {
-                        // Display the search results
-                        List {
-                            ArticleListView(articles: viewModel.searchResults, viewModel: viewModel)
+                    // If search is executed, then show different cases (loading, error, success)
+                    if searchExecuted {
+                        Group {
+                            switch viewModel.state {
+                                // Show a loading indicator while search is in progress
+                            case .loading:
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .scaleEffect(2)
+                                    .padding()
+                                
+                                // Show the ErrorView in case of a failure
+                            case .failed(error: let error):
+                                ErrorView(error: error) {
+                                    viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
+                                }
+                                
+                                // Show search results when API call is successful
+                            case .success:
+                                if !searchResults.isEmpty {
+                                    List {
+                                        ArticleListView(articles: viewModel.searchResults, viewModel: viewModel)
+                                    }
+                                } else {
+                                    // If there are no results
+                                    Text("Keine Ergebnisse gefunden.")
+                                        .foregroundColor(.gray)
+                                        .padding()
+                                }
+                            }
                         }
-                    } else if searchExecuted && searchResults.isEmpty && !searchText.isEmpty {
-                        // Display an info message when no results are found
-                        Text("Keine Ergebnisse gefunden.")
-                            .foregroundColor(.gray)
-                            .padding()
                     }
                     Spacer()
                 }

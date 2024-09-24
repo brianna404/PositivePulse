@@ -29,7 +29,7 @@ struct HomeView: View {
                 case .loading:
                     LaunchScreenView()
                     
-                // Show EwworView if error accured
+                // Show ErrorView if error occured
                 case .failed(error: let error):
                     ErrorView(error: error) {
                         viewModel.getArticles(category: viewModel.selectedCategory, keyword: nil, country: viewModel.selectedCountry) }

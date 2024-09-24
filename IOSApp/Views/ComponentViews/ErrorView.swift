@@ -30,6 +30,7 @@ struct ErrorView: View {
     var body: some View {
         
         VStack {
+            Spacer() // for vertical centering
             
             // Icon error
             Image(systemName: "exclamationmark.icloud.fill")
@@ -61,6 +62,7 @@ struct ErrorView: View {
             .font(.system(size: selectedFontSize.fontSizeCGFloat["body"] ?? 17, weight: .heavy))
             .cornerRadius(10)
             
+            Spacer() // for vertical centering
         }
     }
 }
