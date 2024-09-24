@@ -15,8 +15,8 @@ struct SearchView: View {
     @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()) // ViewModel to handle the search logic
     @FocusState private var isFocused: Bool // Tracks whether the search bar is focused (keyboard is open)
     @State private var searchExecuted = false // Tracks whether a search has been executed
-    @State private var keyboardHeight: CGFloat = 0 // Tracks the height of the keyboard
-    
+    @State private var keyboardHeight: CGFloat = 0 // Tracks the keyboard height
+
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
@@ -55,20 +55,21 @@ struct SearchView: View {
                     if searchExecuted {
                         Group {
                             switch viewModel.state {
-                                // Show a loading indicator while search is in progress
+                            // Show a loading indicator while search is in progress
                             case .loading:
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle())
                                     .scaleEffect(2)
                                     .padding()
                                 
-                                // Show the ErrorView in case of a failure
+                            // Show the ErrorView in case of a failure
                             case .failed(error: let error):
-                                ErrorView(error: error) {
-                                    viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
+                                if !isFocused {
+                                    ErrorView(error: error) {
+                                        viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)}
                                 }
                                 
-                                // Show search results when API call is successful
+                            // Show search results when API call is successful
                             case .success:
                                 if !searchResults.isEmpty {
                                     List {
@@ -86,8 +87,9 @@ struct SearchView: View {
                     Spacer()
                 }
                 .padding(.top, 15)
-                .ignoresSafeArea(.keyboard)
-                
+                .padding(.bottom, keyboardHeight == 0 ? 0 : -200) // Add negative padding when keyboard is visible
+                .ignoresSafeArea(.keyboard, edges: .bottom) // Avoid content shifting when keyboard appears
+
                 // reset search view
                 .onChange(of: searchText) {
                     if searchText.isEmpty {
@@ -99,6 +101,23 @@ struct SearchView: View {
                 // Update local searchResults when viewModel updates
                 .onReceive(viewModel.$searchResults) { results in
                     self.searchResults = results
+                }
+                .onAppear {
+                    // Subscribe to keyboard notifications
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                            self.keyboardHeight = keyboardFrame.height
+                        }
+                    }
+                    
+                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidHideNotification, object: nil, queue: .main) { _ in
+                        self.keyboardHeight = 0
+                    }
+                }
+                .onDisappear {
+                    // Remove observers when the view disappears
+                    NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+                    NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
                 }
             }
         }
