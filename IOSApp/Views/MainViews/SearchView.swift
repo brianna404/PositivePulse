@@ -22,19 +22,35 @@ struct SearchView: View {
             NavigationStack {
                 VStack {
                     // Search Bar
-                    TextField("Suchen...", text: $searchText, onCommit: {
-                        if !searchText.isEmpty { // only execute if searchText is not empty
-                            viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
-                            searchCommitted = true
+                    ZStack{
+                        TextField("Suchen...", text: $searchText, onCommit: {
+                            if !searchText.isEmpty { // only execute if searchText is not empty
+                                viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
+                                searchCommitted = true
+                            }
+                        })
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                        .shadow(color: .gray, radius: 4, x: 0, y: 2)
+                        .focused($isFocused) // Bind the focus state to the search bar
+                        
+                        // Show Clear Button (X) if searchText is not empty
+                        HStack {
+                            Spacer()
+                            if isFocused && !searchText.isEmpty {
+                                Button(action: {
+                                    searchText = "" // Clear search text
+                                    searchCommitted = false // Reset search
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.gray)
+                                }
+                                .padding(.trailing, 25) // right padding
+                            }
                         }
-                    })
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
-                    .padding(.horizontal)
-                    .shadow(color: .gray, radius: 4, x: 0, y: 2)
-                    .focused($isFocused) // Bind the focus state to the search bar
-                    
+                    }
                     
                     // Show the selected category after search is committed
                     if searchCommitted && !searchText.isEmpty {
