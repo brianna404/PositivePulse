@@ -31,7 +31,7 @@ struct HomeView: View {
                     
                 // Show ErrorView if error occured
                 case .failed(error: let error):
-                    ErrorView(error: error) {
+                    ErrorView(error: error, searchCommitted: false) {
                         viewModel.getArticles(category: viewModel.selectedCategory, keyword: nil, country: viewModel.selectedCountry) }
                     
                 // Show TabView headlines and list of articles when request was successful

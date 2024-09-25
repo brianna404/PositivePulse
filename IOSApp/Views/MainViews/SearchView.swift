@@ -14,7 +14,7 @@ struct SearchView: View {
     @State private var searchResults: [Article] = [] // Stores the search results
     @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()) // ViewModel to handle the search logic
     @FocusState private var isFocused: Bool // Tracks whether the search bar is focused (keyboard is open)
-    @State private var searchExecuted = false // Tracks whether a search has been executed
+    @State private var searchCommitted = false // Tracks whether a search has been executed
     @State private var keyboardHeight: CGFloat = 0 // Tracks the keyboard height
 
     var body: some View {
@@ -25,7 +25,7 @@ struct SearchView: View {
                     TextField("Suchen...", text: $searchText, onCommit: {
                         if !searchText.isEmpty { // only execute if searchText is not empty
                             viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
-                            searchExecuted = true
+                            searchCommitted = true
                         }
                     })
                     .padding()
@@ -37,7 +37,7 @@ struct SearchView: View {
                     
                     
                     // Show the selected category after search is committed
-                    if searchExecuted && !searchText.isEmpty {
+                    if searchCommitted && !searchText.isEmpty {
                         Text("in \(viewModel.selectedCategory.rawValue)")
                             .foregroundColor(.gray)
                             .font(.system(size: selectedFontSize.fontSizeCGFloat["foodnote"] ?? 13)) // Make the font smaller
@@ -46,13 +46,13 @@ struct SearchView: View {
                     }
                     
                     // Category Filter Boxes
-                    if !searchExecuted || searchText.isEmpty {
+                    if !searchCommitted || searchText.isEmpty {
                         CategoryBoxView(viewModel: viewModel)
                             .padding(.top, 16)
                     }
                     
                     // If search is executed, then show different cases (loading, error, success)
-                    if searchExecuted {
+                    if searchCommitted {
                         Group {
                             switch viewModel.state {
                             // Show a loading indicator while search is in progress
@@ -65,7 +65,7 @@ struct SearchView: View {
                             // Show the ErrorView in case of a failure
                             case .failed(error: let error):
                                 if !isFocused {
-                                    ErrorView(error: error) {
+                                    ErrorView(error: error, searchCommitted: searchCommitted) {
                                         viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)}
                                 }
                                 
@@ -94,7 +94,7 @@ struct SearchView: View {
                 .onChange(of: searchText) {
                     if searchText.isEmpty {
                         viewModel.clearSearchResults()
-                        searchExecuted = false
+                        searchCommitted = false
                     }
                 }
                 

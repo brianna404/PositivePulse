@@ -10,12 +10,26 @@ import Foundation
 // MARK: - APIError Enum
 // Define different types of possible API interaction errors
 
-enum APIError: Error {
+enum APIError: Error, Equatable {
     case decodingError
     // Associates a HTTP status code with the error
     case errorCode(Int)
     case noArticles
     case unkown
+    
+    // Implementing Equatable for custom comparison
+    static func ==(lhs: APIError, rhs: APIError) -> Bool {
+        switch (lhs, rhs) {
+        case (.decodingError, .decodingError),
+             (.noArticles, .noArticles),
+             (.unkown, .unkown):
+            return true
+        case (.errorCode(let lhsCode), .errorCode(let rhsCode)):
+            return lhsCode == rhsCode
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: - LocalizedError Conformance
