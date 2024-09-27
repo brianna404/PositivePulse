@@ -16,6 +16,7 @@ struct SearchView: View {
     @FocusState private var isFocused: Bool // Tracks whether the search bar is focused (keyboard is open)
     @State private var searchCommitted = false // Tracks whether a search has been executed
     @State private var keyboardHeight: CGFloat = 0 // Tracks the keyboard height
+    @State private var isFirstLaunch = true // Tracks if the app is launched for the first time
 
     var body: some View {
         GeometryReader { geometry in
@@ -63,7 +64,7 @@ struct SearchView: View {
                     
                     // Category Filter Boxes
                     if !searchCommitted || searchText.isEmpty {
-                        CategoryBoxView(viewModel: viewModel)
+                        CategoryBoxView(viewModel: viewModel, searchText: $searchText)
                             .padding(.top, 16)
                     }
                     
@@ -119,6 +120,12 @@ struct SearchView: View {
                     self.searchResults = results
                 }
                 .onAppear {
+                    // Set the category to "All" only on first launch
+                    if isFirstLaunch {
+                        viewModel.selectedCategory = .all
+                        isFirstLaunch = false
+                    }
+                    
                     // Subscribe to keyboard notifications
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
                         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {

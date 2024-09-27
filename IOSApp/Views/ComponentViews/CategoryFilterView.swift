@@ -26,9 +26,8 @@ struct CategoryFilterView: View {
         // Sort categories horizontally
         HStack(spacing: 20) {
             
-            // Iterate through categories in FilterCategoryState
-            ForEach (FilterCategoryState.allCases, id: \.self) {
-                category in
+            // Iterate through categories in FilterCategoryState except all
+        ForEach (FilterCategoryState.allCases.filter { $0 != .all }, id: \.self) {       category in
                     // Style Text of Category with colored underline
                 
                     VStack {

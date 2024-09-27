@@ -122,7 +122,49 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     
     // Function for searching articles
     func searchArticles(with keyword: String, in category: String?) {
-        loadNewArticles(keyword: keyword)
+        if category == nil {
+            searchInAllCategories(with: keyword)
+        } else {
+            loadNewArticles(keyword: keyword)
+        }
+    }
+    
+    func searchInAllCategories(with keyword: String) {
+        self.searchResults = []
+            
+        let categories = FilterCategoryState.allCases.filter { $0 != .all } // all categories except 'Alle'
+        
+        let group = DispatchGroup() // for sychronising all requests
+        
+        for category in categories {
+            group.enter() // enter all categories to group
+            
+            service
+                .request(from: .getNews(category: category.filterValue, keyword: keyword, country: selectedCountry.filterValue))
+                .sink { res in
+                    switch res {
+                    case .finished:
+                        group.leave() // leave group once finished
+                    case .failure(let error):
+                        print("Error fetching news for \(category.rawValue): \(error)")
+                        group.leave()
+                    }
+                } receiveValue: { response in
+                    DispatchQueue.main.async {
+                        self.searchResults.append(contentsOf: response.articles) // add results to searchResults
+                    }
+                }
+                .store(in: &cancellables)
+        }
+        
+        // wait for all requests, then change status
+        group.notify(queue: .main) {
+            if self.searchResults.isEmpty {
+                self.state = .failed(error: APIError.noArticles)
+            } else {
+                self.state = .success(content: self.searchResults) 
+            }
+        }
     }
     
     // Function to clear search results

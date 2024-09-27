@@ -15,6 +15,7 @@ struct HomeView: View {
     // Observe object NewsViewModelImp provided from contentView
     @ObservedObject
     var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
+    @State private var isFirstLaunch = true // Tracks if the app is launched for the first time
 
     var body: some View {
         
@@ -74,6 +75,12 @@ struct HomeView: View {
             }
             // On appear get articles initially
             .onAppear {
+                // Set the category to "general" only on first launch
+                if isFirstLaunch {
+                    viewModel.selectedCategory = .general
+                    isFirstLaunch = false
+                }
+                
                 viewModel.getArticles(category: viewModel.selectedCategory, keyword: nil, country: viewModel.selectedCountry)
             }
         }

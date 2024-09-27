@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryBoxView: View {
     @ObservedObject var viewModel: NewsViewModelImpl
+    @Binding var searchText: String
     
     // Use AppStorage for setting fontSize of text elements
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
@@ -22,6 +23,8 @@ struct CategoryBoxView: View {
     // Get appropriate symbol for each category
     func getSymbol(for category: FilterCategoryState) -> String {
         switch category {
+        case .all:
+            return "square.grid.2x2"
         case .general:
             return "globe"
         case .business:
@@ -44,9 +47,10 @@ struct CategoryBoxView: View {
         LazyVGrid(columns: columns, spacing: 16) { // vertical grid
             ForEach(FilterCategoryState.allCases, id: \.self) { category in // loop through all categories
                 Button(action: {
-                    // update selected category when box is clicked
-                    // viewModel.selectedCategoryStrg = category.filterValue
                     viewModel.selectedCategory = category
+                    if category == .all {
+                        viewModel.searchInAllCategories(with: searchText)
+                    }
                 }) {
                     VStack {
                         Image(systemName: getSymbol(for: category))

@@ -11,6 +11,7 @@ import Foundation
 // Represents the different categories which can be selected by the user
 
 enum FilterCategoryState: String, CaseIterable {
+    case all = "Alle"
     case general = "Allgemein"
     case business = "Business"
     case entertainment = "Unterhaltung"
@@ -20,8 +21,10 @@ enum FilterCategoryState: String, CaseIterable {
     case technology = "Technologie"
     
     // Value for parameter in URLRequest 
-    var filterValue: String {
+    var filterValue: String? {
         switch self {
+        case .all:
+            return nil
         case .general:
             return "general"
         case .business:
