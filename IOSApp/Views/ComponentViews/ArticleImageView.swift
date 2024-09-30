@@ -25,7 +25,7 @@ struct ArticleImageView: View {
                 
             // Display progress
             } inProgress: { progress in
-                Text("Loading...")
+                Text("Lädt...")
                 
             // If error accured
             } failure: { error, retry in

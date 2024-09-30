@@ -119,6 +119,7 @@ struct SearchView: View {
                 .onReceive(viewModel.$searchResults) { results in
                     self.searchResults = results
                 }
+                
                 .onAppear {
                     // Set the category to "All" only on first launch
                     if isFirstLaunch {
@@ -137,8 +138,9 @@ struct SearchView: View {
                         self.keyboardHeight = 0
                     }
                 }
+                
+                // Remove observers when the view disappears
                 .onDisappear {
-                    // Remove observers when the view disappears
                     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
                     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
                 }

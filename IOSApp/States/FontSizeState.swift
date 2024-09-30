@@ -11,9 +11,9 @@ import Foundation
 // Represents the font sizes which can be selected by the user and show app in chosen font size
 
 enum FontSizeState: String, CaseIterable {
-    case small = "Small"
-    case medium = "Medium"
-    case big = "Big"
+    case small = "Klein"
+    case medium = "Mittel"
+    case big = "Groß"
 
     var fontSizeCGFloat: [String: CGFloat] {
         switch self {

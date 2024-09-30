@@ -7,6 +7,7 @@
 
 import Foundation
 
+// List with negative keywords for to finetune sentiment analyses in a second step
 struct NegativeKeywords {
     static let list = [
         "katastrophe", "unglück", "unfall", "krise", "mord", "terror", "tod", "leiche",

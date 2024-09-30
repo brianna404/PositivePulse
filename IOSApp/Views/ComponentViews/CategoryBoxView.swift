@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CategoryBoxView: View {
-    @ObservedObject var viewModel: NewsViewModelImpl
-    @Binding var searchText: String
+    // MARK: - Properties
+    @ObservedObject var viewModel: NewsViewModelImpl // observes changes in view model
+    @Binding var searchText: String // binds the search text entered by user
     
     // Use AppStorage for setting fontSize of text elements
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
@@ -20,7 +21,8 @@ struct CategoryBoxView: View {
         GridItem(.flexible())
     ]
     
-    // Get appropriate symbol for each category
+    // MARK: Get symbol for category
+    // returns appropriate symbol for each category
     func getSymbol(for category: FilterCategoryState) -> String {
         switch category {
         case .all:
@@ -42,10 +44,12 @@ struct CategoryBoxView: View {
         }
     }
     
-    // Category grid boxes
+    // MARK: - Category Grid Boxes
+    // defines the grid layout to show all categories as clickable boxes.
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 16) { // vertical grid
-            ForEach(FilterCategoryState.allCases, id: \.self) { category in // loop through all categories
+        LazyVGrid(columns: columns, spacing: 16) { // vertical grid with two columns
+            // Loop through all categories and create a button for each
+            ForEach(FilterCategoryState.allCases, id: \.self) { category in
                 Button(action: {
                     viewModel.selectedCategory = category
                     if category == .all {
@@ -53,16 +57,16 @@ struct CategoryBoxView: View {
                     }
                 }) {
                     VStack {
-                        Image(systemName: getSymbol(for: category))
+                        Image(systemName: getSymbol(for: category)) // display icon
                             .font(.system(size: selectedFontSize.fontSizeCGFloat["title2"] ?? 20))
                             .foregroundColor(.white)
-                        Text(category.rawValue)
+                        Text(category.rawValue) // display category name
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                             .padding(.top, 4)
                     }
-                    .frame(maxWidth: .infinity, minHeight: 120)
-                    .background(viewModel.selectedCategory == category ? Color.accentColor : Color.gray)
+                    .frame(maxWidth: .infinity, minHeight: 120) // expand to fill available space
+                    .background(viewModel.selectedCategory == category ? Color.accentColor : Color.gray) // color
                     .cornerRadius(15)
                     .shadow(color: .gray, radius: 4, x: 0, y: 2)
                 }

@@ -11,7 +11,7 @@ import NaturalLanguage
 import SwiftUI
 
 // MARK: - NewsViewModel Protocol
-// Defines interface for NewaViewModel
+// Defines interface for NewsViewModel
 
 protocol NewsViewModel {
     var articles: [Article] { get }
@@ -34,7 +34,7 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
     private(set) var articles = [Article] ()
     // Set to keep track of Combine cancellables
     private var cancellables = Set<AnyCancellable>()
-    // Safes if articles loaded for first time
+    // Saves if articles loaded for first time
     private var isInitialLoad = true
     // Flag to prevent fetching several times
     private var hasFetched = false
@@ -129,27 +129,36 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         }
     }
     
+    // function for searchin articles from all categories
     func searchInAllCategories(with keyword: String) {
+        // reset results
         self.searchResults = []
             
-        let categories = FilterCategoryState.allCases.filter { $0 != .all } // all categories except 'Alle'
+        // get all categories except 'Alle'
+        let categories = FilterCategoryState.allCases.filter { $0 != .all }
         
-        let group = DispatchGroup() // for sychronising all requests
+        // create DispatchGroup to synchronize all asynchronous network requests
+        let group = DispatchGroup()
         
+        // iterate over each category and fetch news articles for given keyword
         for category in categories {
-            group.enter() // enter all categories to group
+            group.enter() // enter categories to group
             
+            // Make a network request using the service to fetch articles for category & keyword
             service
                 .request(from: .getNews(category: category.filterValue, keyword: keyword, country: selectedCountry.filterValue))
                 .sink { res in
                     switch res {
                     case .finished:
-                        group.leave() // leave group once finished
+                        // leave group once finished
+                        group.leave()
                     case .failure(let error):
+                        // on failure log error and leave group
                         print("Error fetching news for \(category.rawValue): \(error)")
                         group.leave()
                     }
                 } receiveValue: { response in
+                    // when a value is received, update the search results on the main thread
                     DispatchQueue.main.async {
                         self.searchResults.append(contentsOf: response.articles) // add results to searchResults
                     }

@@ -8,15 +8,15 @@
 import Foundation
 
 // MARK: - CountryState Enum
-// Represents the different countrie which can be selected by the user and loads articles from different countries
+// Represents the different countries which can be selected by the user and loads articles from different countries
 
 enum CountryState: String, CaseIterable {
-    case germany = "Germany"
-    case austria = "Austria"
-    case switzerland = "Switzerland"
-    case unitedKingdom = "United Kingdom"
-    case unitedStates = "United States"
-    case canada = "Canada"
+    case germany = "Deutschland"
+    case austria = "Österreich"
+    case switzerland = "Schweiz"
+    case unitedKingdom = "Großbritannien"
+    case unitedStates = "USA"
+    case canada = "Kanada"
     
     // Value for parameter in URLRequest
     var filterValue: String {

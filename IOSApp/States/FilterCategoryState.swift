@@ -13,7 +13,7 @@ import Foundation
 enum FilterCategoryState: String, CaseIterable {
     case all = "Alle"
     case general = "Allgemein"
-    case business = "Business"
+    case business = "Wirtschaft"
     case entertainment = "Unterhaltung"
     case health = "Gesundheit"
     case science = "Wissenschaft"

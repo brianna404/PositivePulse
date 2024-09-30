@@ -31,13 +31,13 @@ struct SettingsView: View {
         Form {
             // Section for visible sectioning of different setting options
             Section {
-                Text("Appearance Settings")
+                Text("Anzeige Einstellungen")
                     .font(.system(size: selectedFontSize.fontSizeCGFloat["headline"] ?? 17, weight: .bold))
                     .frame(alignment: .topLeading)
                 
-                Toggle("Dark Mode active", isOn: $darkModeOn)
+                Toggle("Dark Mode", isOn: $darkModeOn)
                 
-                Picker("Language", selection: $selectedLanguage) {
+                Picker("Sprache", selection: $selectedLanguage) {
                     // Iterating through LanguageStates for showing all stages in rawValue
                     ForEach(LanguageState.allCases, id: \.self) { language in
                         
@@ -45,7 +45,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Picker("Fontsize", selection: $selectedFontSize) {
+                Picker("Schriftgröße", selection: $selectedFontSize) {
                     // Iterating through FontSizeStates for showing all stages in rawValue
                     ForEach(FontSizeState.allCases, id: \.self) { fontSize in
                         
@@ -55,18 +55,18 @@ struct SettingsView: View {
             }
             
             Section {
-                Text("Article Settings")
+                Text("Artikel Einstellungen")
                     .font(.system(size: selectedFontSize.fontSizeCGFloat["headline"] ?? 17, weight: .bold))
                     .frame(alignment: .topLeading)
                 
                 // this function is not functional in this version!!
                 TextField(
-                        "Prefered Sources",
+                        "Bevorzugte Quellen",
                         text: $preferedSources
                     )
                 
                 // Iterating through FilterCategoryStates for showing all stages in rawValue
-                Picker("Prefered Category", selection: $selectedCategory) {
+                Picker("Bevorzugte Kategorie", selection: $selectedCategory) {
                     ForEach(FilterCategoryState.allCases, id: \.self) { category in
                         
                         Text(category.rawValue)
@@ -74,7 +74,7 @@ struct SettingsView: View {
                 }
                 
                 // Iterating through countryStates for showing all stages in rawValue
-                Picker("Country", selection: $selectedCountry) {
+                Picker("Land", selection: $selectedCountry) {
                     ForEach(CountryState.allCases, id: \.self) { country in
                         
                         Text(country.rawValue)
