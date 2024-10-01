@@ -7,25 +7,31 @@
 
 import SwiftUI
 
+/// Provides a search interface for users to find articles.
 struct SearchView: View {
-    // Use AppStorage for setting fontSize of text elements 
+    /// Selected font size for text elements.
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
-    @State private var searchText = "" // Holds the current search text
-    @State private var searchResults: [Article] = [] // Stores the search results
-    @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl()) // ViewModel to handle the search logic
-    @FocusState private var isFocused: Bool // Tracks whether the search bar is focused (keyboard is open)
-    @State private var searchCommitted = false // Tracks whether a search has been executed
-    @State private var keyboardHeight: CGFloat = 0 // Tracks the keyboard height
-    @State private var isFirstLaunch = true // Tracks if the app is launched for the first time
+    @State private var searchText = "" // Holds the current search text.
+    @State private var searchResults: [Article] = [] // Stores the search results.
+    /// View model to handle the search logic.
+    @StateObject private var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
+    /// Tracks whether the search bar is focused (keyboard is open).
+    @FocusState private var isFocused: Bool
+    /// Tracks whether a search has been executed.
+    @State private var searchCommitted = false
+    /// Tracks the keyboard height.
+    @State private var keyboardHeight: CGFloat = 0
+    /// Tracks if the app is launched for the first time.
+    @State private var isFirstLaunch = true
 
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack {
                     // Search Bar
-                    ZStack{
+                    ZStack {
                         TextField("Suchen...", text: $searchText, onCommit: {
-                            if !searchText.isEmpty { // only execute if searchText is not empty
+                            if !searchText.isEmpty {
                                 viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
                                 searchCommitted = true
                             }
@@ -35,29 +41,29 @@ struct SearchView: View {
                         .cornerRadius(12)
                         .padding(.horizontal)
                         .shadow(color: .gray, radius: 4, x: 0, y: 2)
-                        .focused($isFocused) // Bind the focus state to the search bar
+                        .focused($isFocused)
                         
-                        // Show Clear Button (X) if searchText is not empty
+                        // Clear Button
                         HStack {
                             Spacer()
                             if isFocused && !searchText.isEmpty {
                                 Button(action: {
-                                    searchText = "" // Clear search text
-                                    searchCommitted = false // Reset search
+                                    searchText = ""
+                                    searchCommitted = false
                                 }) {
                                     Image(systemName: "xmark.circle.fill")
                                         .foregroundColor(.gray)
                                 }
-                                .padding(.trailing, 25) // right padding
+                                .padding(.trailing, 25)
                             }
                         }
                     }
                     
-                    // Show the selected category after search is committed
+                    // Display selected category after search is committed.
                     if searchCommitted && !searchText.isEmpty {
                         Text("in \(viewModel.selectedCategory.rawValue)")
                             .foregroundColor(.gray)
-                            .font(.system(size: selectedFontSize.fontSizeCGFloat["foodnote"] ?? 13)) // Make the font smaller
+                            .font(.system(size: selectedFontSize.fontSizeCGFloat["footnote"] ?? 13))
                             .padding(.top, 3)
                             .frame(alignment: .leading)
                     }
@@ -68,32 +74,29 @@ struct SearchView: View {
                             .padding(.top, 16)
                     }
                     
-                    // If search is executed, then show different cases (loading, error, success)
+                    // Search Results
                     if searchCommitted {
                         Group {
                             switch viewModel.state {
-                            // Show a loading indicator while search is in progress
                             case .loading:
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle())
                                     .scaleEffect(2)
                                     .padding()
-                                
-                            // Show the ErrorView in case of a failure
+                                    
                             case .failed(error: let error):
                                 if !isFocused {
                                     ErrorView(error: error, searchCommitted: searchCommitted) {
-                                        viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)}
+                                        viewModel.searchArticles(with: searchText, in: viewModel.selectedCategory.filterValue)
+                                    }
                                 }
-                                
-                            // Show search results when API call is successful
+                                    
                             case .success:
                                 if !searchResults.isEmpty {
                                     List {
                                         ArticleListView(articles: viewModel.searchResults, viewModel: viewModel)
                                     }
                                 } else {
-                                    // If there are no results
                                     Text("Keine Ergebnisse gefunden.")
                                         .foregroundColor(.gray)
                                         .padding()
@@ -104,30 +107,30 @@ struct SearchView: View {
                     Spacer()
                 }
                 .padding(.top, 15)
-                .padding(.bottom, keyboardHeight == 0 ? 0 : -200) // Add negative padding when keyboard is visible
-                .ignoresSafeArea(.keyboard, edges: .bottom) // Avoid content shifting when keyboard appears
+                .padding(.bottom, keyboardHeight == 0 ? 0 : -200)
+                .ignoresSafeArea(.keyboard, edges: .bottom)
 
-                // reset search view
-                .onChange(of: searchText) {
+                // Reset search view when search text changes.
+                .onChange(of: searchText) { _ in
                     if searchText.isEmpty {
                         viewModel.clearSearchResults()
                         searchCommitted = false
                     }
                 }
                 
-                // Update local searchResults when viewModel updates
+                // Update local searchResults when viewModel updates.
                 .onReceive(viewModel.$searchResults) { results in
                     self.searchResults = results
                 }
                 
                 .onAppear {
-                    // Set the category to "All" only on first launch
+                    // Set the category to "All" only on first launch.
                     if isFirstLaunch {
                         viewModel.selectedCategory = .all
                         isFirstLaunch = false
                     }
                     
-                    // Subscribe to keyboard notifications
+                    // Subscribe to keyboard notifications.
                     NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
                         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
                             self.keyboardHeight = keyboardFrame.height
@@ -139,7 +142,7 @@ struct SearchView: View {
                     }
                 }
                 
-                // Remove observers when the view disappears
+                // Remove observers when the view disappears.
                 .onDisappear {
                     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
                     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)

@@ -7,29 +7,30 @@
 
 import SwiftUI
 
-// MARK: - SettingsView Struct
-// Shows editable settings for appearance and article loading options
-
+/// Displays editable settings for appearance and article loading options.
 struct SettingsView: View {
     
-    // Observed object from provided parameter
-    @ObservedObject
-    var viewModel: NewsViewModelImpl
+    /// Observed view model instance.
+    @ObservedObject var viewModel: NewsViewModelImpl
     
-    // Usage of AppStorage for global access to settings options
+    /// Determines if dark mode is enabled.
     @AppStorage("isDarkMode") private var darkModeOn = false
+    /// Selected language for the app.
     @AppStorage("selectedLanguage") private var selectedLanguage = LanguageState.german
+    /// Selected font size for text elements.
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
-    @AppStorage("selectedCountry") private var selectedCountry =  CountryState.germany
+    /// Selected country for news articles.
+    @AppStorage("selectedCountry") private var selectedCountry = CountryState.germany
+    /// Preferred category for news articles.
     @AppStorage("selectedCategory") private var selectedCategory = FilterCategoryState.general
     
-    @State private var preferedSources = ""
+    /// Preferred sources input by the user (currently not functional).
+    @State private var preferredSources = ""
     
     var body: some View {
-        
-        // Form for structuring elements that are entered by the user
+        // Form to structure settings options.
         Form {
-            // Section for visible sectioning of different setting options
+            // Appearance Settings Section.
             Section {
                 Text("Anzeige Einstellungen")
                     .font(.system(size: selectedFontSize.fontSizeCGFloat["headline"] ?? 17, weight: .bold))
@@ -38,49 +39,38 @@ struct SettingsView: View {
                 Toggle("Dark Mode", isOn: $darkModeOn)
                 
                 Picker("Sprache", selection: $selectedLanguage) {
-                    // Iterating through LanguageStates for showing all stages in rawValue
                     ForEach(LanguageState.allCases, id: \.self) { language in
-                        
                         Text(language.rawValue)
                     }
                 }
                 
                 Picker("Schriftgröße", selection: $selectedFontSize) {
-                    // Iterating through FontSizeStates for showing all stages in rawValue
                     ForEach(FontSizeState.allCases, id: \.self) { fontSize in
-                        
                         Text(fontSize.rawValue)
                     }
                 }
             }
             
+            // Article Settings Section.
             Section {
                 Text("Artikel Einstellungen")
                     .font(.system(size: selectedFontSize.fontSizeCGFloat["headline"] ?? 17, weight: .bold))
                     .frame(alignment: .topLeading)
                 
-                // this function is not functional in this version!!
-                TextField(
-                        "Bevorzugte Quellen",
-                        text: $preferedSources
-                    )
+                // Preferred sources (currently not functional).
+                TextField("Bevorzugte Quellen", text: $preferredSources)
                 
-                // Iterating through FilterCategoryStates for showing all stages in rawValue
                 Picker("Bevorzugte Kategorie", selection: $selectedCategory) {
                     ForEach(FilterCategoryState.allCases, id: \.self) { category in
-                        
                         Text(category.rawValue)
                     }
                 }
                 
-                // Iterating through countryStates for showing all stages in rawValue
                 Picker("Land", selection: $selectedCountry) {
                     ForEach(CountryState.allCases, id: \.self) { country in
-                        
                         Text(country.rawValue)
                     }
                 }
-                
             }
         }
     }

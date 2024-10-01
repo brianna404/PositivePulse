@@ -7,96 +7,99 @@
 
 import SwiftUI
 
-// MARK: - HomeView Struct
-// First page shown to the user when opening the app
-
+/// The first page shown to the user when opening the app.
 struct HomeView: View {
     
-    // Observe object NewsViewModelImp provided from contentView
-    @ObservedObject
-    var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
-    @State private var isFirstLaunch = true // Tracks if the app is launched for the first time
+    /// Observed view model for fetching and managing articles.
+    @ObservedObject var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
+    /// Tracks if the app is launched for the first time.
+    @State private var isFirstLaunch = true
 
     var body: some View {
-        
-        // Container for navigation to ArticleWebView
         NavigationStack {
-            
-            // Group views in logical parts as group
             Group {
-                
                 switch viewModel.state {
-                // Show LaunchScreenView while loading
                 case .loading:
+                    // Show launch screen while loading.
                     LaunchScreenView()
                     
-                // Show ErrorView if error occured
                 case .failed(error: let error):
+                    // Show error view if an error occurred.
                     ErrorView(error: error, searchCommitted: false) {
-                        viewModel.getArticles(category: viewModel.selectedCategory, keyword: nil, country: viewModel.selectedCountry) }
+                        viewModel.getArticles(
+                            category: viewModel.selectedCategory,
+                            keyword: nil,
+                            country: viewModel.selectedCountry
+                        )
+                    }
                     
-                // Show TabView headlines and list of articles when request was successful
-                case .success(let content):
-                    // VStack for ordering CategoryFIlterView, HeadlineTabVIew and ArticleListView vertically
+                case .success:
+                    // Display content when the request is successful.
                     VStack {
-                        
+                        // Category filter at the top.
                         CategoryFilterView(viewModel: viewModel)
-                            .shadow(color: Color.gray, radius: 2, y: 4)
+                            .shadow(color: .gray, radius: 2, y: 4)
                         
-                        // HeadlineTabView and ArticleListView in sections in list for scrolling
+                        // Headline and article list.
                         List {
+                            // Headline section with the first three articles.
                             Section {
                                 ZStack {
-                                    
                                     RoundedRectangle(cornerRadius: 8)
-                                    // System background color for switching between light and darkmode
-                                        .fill(LinearGradient(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.background]), startPoint: .top, endPoint: .bottom))
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.background]),
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                        )
                                         .opacity(0.7)
                                     
-                                    // Take only first three articles from article array
                                     HeadlineTabView(articles: selectFirstThreeArticles(from: viewModel.positiveArticles))
                                         .padding(EdgeInsets(top: 5, leading: 7, bottom: 10, trailing: 7))
                                 }
                             }
                             .padding(EdgeInsets(top: -10, leading: -10, bottom: -10, trailing: -10))
                             
+                            // Article list section with the remaining articles.
                             Section {
-                                // Take all articles except first three ones
                                 ArticleListView(articles: dropFirstThree(from: viewModel.positiveArticles))
                             }
                         }
                         .padding(EdgeInsets(top: 0, leading: -15, bottom: 0, trailing: -15))
-                        // On refresh trigger load articles new without entering loading state
+                        // Refresh articles on pull-down gesture.
                         .refreshable {
                             viewModel.loadNewArticles()
                         }
                     }
                 }
             }
-            // On appear get articles initially
+            // Initial article fetch on view appear.
             .onAppear {
-                // Set the category to "general" only on first launch
                 if isFirstLaunch {
                     viewModel.selectedCategory = .general
                     isFirstLaunch = false
                 }
-                
-                viewModel.getArticles(category: viewModel.selectedCategory, keyword: nil, country: viewModel.selectedCountry)
+                viewModel.getArticles(
+                    category: viewModel.selectedCategory,
+                    keyword: nil,
+                    country: viewModel.selectedCountry
+                )
             }
         }
     }
 }
 
-// Returns first three articles of article array
+/// Returns the first three articles from the array.
 func selectFirstThreeArticles(from articles: [Article]) -> [Article] {
-    return Array(articles.prefix(3))
+    Array(articles.prefix(3))
 }
 
-// Returns all articles ecxept first three ones from article array
+/// Returns all articles except the first three from the array.
 func dropFirstThree(from articles: [Article]) -> [Article]  {
-    return Array(articles.dropFirst(3))
+    Array(articles.dropFirst(3))
 }
-    
+
 #Preview {
     HomeView()
 }
