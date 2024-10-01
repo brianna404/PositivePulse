@@ -2,20 +2,25 @@
 //  NegativeKeywords.swift
 //  IOSApp
 //
-//  Created by Brianna Kruschke on 23.08.24.
+//  Created by Michelle Köhler on 25.08.24.
 //
 
 import Foundation
 
-// List with negative keywords for to finetune sentiment analyses in a second step
+/// Holds a list of negative keywords for sentiment analysis.
 struct NegativeKeywords {
-    static let list = [
-        "katastrophe", "unglück", "unfall", "krise", "mord", "terror", "tod", "leiche",
-        "krieg", "verlust", "tragödie", "gewalt", "missbrauch", "verbrechen", "attacke", "angriff", "gefahr", "anschlag",
+    /// List of negative keywords used to identify negative sentiment in text.
+    static let list: [String] = [
+        "tod", "krieg", "gewalt", "unfall", "mord", "terror", "verbrechen", "katastrophe",
+        "verletzte", "opfer", "anschlag", "sturm", "skandal", "korruption", "missbrauch",
+        "entlassung", "streit", "verlust", "pleite", "krise", "kollaps", "konflikt",
+        "angriff", "protest", "spionage", "drohung", "eskalation", "entschuldigung",
+        "rücktritt", "belästigung", "missbrauch", "scheidung", "enttäuschung",
+        "ablehnung", "ansteckung", "panik", "trauer", "verzweiflung", "zerstörung",
         "brand", "feuer", "erdbeben", "explosion", "flut", "seuche", "virus", "pandemie", "dürre",
         "hungersnot", "krankheit", "epidemie", "infektion", "entführung", "betrug", "skandal",
         "verletzung", "misshandlung", "folter", "diskriminierung", "rassismus",
-        "kriminalität", "sterben", "ermorden", "verletzen", "töt", // Anfangssilbe um alles mit töt-... auszuschließen
+        "kriminalität", "sterben", "ermorden", "verletzen", "töt", // Prefix to exclude words starting with "töt-"
         "explodieren", "verunglücken", "zerstören", "betrügen", "missbrauchen",
         "entführen", "ertrinken", "abstürzen", "attackieren", "bombardieren", "erschießen", "sterben", "gestorben", "stirbt",
         "vergiften", "überfallen", "ausrotten",
