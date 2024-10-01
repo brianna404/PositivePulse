@@ -11,72 +11,106 @@ import NaturalLanguage
 import SwiftUI
 
 // MARK: - NewsViewModel Protocol
-// Defines interface for NewsViewModel
 
+/// Defines the interface for the NewsViewModel.
 protocol NewsViewModel {
+    /// An array of all fetched articles.
     var articles: [Article] { get }
+    
+    /// An array of filtered positive articles.
     var positiveArticles: [Article] { get }
+    
+    /// The current state of the result (loading, success, or failure).
     var state: ResultState { get }
     
+    /// Fetches articles based on the provided category, keyword, and country.
+    ///
+    /// - Parameters:
+    ///   - category: The category to filter articles.
+    ///   - keyword: The keyword to search articles.
+    ///   - country: The country code to filter articles.
     func getArticles(category: FilterCategoryState?, keyword: String?, country: CountryState?)
 }
 
 // MARK: - NewsViewModelImpl Class
-// Implementing NewsViewModel
 
+/// Implements the `NewsViewModel` protocol.
 class NewsViewModelImpl: ObservableObject, NewsViewModel {
     
-    // Service responsible for fetching news
+    // MARK: - Properties
+    
+    /// Service responsible for fetching news.
     private let service: NewsService
-    // Service responsible for filtering
+    
+    /// Service responsible for filtering articles.
     private let filterService: FilterService
-    // Array to hold fetched articles
-    private(set) var articles = [Article] ()
-    // Set to keep track of Combine cancellables
+    
+    /// An array to hold fetched articles.
+    private(set) var articles = [Article]()
+    
+    /// A set to keep track of Combine cancellables.
     private var cancellables = Set<AnyCancellable>()
-    // Saves if articles loaded for first time
+    
+    /// Indicates if articles are loaded for the first time.
     private var isInitialLoad = true
-    // Flag to prevent fetching several times
+    
+    /// Flag to prevent multiple fetches.
     private var hasFetched = false
     
-    // Array to hold positive articles
+    /// An array to hold positive articles.
     @Published private(set) var positiveArticles = [Article]()
-    // Array to hold result of search
+    
+    /// An array to hold search results.
     @Published private(set) var searchResults = [Article]()
-    // Current state of the view model
+    
+    /// The current state of the view model.
     @Published private(set) var state: ResultState = .loading
     
-    // Selected filter country
-    @AppStorage("selectedCountry") var selectedCountry =  CountryState.germany
-    // Selected filter category
+    /// The selected country filter.
+    @AppStorage("selectedCountry") var selectedCountry = CountryState.germany
+    
+    /// The selected category filter.
     @AppStorage("selectedCategory") var selectedCategory = FilterCategoryState.general
     
-    // Initialization
-    init (service: NewsService, filterService: FilterService) {
+    // MARK: - Initialization
+    
+    /// Initializes the view model with required services.
+    ///
+    /// - Parameters:
+    ///   - service: The news fetching service.
+    ///   - filterService: The service responsible for filtering articles.
+    init(service: NewsService, filterService: FilterService) {
         self.service = service
         self.filterService = filterService
     }
     
-// MARK: - Methods
+    // MARK: - Methods
     
-    // Loads new articles in case of filtering, searching or reloading
+    /// Loads new articles, optionally filtering by keyword.
+    ///
+    /// - Parameter keyword: The keyword to search articles.
     func loadNewArticles(keyword: String? = nil) {
-        // Setting hasFetched to false for loading articles in new api call
+        // Reset the fetch flag to allow a new API call
         self.hasFetched = false
         self.getArticles(category: self.selectedCategory, keyword: keyword, country: self.selectedCountry)
     }
     
-    // Makes api call and gets articles
+    /// Makes an API call to fetch articles based on filters.
+    ///
+    /// - Parameters:
+    ///   - category: The category to filter articles.
+    ///   - keyword: The keyword to search articles.
+    ///   - country: The country code to filter articles.
     func getArticles(category: FilterCategoryState?, keyword: String?, country: CountryState?) {
-        // Block unused api calls if has fetched
+        // Prevent unnecessary API calls if articles have already been fetched and no keyword is provided
         guard !hasFetched || keyword != nil else { return }
         
-        // Reset results
+        // Reset article arrays
         self.articles = []
         self.positiveArticles = []
         self.searchResults = []
         
-        // Only if initial loading of articles, do actions of loading state
+        // Update state to loading only on initial load
         if isInitialLoad {
             self.state = .loading
             isInitialLoad = false
@@ -84,43 +118,38 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         
         // Make a network request using the NewsService
         let cancellable = service
-        
-            // Call the getNews endpoint of the service
             .request(from: .getNews(category: category?.filterValue, keyword: keyword, country: selectedCountry.filterValue))
-            // Subscribe to the publisher's output
             .sink { res in
                 switch res {
-                    
-                // If fetching articles was successful update state to success with articles otherwise set state to failed
                 case .finished:
                     if !self.articles.isEmpty {
                         self.state = .success(content: self.articles)
                         // Filter and update positive articles
                         self.positiveArticles = self.filterService.filterPositiveNews(from: self.articles)
-                        // Set the flag after successful fetch
+                        // Set the fetch flag after successful fetch
                         self.hasFetched = true
                     } else {
                         self.state = .failed(error: APIError.noArticles)
                     }
-                    
-                // If failed update state to failed with error
                 case .failure(let error):
                     self.state = .failed(error: error)
                 }
-                
-            // When receiving a value, update the articles with response articles
             } receiveValue: { response in
                 self.articles = response.articles
-                if keyword != nil && !keyword!.isEmpty {
+                if let keyword = keyword, !keyword.isEmpty {
                     self.searchResults = response.articles
                 }
             }
         
-        // Store the cancellable to be able to cancel it if needed
+        // Store the cancellable to manage the subscription lifecycle
         self.cancellables.insert(cancellable)
     }
     
-    // Function for searching articles
+    /// Searches articles based on a keyword and an optional category.
+    ///
+    /// - Parameters:
+    ///   - keyword: The keyword to search articles.
+    ///   - category: The category to filter articles.
     func searchArticles(with keyword: String, in category: String?) {
         if category == nil {
             searchInAllCategories(with: keyword)
@@ -129,54 +158,52 @@ class NewsViewModelImpl: ObservableObject, NewsViewModel {
         }
     }
     
-    // function for searchin articles from all categories
+    /// Searches articles across all categories for a given keyword.
+    ///
+    /// - Parameter keyword: The keyword to search articles.
     func searchInAllCategories(with keyword: String) {
-        // reset results
+        // Reset search results
         self.searchResults = []
-            
-        // get all categories except 'Alle'
+        
+        // Get all categories except 'All'
         let categories = FilterCategoryState.allCases.filter { $0 != .all }
         
-        // create DispatchGroup to synchronize all asynchronous network requests
+        // Create a DispatchGroup to synchronize asynchronous network requests
         let group = DispatchGroup()
         
-        // iterate over each category and fetch news articles for given keyword
+        // Iterate over each category and fetch articles
         for category in categories {
-            group.enter() // enter categories to group
+            group.enter()
             
-            // Make a network request using the service to fetch articles for category & keyword
             service
                 .request(from: .getNews(category: category.filterValue, keyword: keyword, country: selectedCountry.filterValue))
                 .sink { res in
                     switch res {
                     case .finished:
-                        // leave group once finished
                         group.leave()
                     case .failure(let error):
-                        // on failure log error and leave group
                         print("Error fetching news for \(category.rawValue): \(error)")
                         group.leave()
                     }
                 } receiveValue: { response in
-                    // when a value is received, update the search results on the main thread
                     DispatchQueue.main.async {
-                        self.searchResults.append(contentsOf: response.articles) // add results to searchResults
+                        self.searchResults.append(contentsOf: response.articles)
                     }
                 }
                 .store(in: &cancellables)
         }
         
-        // wait for all requests, then change status
+        // Notify when all requests are completed
         group.notify(queue: .main) {
             if self.searchResults.isEmpty {
                 self.state = .failed(error: APIError.noArticles)
             } else {
-                self.state = .success(content: self.searchResults) 
+                self.state = .success(content: self.searchResults)
             }
         }
     }
     
-    // Function to clear search results
+    /// Clears the current search results.
     func clearSearchResults() {
         self.searchResults = []
     }
