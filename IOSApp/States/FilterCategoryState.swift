@@ -7,20 +7,28 @@
 
 import Foundation
 
-// MARK: - FilterCategoryState Enum
-// Represents the different categories which can be selected by the user
-
+/// Represents the different news categories that can be selected by the user.
 enum FilterCategoryState: String, CaseIterable {
+    /// All categories.
     case all = "Alle"
+    /// General news.
     case general = "Allgemein"
+    /// Business news.
     case business = "Wirtschaft"
+    /// Entertainment news.
     case entertainment = "Unterhaltung"
+    /// Health news.
     case health = "Gesundheit"
+    /// Science news.
     case science = "Wissenschaft"
+    /// Sports news.
     case sports = "Sport"
+    /// Technology news.
     case technology = "Technologie"
     
-    // Value for parameter in URLRequest 
+    /// The value used for the category parameter in URL requests.
+    ///
+    /// Returns `nil` for the `.all` category to fetch all categories without filtering.
     var filterValue: String? {
         switch self {
         case .all:

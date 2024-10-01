@@ -7,10 +7,10 @@
 
 import Foundation
 
-// MARK: - LanguageState Enum
-// Represents the different languages which can be selected by the user and show app in chosen language
-
+/// Represents the different languages that can be selected by the user for the app interface.
 enum LanguageState: String, CaseIterable {
+    /// German language.
     case german = "German"
+    /// English language.
     case english = "English"
 }

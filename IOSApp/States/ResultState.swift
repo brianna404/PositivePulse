@@ -7,14 +7,18 @@
 
 import Foundation
 
-// MARK: - ResultState Enum
-// Represents the different states of asynchronous operation
-
+/// Represents the different states of an asynchronous operation fetching news articles.
 enum ResultState {
-    // Operation in progress
+    /// The operation is currently in progress.
     case loading
-    // Operation successfull, contains array of articles
+
+    /// The operation was successful and contains the fetched articles.
+    ///
+    /// - Parameter content: An array of `Article` objects that were fetched.
     case success(content: [Article])
-    // Failed, contains error description
+
+    /// The operation failed with an error.
+    ///
+    /// - Parameter error: An `Error` object describing the failure.
     case failed(error: Error)
 }

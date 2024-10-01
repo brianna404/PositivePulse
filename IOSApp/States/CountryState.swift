@@ -7,18 +7,22 @@
 
 import Foundation
 
-// MARK: - CountryState Enum
-// Represents the different countries which can be selected by the user and loads articles from different countries
-
+/// Represents the different countries that can be selected by the user to load articles from.
 enum CountryState: String, CaseIterable {
+    /// Germany
     case germany = "Deutschland"
+    /// Austria
     case austria = "Österreich"
+    /// Switzerland
     case switzerland = "Schweiz"
+    /// United Kingdom
     case unitedKingdom = "Großbritannien"
+    /// United States
     case unitedStates = "USA"
+    /// Canada
     case canada = "Kanada"
     
-    // Value for parameter in URLRequest
+    /// The country code used for the `country` parameter in URL requests.
     var filterValue: String {
         switch self {
         case .germany:
