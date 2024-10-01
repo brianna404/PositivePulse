@@ -15,8 +15,6 @@ struct SettingsView: View {
     
     /// Determines if dark mode is enabled.
     @AppStorage("isDarkMode") private var darkModeOn = false
-    /// Selected language for the app.
-    @AppStorage("selectedLanguage") private var selectedLanguage = LanguageState.german
     /// Selected font size for text elements.
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
     /// Selected country for news articles.
@@ -38,19 +36,12 @@ struct SettingsView: View {
                 
                 Toggle("Dark Mode", isOn: $darkModeOn)
                 
-                Picker("Sprache", selection: $selectedLanguage) {
-                    ForEach(LanguageState.allCases, id: \.self) { language in
-                        Text(language.rawValue)
-                    }
-                }
-                
                 Picker("Schriftgröße", selection: $selectedFontSize) {
                     ForEach(FontSizeState.allCases, id: \.self) { fontSize in
                         Text(fontSize.rawValue)
                     }
                 }
             }
-            
             // Article Settings Section.
             Section {
                 Text("Artikel Einstellungen")
