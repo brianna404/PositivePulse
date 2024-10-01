@@ -7,53 +7,40 @@
 
 import SwiftUI
 
-// MARK: - CategoryFilterView Struct
-// Shows possible filter categories as scrollable and clickable elements at the top
-
+/// Displays filter categories as scrollable and clickable elements at the top.
 struct CategoryFilterView: View {
     
-    // MARK: - CategoryFilterView Attributes
-    // Observe instance of provided NewsViewModelImpl
-    @ObservedObject
-    var viewModel: NewsViewModelImpl
+    /// Observed instance of `NewsViewModelImpl`.
+    @ObservedObject var viewModel: NewsViewModelImpl
     
     var body: some View {
-        
-        // Make view scrollable in horizontal direction
-        // Hide bar to indicate at which position has been scrolled
-        ScrollView (.horizontal, showsIndicators: false) {
-            
-        // Sort categories horizontally
-        HStack(spacing: 20) {
-            
-            // Iterate through categories in FilterCategoryState except all
-        ForEach (FilterCategoryState.allCases.filter { $0 != .all }, id: \.self) {       category in
-                    // Style Text of Category with colored underline
-                
+        // Horizontal scroll view without indicators.
+        ScrollView(.horizontal, showsIndicators: false) {
+            // Horizontal stack to arrange categories.
+            HStack(spacing: 20) {
+                // Iterate through categories excluding 'all'.
+                ForEach(FilterCategoryState.allCases.filter { $0 != .all }, id: \.self) { category in
                     VStack {
-                        // Show readable name of category
+                        // Display category name.
                         Text(category.rawValue)
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            // Update related categoryFilter values in observed viewModel
+                            .fontWeight(.bold)
                             .onTapGesture {
-                                // Use filterValue of enum value for providing string readable for api
+                                // Update selected category and load new articles.
                                 viewModel.selectedCategory = category
                                 viewModel.loadNewArticles()
                             }
-                            // If category selected it is highlighted otherwise default color for showing differently in darkMode and LightMode
-                            .foregroundColor(viewModel.selectedCategory == category ? Color.accentColor: Color.primary)
+                            // Highlight selected category.
+                            .foregroundColor(viewModel.selectedCategory == category ? Color.accentColor : Color.primary)
                             .padding([.leading, .trailing], 10)
                         
-                        // Creates underline effect under category-text
+                        // Underline effect for selected category.
                         Rectangle()
                             .frame(height: 2)
-                            // If category selected it is highlighted otherwise default color for showing differently in darkMode and LightMode
-                            .foregroundColor(viewModel.selectedCategory == category ? Color.accentColor: .clear)
+                            .foregroundColor(viewModel.selectedCategory == category ? Color.accentColor : .clear)
                             .padding(EdgeInsets(top: -5, leading: -10, bottom: 0, trailing: -10))
                     }
                 }
             }
-            // Default background color to differentiate between DarkMode and LightMode
             .background(Color(UIColor.systemBackground))
             .padding(.bottom, -3)
             .padding(.top, 17)

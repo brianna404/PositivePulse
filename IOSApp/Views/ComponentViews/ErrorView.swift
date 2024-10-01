@@ -7,71 +7,75 @@
 
 import SwiftUI
 
-// MARK: - ErrorView Struct
-// display error message and retry button
-
+/// Displays an error message with a retry button.
 struct ErrorView: View {
     
-    // Type alias for a closure that handles the retry action
+    /// Closure type for the retry action handler.
     typealias ErrorViewActionHandler = () -> Void
-    let error: Error // The error to display
-    let searchCommitted: Bool // Flag to track if a search was committed
-    let handler: ErrorViewActionHandler // Closure to handle retry action
+    /// The error to display.
+    let error: Error
+    /// Indicates if a search was committed.
+    let searchCommitted: Bool
+    /// Closure to handle the retry action.
+    let handler: ErrorViewActionHandler
      
-    // Use AppStorage for setting fontSize of text elements
+    /// Selected font size for text elements.
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
     
-    // MARK: - ErrorViewInitializer
-    // Initializer to set up the ErrorView with an error and a retry action handler
-    internal init(error: Error, searchCommitted: Bool, handler: @escaping ErrorView.ErrorViewActionHandler) {
+    /// Initializes the `ErrorView` with an error and a retry action handler.
+    ///
+    /// - Parameters:
+    ///   - error: The error to display.
+    ///   - searchCommitted: Indicates if a search was committed.
+    ///   - handler: Closure to handle the retry action.
+    init(error: Error, searchCommitted: Bool, handler: @escaping ErrorViewActionHandler) {
         self.error = error
         self.searchCommitted = searchCommitted
         self.handler = handler
     }
     
     var body: some View {
-        
         VStack {
-            Spacer() // for vertical centering
+            Spacer()
             
-            // Conditionally render message only if a search was committed and the error is noArticles
             if searchCommitted, let apiError = error as? APIError, apiError == .noArticles {
-                Text("Keine Ergebnisse gefunden.") // Custom message for noArticles error
+                // Custom message for no articles found.
+                Text("Keine Ergebnisse gefunden.") // Remains in German as per app's language.
                     .foregroundColor(.gray)
                     .padding()
             } else {
-                // Icon error
+                // Error icon.
                 Image(systemName: "exclamationmark.icloud.fill")
-                    .foregroundStyle(Color.gray)
+                    .foregroundColor(.gray)
                     .font(.system(size: 50, weight: .heavy))
                 
-                // Title text for error message
+                // Error title.
                 Text("Ooops")
-                    .foregroundStyle(Color.gray)
-                    .font(.system(size: selectedFontSize.fontSizeCGFloat["extraLargTitle2"] ?? 28))
+                    .foregroundColor(.gray)
+                    .font(.system(size: selectedFontSize.fontSizeCGFloat["extraLargeTitle2"] ?? 28))
                 
-                // Display the localized error description
+                // Error description.
                 Text(error.localizedDescription)
-                    .foregroundStyle(Color.gray)
+                    .foregroundColor(.gray)
                     .font(.system(size: selectedFontSize.fontSizeCGFloat["body"] ?? 17))
                     .multilineTextAlignment(.center)
-                    .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+                    .padding(.horizontal, 15)
                 
-                // Retry button
+                // Retry button.
                 Button(action: {
-                    handler() // Call the retry action handler
-                }, label: {
+                    handler()
+                }) {
                     Text("Retry")
-                })
+                }
                 .padding(.vertical, 12)
                 .padding(.horizontal, 30)
                 .background(Color.accentColor)
-                .foregroundStyle(Color.white)
+                .foregroundColor(.white)
                 .font(.system(size: selectedFontSize.fontSizeCGFloat["body"] ?? 17, weight: .heavy))
                 .cornerRadius(10)
             }
             
-            Spacer() // for vertical centering
+            Spacer()
         }
     }
 }

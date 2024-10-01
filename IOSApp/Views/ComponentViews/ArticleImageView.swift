@@ -8,50 +8,42 @@
 import SwiftUI
 import URLImage
 
-// MARK: - ArticleImageView Struct
-// Image loading logic
-
+/// Displays an image for an article, handling loading states and errors.
 struct ArticleImageView: View {
     
-    // MARK: - ArticleImageView Attributes
+    /// The URL string of the article's image.
     let imgUrl: String?
     
     var body: some View {
-        
         if let imgUrl = imgUrl, let url = URL(string: imgUrl) {
             URLImage(url) {
-                // View displayed before download starts
+                // View before download starts
                 EmptyView()
-                
-            // Display progress
             } inProgress: { progress in
+                // Display loading progress
                 Text("Lädt...")
-                
-            // If error accured
             } failure: { error, retry in
+                // Placeholder on error
                 PlaceholderImageView()
-                
-            // Downloaded image
             } content: { image in
+                // Display downloaded image
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             }
+        } else {
+            // Placeholder if URL is invalid or nil
+            PlaceholderImageView()
         }
     }
 }
 
-// MARK: - PlaceholderImageView Struct
-// Placeholder view for the article image if image loading fails
-
+/// Placeholder view displayed when the image fails to load.
 struct PlaceholderImageView: View {
     
     var body: some View {
-        
-        // Placeholder image
         Image(systemName: "photo.fill")
             .foregroundStyle(Color.white)
-            // Background color for placeholder
             .background(Color.gray)
     }
 }

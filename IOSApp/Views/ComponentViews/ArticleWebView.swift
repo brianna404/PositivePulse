@@ -5,35 +5,31 @@
 //  Created by Michelle Köhler on 16.08.24.
 //
 
-import Foundation
 import SwiftUI
 import WebKit
 
-// MARK: - ArticleWebView Struct
-// UIViewRepresentable for displaying UIKit Component WKWebView in SwiftUI view
-
+/// Displays a web view of the article's URL using `WKWebView`.
 struct ArticleWebView: UIViewRepresentable {
     
-    // MARK: - ArticleWebView Attributes
+    /// The URL of the article to display.
     let url: URL
+    /// The article being viewed.
     let article: Article
     
-    // Observe article storage for read articles
+    /// Observed article storage for tracking read articles.
     @ObservedObject var articleStorage = ArticleStorageService.shared
 
-    // MARK: - ArticleWebView Methods
-    // Creates WKWebView instance to show web content in SwiftUI view
+    /// Creates the `WKWebView` instance.
     func makeUIView(context: Context) -> WKWebView {
-        return WKWebView()
+        WKWebView()
     }
 
-    // Loads webpage with instance WKWebView and shows context of provided URL
+    /// Updates the `WKWebView` with the provided URL.
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        // Uses provided URL for making web URLRequest
         let request = URLRequest(url: url)
         uiView.load(request)
         
-        // Mark article as read
+        // Mark the article as read.
         articleStorage.markArticleAsRead(article)
     }
 }

@@ -7,17 +7,15 @@
 
 import SwiftUI
 
-// MARK: - MyPageArticleListView Struct
-// displays a list of articles in the user's "My Page" section
+/// Displays a list of articles in the user's "My Page" section.
 struct MyPageArticleListView: View {
     
-    // MARK: - Properties
+    /// The articles to display.
     let articles: [Article]
+    /// Message to display when the list is empty.
     let emptyMessage: String
     
-    // MARK: - Body
     var body: some View {
-        // check if list is empty and if so display empty message
         if articles.isEmpty {
             Spacer()
             Text(emptyMessage)
@@ -26,7 +24,7 @@ struct MyPageArticleListView: View {
                 .foregroundColor(.gray)
             Spacer()
         } else {
-            // display read / bookmarked articles 
+            // Display read or bookmarked articles.
             List {
                 ArticleListView(articles: articles)
             }

@@ -7,22 +7,22 @@
 
 import SwiftUI
 
-// MARK: - ArticleView Struct
-// Image and article information in single article view
-
+/// Displays an article's image and information in a single view.
 struct ArticleView: View {
     
-    // MARK: - ArticleView Attributes
+    /// The article to display.
     let article: Article
-    // Styling elements provided as parameters for styling article as list or headline articles in tabview
+    /// Font size for the article title.
     let titleFontSize: CGFloat
+    /// Size for the icons.
     let iconSize: CGFloat
+    /// Font size for the date and author.
     let dateFontSize: CGFloat
     
-    // Observe articleStorage to track changes of bookmarks
+    /// Observed article storage to track bookmark changes.
     @ObservedObject var articleStorage = ArticleStorageService.shared
     
-    // MARK: ArticleView Initializer
+    /// Initializes the ArticleView with styling parameters.
     init(article: Article, titleFontSize: CGFloat, iconSize: CGFloat, dateFontSize: CGFloat) {
         self.article = article
         self.titleFontSize = titleFontSize
@@ -31,59 +31,48 @@ struct ArticleView: View {
     }
     
     var body: some View {
-        
-        // Horizontal stack to display image and details on horizontal line next to eachother
+        // Horizontal stack to display image and details side by side.
         HStack {
-            // Load image and provide URL of image of given article
+            // Article image.
             ArticleImageView(imgUrl: article.urlToImage)
                 .frame(width: 100, height: 100)
             
-            // Vertical stack to display article details
+            // Vertical stack for article details.
             VStack(alignment: .leading, spacing: 4) {
+                // Display author if available.
+                if let author = article.author, !author.isEmpty {
+                    Text(author)
+                        .foregroundColor(.gray)
+                        .font(.system(size: dateFontSize))
+                }
                 
-                // If author not empty show author
-                Text(article.author ?? "")
-                    .foregroundStyle(Color.gray)
-                // Show author in provided dateSize fontsize
-                .font(.system(size: dateFontSize))
-                
-                // Show bookmarkButton on horizontal line next to title and date
+                // Title and bookmark button.
                 HStack {
-                    
-                    // If title not empty show title
+                    // Article title.
                     Text(article.title ?? "")
-                        // Show title in provided titleFontSize fontsize
                         .font(.system(size: titleFontSize, weight: .semibold))
-                        // Use default color for switching between darkmode and lightmode
-                        .foregroundStyle(Color.primary)
-                        // Align long titles with mutliple lines in leading position
+                        .foregroundColor(.primary)
                         .multilineTextAlignment(.leading)
                     
-                    // Creates space between title and bookmark button
                     Spacer()
                     
-                    // Bookmark button is default untoggled
+                    // Bookmark button.
                     Button(action: {
-                        // Toggle bookmark status
                         articleStorage.toggleBookmark(for: article)
                     }) {
-                        // If article is in articleStorage.bookmarkedArticles safed show filled icon, else unfilled icon
                         Image(systemName: articleStorage.bookmarkedArticles.contains(article) ? "bookmark.fill" : "bookmark")
                     }
-                    // Show icon in provided iconSize imagesize
                     .frame(width: iconSize, height: iconSize)
-                    // Use default color for switching between darkmode and lightmode
-                    .foregroundStyle(Color.primary)
-                    // Makes bookmark icon clickable
+                    .foregroundColor(.primary)
                     .buttonStyle(PlainButtonStyle())
                 }
                 
-                // If publish date provided show date
-                // DateUtils formats date from JSON (provided by api) into user friendly readable date format
-                Text(DateUtils.formatDate(dateString: article.publishedAt ?? ""))
-                    .foregroundStyle(Color.gray)
-                    // Show date in provided dateFontSize fontsize
-                    .font(.system(size: dateFontSize))
+                // Publication date.
+                if let publishedAt = article.publishedAt {
+                    Text(DateUtils.formatDate(dateString: publishedAt))
+                        .foregroundColor(.gray)
+                        .font(.system(size: dateFontSize))
+                }
             }
         }
     }

@@ -7,118 +7,92 @@
 
 import SwiftUI
 
-// MARK: - HeadlineTabView Struct
-// show first three articles in a slider
-
+/// Shows the first three articles in a slider.
 struct HeadlineTabView: View {
     
-    // Array to hold first three fetched articles
+    /// Array containing the first three articles.
     let articles: [Article]
-    
-    // Use AppStorage for setting fontSize of text elements
+    /// Selected font size for text elements.
     @AppStorage("selectedFontSize") private var selectedFontSize = FontSizeState.medium
-    
-    // Observe object NewsViewModelImp provided from contentView
-    @ObservedObject
-    var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
-    
-    // Default value for headline is article with index 0
+    /// Observed view model instance.
+    @ObservedObject var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
+    /// Current headline index.
     @State private var currentHeadline = 0
     
     var body: some View {
-        
-        // Vertical stack to display positive pulse title and articles
         VStack {
-            
-            // ZStack for bringing rectangle in the background
+            // Header with app icon and title.
             ZStack {
-                
                 RoundedRectangle(cornerRadius: 10)
-                    // System background color for switching between light and darkmode
                     .fill(Color(UIColor.systemBackground))
                     .frame(width: 400, height: 70)
-                    // System background color for switching between light and darkmode
                     .shadow(color: Color(UIColor.systemBackground), radius: 8, y: 3)
                     .padding(.top, -10)
                 
-                // HStack for showing icon and title positive pulse in horizontal line
                 HStack {
-                    
                     Image("AppIconCodeUsage")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        // System background color for switching between light and darkmode
                         .background(Color(UIColor.systemBackground))
                         .cornerRadius(10)
                         .shadow(color: Color.accentColor, radius: 2)
                     
                     Text("Your Feel-Good-Favorites")
                         .fontWeight(.bold)
-                        // System primary color for switching between light and darkmode
-                        .foregroundStyle(Color.primary)
+                        .foregroundColor(.primary)
                 }
             }
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 5, trailing: 10))
+            .padding(.horizontal, 10)
+            .padding(.bottom, 5)
             
-            // Tabview for sliding articles horizontal
+            // Tab view for sliding articles horizontally.
             TabView(selection: $currentHeadline) {
-                
-                // Iterate thouugh first three elements
+                // Iterate through the first three articles.
                 ForEach(0..<3, id: \.self) { index in
-                    
-                    // Safes access to article with defined index even if index not available in array
+                    // Safely access article by index.
                     if let article = articles[safe: index],
                        let urlString = article.url,
                        let url = URL(string: urlString) {
                         
-                        // Creating navigational link between HeadlineTabView and ArticleWebView
+                        // Navigation link to the article's web view.
                         NavigationLink(
-                            // Navigate to URL WebView
                             destination: ArticleWebView(url: url, article: article)
-                            // Show title of article as title on ArticleWebView
                                 .navigationTitle(article.title ?? "Article")
                         ) {
-                            
-                            // ArticleView as clickable object for navigation
-                            ArticleView(article: article, titleFontSize: selectedFontSize.fontSizeCGFloat["title2"] ?? 22, iconSize: 50, dateFontSize: selectedFontSize.fontSizeCGFloat["subheadline"] ?? 15)
-                                .contentShape(Rectangle())
-                            // Tags every ArticleView with index of article
-                                .tag(index)
+                            ArticleView(
+                                article: article,
+                                titleFontSize: selectedFontSize.fontSizeCGFloat["title2"] ?? 22,
+                                iconSize: 50,
+                                dateFontSize: selectedFontSize.fontSizeCGFloat["subheadline"] ?? 15
+                            )
+                            .contentShape(Rectangle())
+                            .tag(index)
                         }
                     }
                 }
             }
-            // Not showing default displaying of index of tabView slider
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             
-            // HStack for indicating points on horizontal line
+            // Indicator dots.
             HStack {
-                
-                // Iterating through index 0 to 2
                 ForEach(0..<3) { index in
-                    
-                    // Displays index points at bottom of TabView slider
                     Circle()
-                        // Change color when sliding
                         .fill(index == currentHeadline ? Color.accentColor : Color.white)
                         .frame(width: 8, height: 8)
                         .animation(.easeInOut(duration: 0.2), value: currentHeadline)
                 }
             }
         }
-            .frame(width: 350, height: 270)
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-        }
+        .frame(width: 350, height: 270)
+        .padding(.horizontal, 10)
+    }
 }
 
-// MARK: - Conformance to HeadlineTabView
-// Extends standard collection types for safe access in array
-
+/// Extension to safely access collection elements by index.
 extension Collection {
-    // Subscript accesses elements from collection
+    /// Safely accesses the element at the specified index.
     subscript(safe index: Index) -> Element? {
-        // If index is insight indices (collection) return element otherwise nil
-        return indices.contains(index) ? self[index] : nil
+        indices.contains(index) ? self[index] : nil
     }
 }
 
