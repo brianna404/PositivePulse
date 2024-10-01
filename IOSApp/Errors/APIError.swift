@@ -7,22 +7,23 @@
 
 import Foundation
 
-// MARK: - APIError Enum
-// Define different types of possible API interaction errors
-
+/// Defines different types of possible API interaction errors.
 enum APIError: Error, Equatable {
+    /// Error in decoding the response.
     case decodingError
-    // Associates a HTTP status code with the error
+    /// HTTP error with associated status code.
     case errorCode(Int)
+    /// No articles available.
     case noArticles
-    case unkown
+    /// Unknown error occurred.
+    case unknown
     
-    // Implementing Equatable for custom comparison
+    /// Implements Equatable for custom comparison.
     static func ==(lhs: APIError, rhs: APIError) -> Bool {
         switch (lhs, rhs) {
         case (.decodingError, .decodingError),
              (.noArticles, .noArticles),
-             (.unkown, .unkown):
+             (.unknown, .unknown):
             return true
         case (.errorCode(let lhsCode), .errorCode(let rhsCode)):
             return lhsCode == rhsCode
@@ -32,24 +33,21 @@ enum APIError: Error, Equatable {
     }
 }
 
-// MARK: - LocalizedError Conformance
-// Extending APIError to conform to LocalizedError for providing error descriptions
-
 extension APIError: LocalizedError {
+    /// Provides localized error descriptions.
     var errorDescription: String? {
         switch self {
         case .decodingError:
-            return "Failed to decode object from service"
+            return "Failed to decode object from service."
         case .errorCode(let code):
             if code == 429 {
                 return "Too many requests. Please try again later."
             }
-            // Description for errors associated with specific HTTP status codes
-            return "\(code) - something went wrong"
+            return "\(code) - Something went wrong."
         case .noArticles:
-            return "No articles available at the moment. Please try again later"
-        case .unkown:
-            return "This error is unknown"
+            return "No articles available at the moment. Please try again later."
+        case .unknown:
+            return "An unknown error occurred."
         }
     }
 }
