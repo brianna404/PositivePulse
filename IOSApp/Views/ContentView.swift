@@ -7,22 +7,23 @@
 
 import SwiftUI
 
-// MARK: - ContentView Struct
-// main entry point of the app's ui
+/// Main entry point of the app's UI.
 struct ContentView: View {
     
-    // MARK: - Properties
+    /// Currently selected tab index.
     @State private var selectedTab: Int = 0
+    /// Observed view model for managing articles.
     @StateObject var viewModel = NewsViewModelImpl(service: NewsServiceImpl(), filterService: FilterServiceImpl())
     
-    // MARK: - Body
     var body: some View {
-        // Switch between views based on the current state of the view model
+        // Switch between views based on the current state of the view model.
         switch viewModel.state {
         case .loading:
+            // Show home view during loading.
             HomeView(viewModel: viewModel)
             
         case .success, .failed:
+            // Main tab view with multiple tabs.
             TabView(selection: $selectedTab) {
                 // Home Tab
                 HomeView(viewModel: viewModel)
@@ -58,15 +59,15 @@ struct ContentView: View {
             }
             .accentColor(Color.accentColor)
             
-            // so tab bar is not invisible when first opening the app
+            // Ensure tab bar is visible when first opening the app.
             .onAppear {
                 let tabBarAppearance = UITabBarAppearance()
                 tabBarAppearance.configureWithOpaqueBackground()
-                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance // looks the same even when scrolled completely down
+                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             }
             
-            // handle tab changes
-            .onChange(of: selectedTab) {
+            // Handle tab changes.
+            .onChange(of: selectedTab) { _ in
                 if selectedTab == 0 {
                     viewModel.loadNewArticles()
                 }
