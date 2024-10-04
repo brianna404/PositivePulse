@@ -18,7 +18,7 @@
                BlueprintIdentifier = "257810B92C2EEA13001C7487"
                BuildableName = "IOSApp.app"
                BlueprintName = "IOSApp"
-               ReferencedContainer = "container:IOSApp.xcodeproj">
+               ReferencedContainer = "container:PositivePulse.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -38,7 +38,7 @@
                BlueprintIdentifier = "257810C92C2EEA15001C7487"
                BuildableName = "IOSAppTests.xctest"
                BlueprintName = "IOSAppTests"
-               ReferencedContainer = "container:IOSApp.xcodeproj">
+               ReferencedContainer = "container:PositivePulse.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -49,7 +49,7 @@
                BlueprintIdentifier = "257810D32C2EEA15001C7487"
                BuildableName = "IOSAppUITests.xctest"
                BlueprintName = "IOSAppUITests"
-               ReferencedContainer = "container:IOSApp.xcodeproj">
+               ReferencedContainer = "container:PositivePulse.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,7 +71,7 @@
             BlueprintIdentifier = "257810B92C2EEA13001C7487"
             BuildableName = "IOSApp.app"
             BlueprintName = "IOSApp"
-            ReferencedContainer = "container:IOSApp.xcodeproj">
+            ReferencedContainer = "container:PositivePulse.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -95,7 +95,7 @@
             BlueprintIdentifier = "257810B92C2EEA13001C7487"
             BuildableName = "IOSApp.app"
             BlueprintName = "IOSApp"
-            ReferencedContainer = "container:IOSApp.xcodeproj">
+            ReferencedContainer = "container:PositivePulse.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
