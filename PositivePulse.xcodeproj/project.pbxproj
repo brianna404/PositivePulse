@@ -14,12 +14,12 @@
 		2512B2022C559A200037ADD1 /* ResultState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2012C559A200037ADD1 /* ResultState.swift */; };
 		2512B2052C567CC00037ADD1 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2512B2042C567CC00037ADD1 /* NewsViewModel.swift */; };
 		252A240A2C8AF6DC006D32EA /* FontSizeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252A24092C8AF6DC006D32EA /* FontSizeState.swift */; };
-		257810BE2C2EEA13001C7487 /* IOSAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810BD2C2EEA13001C7487 /* IOSAppApp.swift */; };
+		257810BE2C2EEA13001C7487 /* PositivePulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810BD2C2EEA13001C7487 /* PositivePulseApp.swift */; };
 		257810C22C2EEA15001C7487 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C12C2EEA15001C7487 /* Assets.xcassets */; };
 		257810C52C2EEA15001C7487 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 257810C42C2EEA15001C7487 /* Preview Assets.xcassets */; };
-		257810CF2C2EEA15001C7487 /* IOSAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810CE2C2EEA15001C7487 /* IOSAppTests.swift */; };
-		257810D92C2EEA15001C7487 /* IOSAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810D82C2EEA15001C7487 /* IOSAppUITests.swift */; };
-		257810DB2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */; };
+		257810CF2C2EEA15001C7487 /* PositivePulseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810CE2C2EEA15001C7487 /* PositivePulseTests.swift */; };
+		257810D92C2EEA15001C7487 /* PositivePulseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810D82C2EEA15001C7487 /* PositivePulseUITests.swift */; };
+		257810DB2C2EEA15001C7487 /* PositivePulseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257810DA2C2EEA15001C7487 /* PositivePulseUITestsLaunchTests.swift */; };
 		258BC6D72C664E660025C241 /* NewsEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258BC6D62C664E660025C241 /* NewsEndpoint.swift */; };
 		25C5DAEE2C75E752009B2029 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 263405262C7399AD0073D487 /* URLImageStore */; };
 		25E3CE9F2C7CB6F300E45C09 /* FilterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E3CE9E2C7CB6F300E45C09 /* FilterService.swift */; };
@@ -70,15 +70,15 @@
 		2512B2012C559A200037ADD1 /* ResultState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultState.swift; sourceTree = "<group>"; };
 		2512B2042C567CC00037ADD1 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
 		252A24092C8AF6DC006D32EA /* FontSizeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeState.swift; sourceTree = "<group>"; };
-		257810BA2C2EEA13001C7487 /* IOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		257810BD2C2EEA13001C7487 /* IOSAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppApp.swift; sourceTree = "<group>"; };
+		257810BA2C2EEA13001C7487 /* PositivePulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PositivePulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		257810BD2C2EEA13001C7487 /* PositivePulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositivePulseApp.swift; sourceTree = "<group>"; };
 		257810C12C2EEA15001C7487 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		257810C42C2EEA15001C7487 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		257810CA2C2EEA15001C7487 /* IOSAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		257810CE2C2EEA15001C7487 /* IOSAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppTests.swift; sourceTree = "<group>"; };
+		257810CE2C2EEA15001C7487 /* PositivePulseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositivePulseTests.swift; sourceTree = "<group>"; };
 		257810D42C2EEA15001C7487 /* IOSAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOSAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		257810D82C2EEA15001C7487 /* IOSAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppUITests.swift; sourceTree = "<group>"; };
-		257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		257810D82C2EEA15001C7487 /* PositivePulseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositivePulseUITests.swift; sourceTree = "<group>"; };
+		257810DA2C2EEA15001C7487 /* PositivePulseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositivePulseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		258BC6D62C664E660025C241 /* NewsEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsEndpoint.swift; sourceTree = "<group>"; };
 		25E3CE9E2C7CB6F300E45C09 /* FilterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterService.swift; sourceTree = "<group>"; };
 		25E3CEA12C7CCB4300E45C09 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -197,9 +197,9 @@
 			isa = PBXGroup;
 			children = (
 				26F1FBCE2C63C1E800D4CF54 /* Config.plist */,
-				257810BC2C2EEA13001C7487 /* IOSApp */,
-				257810CD2C2EEA15001C7487 /* IOSAppTests */,
-				257810D72C2EEA15001C7487 /* IOSAppUITests */,
+				257810BC2C2EEA13001C7487 /* PositivePulse */,
+				257810CD2C2EEA15001C7487 /* PositivePulseTests */,
+				257810D72C2EEA15001C7487 /* PositivePulseUITests */,
 				257810BB2C2EEA13001C7487 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -207,14 +207,14 @@
 		257810BB2C2EEA13001C7487 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				257810BA2C2EEA13001C7487 /* IOSApp.app */,
+				257810BA2C2EEA13001C7487 /* PositivePulse.app */,
 				257810CA2C2EEA15001C7487 /* IOSAppTests.xctest */,
 				257810D42C2EEA15001C7487 /* IOSAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		257810BC2C2EEA13001C7487 /* IOSApp */ = {
+		257810BC2C2EEA13001C7487 /* PositivePulse */ = {
 			isa = PBXGroup;
 			children = (
 				25E3CEA02C7CBC3800E45C09 /* Utils */,
@@ -225,11 +225,11 @@
 				2512B1F72C558DF60037ADD1 /* Endpoints */,
 				2512B1F42C558C220037ADD1 /* Models */,
 				2512B1F12C5580EC0037ADD1 /* Views */,
-				257810BD2C2EEA13001C7487 /* IOSAppApp.swift */,
+				257810BD2C2EEA13001C7487 /* PositivePulseApp.swift */,
 				257810C12C2EEA15001C7487 /* Assets.xcassets */,
 				257810C32C2EEA15001C7487 /* Preview Content */,
 			);
-			path = IOSApp;
+			path = PositivePulse;
 			sourceTree = "<group>";
 		};
 		257810C32C2EEA15001C7487 /* Preview Content */ = {
@@ -240,21 +240,21 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		257810CD2C2EEA15001C7487 /* IOSAppTests */ = {
+		257810CD2C2EEA15001C7487 /* PositivePulseTests */ = {
 			isa = PBXGroup;
 			children = (
-				257810CE2C2EEA15001C7487 /* IOSAppTests.swift */,
+				257810CE2C2EEA15001C7487 /* PositivePulseTests.swift */,
 			);
-			path = IOSAppTests;
+			path = PositivePulseTests;
 			sourceTree = "<group>";
 		};
-		257810D72C2EEA15001C7487 /* IOSAppUITests */ = {
+		257810D72C2EEA15001C7487 /* PositivePulseUITests */ = {
 			isa = PBXGroup;
 			children = (
-				257810D82C2EEA15001C7487 /* IOSAppUITests.swift */,
-				257810DA2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift */,
+				257810D82C2EEA15001C7487 /* PositivePulseUITests.swift */,
+				257810DA2C2EEA15001C7487 /* PositivePulseUITestsLaunchTests.swift */,
 			);
-			path = IOSAppUITests;
+			path = PositivePulseUITests;
 			sourceTree = "<group>";
 		};
 		25E3CEA02C7CBC3800E45C09 /* Utils */ = {
@@ -313,7 +313,7 @@
 				263405262C7399AD0073D487 /* URLImageStore */,
 			);
 			productName = IOSApp;
-			productReference = 257810BA2C2EEA13001C7487 /* IOSApp.app */;
+			productReference = 257810BA2C2EEA13001C7487 /* PositivePulse.app */;
 			productType = "com.apple.product-type.application";
 		};
 		257810C92C2EEA15001C7487 /* IOSAppTests */ = {
@@ -451,7 +451,7 @@
 				25E3CEA82C7F5E5000E45C09 /* CountryState.swift in Sources */,
 				260061AD2C7B8C3A00647380 /* ArticleView.swift in Sources */,
 				260061B42C7B8C3A00647380 /* MyPageArticleListView.swift in Sources */,
-				257810BE2C2EEA13001C7487 /* IOSAppApp.swift in Sources */,
+				257810BE2C2EEA13001C7487 /* PositivePulseApp.swift in Sources */,
 				2634052D2C7889810073D487 /* NegativeKeywords.swift in Sources */,
 				25E3CEA22C7CCB4300E45C09 /* SettingsView.swift in Sources */,
 				2600619E2C7B8AF300647380 /* MyPageView.swift in Sources */,
@@ -466,7 +466,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				257810CF2C2EEA15001C7487 /* IOSAppTests.swift in Sources */,
+				257810CF2C2EEA15001C7487 /* PositivePulseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,8 +474,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				257810DB2C2EEA15001C7487 /* IOSAppUITestsLaunchTests.swift in Sources */,
-				257810D92C2EEA15001C7487 /* IOSAppUITests.swift in Sources */,
+				257810DB2C2EEA15001C7487 /* PositivePulseUITestsLaunchTests.swift in Sources */,
+				257810D92C2EEA15001C7487 /* PositivePulseUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,8 +624,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"IOSApp/Preview Content\"";
-				DEVELOPMENT_TEAM = BPRQ3Q6R33;
+				DEVELOPMENT_ASSET_PATHS = "\"PositivePulse/Preview Content\"";
+				DEVELOPMENT_TEAM = 6K9FZ3XPMZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Positive Pulse";
@@ -639,8 +639,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MichelleBrianna.PositivePulse.IOSApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = MichelleBrianna.PositivePulse.PositivePulse;
+				PRODUCT_NAME = PositivePulse;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -658,8 +658,8 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"IOSApp/Preview Content\"";
-				DEVELOPMENT_TEAM = BPRQ3Q6R33;
+				DEVELOPMENT_ASSET_PATHS = "\"PositivePulse/Preview Content\"";
+				DEVELOPMENT_TEAM = 6K9FZ3XPMZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Positive Pulse";
@@ -673,8 +673,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MichelleBrianna.PositivePulse.IOSApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = MichelleBrianna.PositivePulse.PositivePulse;
+				PRODUCT_NAME = PositivePulse;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

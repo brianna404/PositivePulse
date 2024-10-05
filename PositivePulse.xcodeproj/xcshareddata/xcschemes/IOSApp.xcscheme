@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "257810B92C2EEA13001C7487"
-               BuildableName = "IOSApp.app"
+               BuildableName = "PositivePulse.app"
                BlueprintName = "IOSApp"
                ReferencedContainer = "container:PositivePulse.xcodeproj">
             </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "257810B92C2EEA13001C7487"
-            BuildableName = "IOSApp.app"
+            BuildableName = "PositivePulse.app"
             BlueprintName = "IOSApp"
             ReferencedContainer = "container:PositivePulse.xcodeproj">
          </BuildableReference>
@@ -93,7 +93,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "257810B92C2EEA13001C7487"
-            BuildableName = "IOSApp.app"
+            BuildableName = "PositivePulse.app"
             BlueprintName = "IOSApp"
             ReferencedContainer = "container:PositivePulse.xcodeproj">
          </BuildableReference>
