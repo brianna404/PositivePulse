@@ -1,4 +1,7 @@
 # PositivePulse
+## What is this about?
+
+Receive only positive and neutral news from different blogs and news providers all in one place and filter for your interests. Note: at the moment you can only receive articles form the United States, but soon articles from german and english speaking countries will be avialable again. 
 
 ## Error handling
 
